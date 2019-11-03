@@ -8,5 +8,6 @@ public class AddEmployeeFrame {
     private JTextField newEmployeeNameField;
     private JTextField newEmployeeHoursField;
     private JTextField newEmployeePointsField;
+    private JPanel addEmployeePanel;
 
 }
