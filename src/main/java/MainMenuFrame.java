@@ -6,4 +6,9 @@ public class MainMenuFrame {
     private JButton addNewEmployeeButton;
     private JButton eventClockButton;
     private JButton manageEventsButton;
+    private JPanel mainMenuPanel;
+
+   public JPanel getPanel(){
+       return mainMenuPanel;
+   }
 }
