@@ -67,7 +67,7 @@
             </properties>
             <border type="line"/>
             <children>
-              <component id="6291a" class="javax.swing.JTable" binding="EmployeeTable" custom-create="true">
+              <component id="6291a" class="javax.swing.JTable" binding="EmployeeTable">
                 <constraints/>
                 <properties>
                   <autoResizeMode value="0"/>
