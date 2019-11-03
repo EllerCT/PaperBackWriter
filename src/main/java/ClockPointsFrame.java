@@ -7,4 +7,8 @@ public class ClockPointsFrame {
     private JButton confirmButton;
     private JTextField pinField;
     private JComboBox eventCombo;
+
+    public JPanel getPanel() {
+        return clockPointsPanel;
+    }
 }

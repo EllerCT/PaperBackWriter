@@ -10,4 +10,7 @@ public class AddEmployeeFrame {
     private JTextField newEmployeePointsField;
     private JPanel addEmployeePanel;
 
+    public JPanel getPanel() {
+        return addEmployeePanel;
+    }
 }

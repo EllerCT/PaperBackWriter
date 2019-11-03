@@ -5,4 +5,8 @@ public class ManageEventsFrame {
     private JButton confirmButton;
     private JButton cancelButton;
     private JTable eventsTable;
+
+    public JPanel getPanel() {
+        return manageEventsPanel;
+    }
 }
