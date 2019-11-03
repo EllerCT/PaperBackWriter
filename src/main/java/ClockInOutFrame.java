@@ -8,4 +8,8 @@ public class ClockInOutFrame {
     private JButton clockInOutButton;
     private JLabel pinLabel;
     private JPanel clockWindow;
+
+    public JPanel getPanel() {
+        return clockWindow;
+    }
 }
