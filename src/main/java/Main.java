@@ -1,7 +1,7 @@
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args){
-        UserInterfaceController ui = new UserInterfaceController();
-        ui.showMenu();
-        
+        UserInterfaceController.show(new MainMenuFrame().getPanel(), JFrame.EXIT_ON_CLOSE)   ;
     }
 }

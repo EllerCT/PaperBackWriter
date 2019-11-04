@@ -1,10 +1,10 @@
 import javax.swing.*;
 
 public class UserInterfaceController {
-    public void showMenu(){
-        JFrame frame = new JFrame("MainMenuFrame");
-        frame.setContentPane(new MainMenuFrame().getPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public static void show(JPanel contentPanel, int closeBehavior){
+        JFrame frame = new JFrame();
+        frame.setContentPane(contentPanel);
+        frame.setDefaultCloseOperation(closeBehavior);
         frame.pack();
         frame.setVisible(true);
     }
