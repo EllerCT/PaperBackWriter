@@ -5,4 +5,8 @@ public class EmployeesFrame {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTable employeeTable;
+
+    public JPanel getPanel(){
+        return employeesPanel;
+    }
 }
