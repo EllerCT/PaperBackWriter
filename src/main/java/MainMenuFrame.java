@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class MainMenuFrame {
     private JButton clockInOutButton;
@@ -8,32 +9,24 @@ public class MainMenuFrame {
     private JButton manageEventsButton;
     private JPanel contentPane;
 
-    public MainMenuFrame() {
-        clockInOutButton.addActionListener(e -> onClockInOut());
-        eventClockButton.addActionListener(e -> onEventClock());
-        viewEmployeeInformationButton.addActionListener(e -> onViewEmployee());
-        addNewEmployeeButton.addActionListener(e -> onAddEmployee());
-        manageEventsButton.addActionListener(e -> onManageEvents());
+    public void setTimeClockAction(ActionListener action){
+        clockInOutButton.addActionListener(action);
     }
 
-    private void onManageEvents() {
-        UserInterfaceController.show(new ManageEventsFrame().getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    public void setAttendEventAction(ActionListener action) {
+        eventClockButton.addActionListener(action);
     }
 
-    private void onViewEmployee() {
-        UserInterfaceController.show(new EmployeesFrame().getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    public void setViewEmployeesAction(ActionListener action){
+        viewEmployeeInformationButton.addActionListener(action);
     }
 
-    private void onAddEmployee() {
-        UserInterfaceController.show(new AddEmployeeFrame().getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    public void setAddNewEmployeeAction(ActionListener action){
+        addNewEmployeeButton.addActionListener(action);
     }
 
-    private void onEventClock() {
-        UserInterfaceController.show(new ClockPointsFrame().getPanel(), JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    private void onClockInOut() {
-        UserInterfaceController.show(new ClockInOutFrame().getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    public void setManageEventsAction(ActionListener action){
+        manageEventsButton.addActionListener(action);
     }
 
     public JPanel getPanel() {
