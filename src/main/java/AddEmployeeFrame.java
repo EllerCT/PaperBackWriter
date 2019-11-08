@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class AddEmployeeFrame {
     private JButton closeButton;
@@ -8,9 +7,9 @@ public class AddEmployeeFrame {
     private JTextField newEmployeeNameField;
     private JTextField newEmployeeHoursField;
     private JTextField newEmployeePointsField;
-    private JPanel addEmployeePanel;
+    private JPanel contentPane;
 
     public JPanel getPanel() {
-        return addEmployeePanel;
+        return contentPane;
     }
 }

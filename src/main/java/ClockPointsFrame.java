@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class ClockPointsFrame {
-    private JPanel clockPointsPanel;
+    private JPanel contentPane;
     private JPanel entryPanel;
     private JPanel buttonAreaPanel;
     private JButton confirmButton;
@@ -9,6 +9,6 @@ public class ClockPointsFrame {
     private JComboBox eventCombo;
 
     public JPanel getPanel() {
-        return clockPointsPanel;
+        return contentPane;
     }
 }

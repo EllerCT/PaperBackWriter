@@ -1,12 +1,12 @@
 import javax.swing.*;
 
 public class EmployeesFrame {
-    private JPanel employeesPanel;
+    private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTable employeeTable;
 
     public JPanel getPanel(){
-        return employeesPanel;
+        return contentPane;
     }
 }

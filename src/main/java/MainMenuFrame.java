@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainMenuFrame {
     private JButton clockInOutButton;
@@ -8,7 +6,7 @@ public class MainMenuFrame {
     private JButton addNewEmployeeButton;
     private JButton eventClockButton;
     private JButton manageEventsButton;
-    private JPanel mainMenuPanel;
+    private JPanel contentPane;
 
     public MainMenuFrame() {
         clockInOutButton.addActionListener(e -> onClockInOut());
@@ -39,6 +37,6 @@ public class MainMenuFrame {
     }
 
     public JPanel getPanel() {
-        return mainMenuPanel;
+        return contentPane;
     }
 }
