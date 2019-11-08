@@ -23,7 +23,7 @@ public class MainMenuFrame {
     }
 
     private void onViewEmployee() {
-        // TODO: Replace employees dialog with frame?
+        UserInterfaceController.show(new EmployeesFrame().getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void onAddEmployee() {
