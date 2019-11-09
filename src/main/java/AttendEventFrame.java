@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ClockPointsFrame {
+public class AttendEventFrame {
     private JPanel contentPane;
     private JPanel entryPanel;
     private JPanel buttonAreaPanel;

@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class ClockInOutFrame {
+public class TimeClockFrame {
     private JTextField pinField;
     private JButton clockInOutButton;
     private JLabel pinLabel;
