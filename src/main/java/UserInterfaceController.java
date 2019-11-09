@@ -5,6 +5,7 @@ public class UserInterfaceController implements TimeclockFrontend{
         JFrame frame = new JFrame();
         frame.setContentPane(contentPanel);
         frame.setDefaultCloseOperation(closeBehavior);
+        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
     }
@@ -22,27 +23,52 @@ public class UserInterfaceController implements TimeclockFrontend{
 
     @Override
     public void timeClock() {
+        TimeClockFrame clockFrame = new TimeClockFrame();
 
+        //TODO: Tie logic to listener
+        //TODO: Demand manager password when clocking in.
+
+        show(clockFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
     @Override
     public void addEmployee() {
+        AddEmployeeFrame addEmployeeFrame = new AddEmployeeFrame();
 
+        //TODO: Tie logic to listener
+        //TODO: Demand manager password to even open this
+
+        show(addEmployeeFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
     @Override
     public void attendEvent() {
+        AttendEventFrame attendEventFrame = new AttendEventFrame();
 
+        //TODO: Tie logic to listeners
+        //TODO: Demand manager password before allowing this to go through.
+
+        show(attendEventFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
     @Override
     public void viewEmployees() {
+        EmployeesFrame employeesFrame = new EmployeesFrame();
 
+        //TODO: Tie logic to listeners
+        //TODO: Demand manager password before permitting this to open
+
+        show(employeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
     @Override
     public void manageEvents() {
+        ManageEventsFrame manageEventsFrame = new ManageEventsFrame();
 
+        //TODO: Tie logic to listeners
+        //TODO: Demand manager password before permitting this to open
+
+        show(manageEventsFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
     @Override
