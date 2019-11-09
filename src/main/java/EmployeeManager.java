@@ -15,6 +15,10 @@ public class EmployeeManager {
         }
     }
 
+    public void setEmployeeIO(EmployeeIO employeeIO){
+        this.employeeIO = employeeIO;
+    }
+
     public Map<PinNumber, Employee> getEmployeeMap(){
         return employeeMap;
     }
