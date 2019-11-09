@@ -1,3 +1,5 @@
+package swing_frames;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 

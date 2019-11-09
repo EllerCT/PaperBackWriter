@@ -1,3 +1,5 @@
+package swing_frames;
+
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;

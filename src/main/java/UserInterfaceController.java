@@ -1,3 +1,4 @@
+import swing_frames.*;
 import javax.swing.*;
 
 public class UserInterfaceController implements TimeclockFrontend{
