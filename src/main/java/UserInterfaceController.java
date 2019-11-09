@@ -11,7 +11,13 @@ public class UserInterfaceController implements TimeclockFrontend{
 
     @Override
     public void mainMenu() {
-
+        MainMenuFrame menu = new MainMenuFrame();
+        menu.setAddNewEmployeeAction(e -> addEmployee());
+        menu.setAttendEventAction(e -> attendEvent());
+        menu.setManageEventsAction(e -> manageEvents());
+        menu.setTimeClockAction(e -> timeClock());
+        menu.setViewEmployeesAction(e -> viewEmployees());
+        show(menu.getPanel(), JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
