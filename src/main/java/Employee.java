@@ -1,2 +1,2 @@
-public interface Employee {
+public class Employee {
 }
