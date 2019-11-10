@@ -1,10 +1,12 @@
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Employee {
     private String name;
     private Duration hours;
     private int points;
     private PinNumber pin;
+    private LocalDateTime clockInTime;
 
     public String getName() {
         return name;
@@ -36,5 +38,13 @@ public class Employee {
 
     public void setPin(PinNumber pin) {
         this.pin = pin;
+    }
+
+    public void setClockInTime(LocalDateTime time){
+        this.clockInTime = time;
+    }
+
+    public LocalDateTime getClockInTime() {
+        return clockInTime;
     }
 }
