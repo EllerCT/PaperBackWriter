@@ -1,7 +1,9 @@
 import swing_frames.*;
 import javax.swing.*;
+import java.util.Map;
 
 public class UserInterfaceController implements TimeclockFrontend{
+    private Map<PinNumber, Employee> employeeMap;
     private void show(JPanel contentPanel, int closeBehavior){
         JFrame frame = new JFrame();
         frame.setContentPane(contentPanel);
