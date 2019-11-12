@@ -3,10 +3,12 @@ import java.time.LocalDateTime;
 
 public class Employee {
     private String name;
-    private Duration hours;
+    private Duration totalHours;
+    private Duration weeklyHours;
     private int points;
     private PinNumber pin;
-    private LocalDateTime clockInTime;
+    private LocalDateTime lastClockInTime;
+    private LocalDateTime lastClockOutTime;
 
     public String getName() {
         return name;
@@ -16,12 +18,12 @@ public class Employee {
         this.name = name;
     }
 
-    public Duration getHours() {
-        return hours;
+    public Duration getTotalHours() {
+        return totalHours;
     }
 
-    public void setHours(Duration hours) {
-        this.hours = hours;
+    public void setTotalHours(Duration totalHours) {
+        this.totalHours = totalHours;
     }
 
     public int getPoints() {
@@ -40,11 +42,27 @@ public class Employee {
         this.pin = pin;
     }
 
-    public void setClockInTime(LocalDateTime time){
-        this.clockInTime = time;
+    public void setLastClockInTime(LocalDateTime time){
+        this.lastClockInTime = time;
     }
 
-    public LocalDateTime getClockInTime() {
-        return clockInTime;
+    public LocalDateTime getLastClockInTime() {
+        return lastClockInTime;
+    }
+
+    public LocalDateTime getLastClockOutTime() {
+        return lastClockOutTime;
+    }
+
+    public void setLastClockOutTime(LocalDateTime lastClockOutTime) {
+        this.lastClockOutTime = lastClockOutTime;
+    }
+
+    public Duration getWeeklyHours() {
+        return weeklyHours;
+    }
+
+    public void setWeeklyHours(Duration weeklyHours) {
+        this.weeklyHours = weeklyHours;
     }
 }

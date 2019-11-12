@@ -1,7 +1,6 @@
 import swing_frames.*;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 
 public class UserInterfaceController implements TimeclockFrontend{
     private EmployeeManager employeeManager;
@@ -43,12 +42,12 @@ public class UserInterfaceController implements TimeclockFrontend{
             PinNumber pin = new PinNumber(clockFrame.getPin());
             Employee matchingEmployee = employeeManager.getEmployee(pin);
             if(matchingEmployee != null){
-                if(matchingEmployee.getClockInTime() == null){
-                    if(getConfirmation()){
-                        clock.clockIn(matchingEmployee);
-                    }
-                } else {
+                boolean clockedIn = matchingEmployee.getLastClockInTime().isAfter(
+                        matchingEmployee.getLastClockOutTime());
+                if (clockedIn){
                     clock.clockOut(matchingEmployee);
+                } else if (getConfirmation()){
+                    clock.clockIn(matchingEmployee);
                 }
                 employeeManager.updateEmployee(matchingEmployee);
             }

@@ -56,8 +56,23 @@ public class EmployeeManager {
         newEmployee(employee);
     }
 
+    /**
+     * Get a new instance of Employee identical to the Employee stored under the given
+     * PinNumber
+     * @param pin The PinNumber of the Employee to match
+     * @return New instance of the matching Employee
+     */
     public Employee getEmployee(PinNumber pin) {
         if (this.employeeMap.containsKey(pin)){
+            Employee mapEmployee = this.employeeMap.get(pin);
+            Employee safeEmployee = new Employee();
+            safeEmployee.setWeeklyHours(mapEmployee.getWeeklyHours());
+            safeEmployee.setTotalHours(mapEmployee.getTotalHours());
+            safeEmployee.setLastClockInTime(mapEmployee.getLastClockInTime());
+            safeEmployee.setLastClockOutTime(mapEmployee.getLastClockOutTime());
+            safeEmployee.setPoints(mapEmployee.getPoints());
+            safeEmployee.setPin(mapEmployee.getPin());
+            safeEmployee.setName(mapEmployee.getName());
             return this.employeeMap.get(pin);
         }
         return null;

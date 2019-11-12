@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public class EmployeeIOPipe {
-    private final static CSVFormat csvFormat = CSVFormat.ORACLE.withHeader("Pin","Name","Hours","Points","ClockInAt");
+    private final static CSVFormat csvFormat = CSVFormat.ORACLE.withHeader(
+            "Pin","Name","TotalHours","WeeklyHours","Points","ClockInAt","ClockOutAt");
 
     private IOSystem ioSystem;
 
@@ -44,14 +45,18 @@ public class EmployeeIOPipe {
         Employee currentEmployee = new Employee();
         String name = record.get("Name");
         PinNumber pin = new PinNumber(record.get("Pin"));
-        Duration hours = Duration.parse(record.get("Hours"));
+        Duration totalHours = Duration.parse(record.get("TotalHours"));
+        Duration weeklyHours = Duration.parse(record.get("WeeklyHours"));
         Integer points = Integer.valueOf(record.get("Points"));
         LocalDateTime clockInTime = LocalDateTime.parse(record.get("ClockInAt"));
+        LocalDateTime clockOutTime = LocalDateTime.parse(record.get("ClockOutAt"));
         currentEmployee.setName(name);
         currentEmployee.setPin(pin);
         currentEmployee.setPoints(points);
-        currentEmployee.setClockInTime(clockInTime);
-        currentEmployee.setHours(hours);
+        currentEmployee.setLastClockInTime(clockInTime);
+        currentEmployee.setLastClockOutTime(clockOutTime);
+        currentEmployee.setTotalHours(totalHours);
+        currentEmployee.setWeeklyHours(weeklyHours);
         return currentEmployee;
     }
 
@@ -65,9 +70,11 @@ public class EmployeeIOPipe {
                 printer.printRecords(
                         employee.getPin().toString(),
                         employee.getName(),
-                        employee.getHours().toString(),
+                        employee.getTotalHours().toString(),
+                        employee.getWeeklyHours().toString(),
                         employee.getPoints(),
-                        employee.getClockInTime().toString()
+                        employee.getLastClockInTime().toString(),
+                        employee.getLastClockOutTime().toString()
                 );
             }
             printer.flush();
