@@ -78,16 +78,4 @@ public class EmployeeIOPipe {
             e.printStackTrace();
         }
     }
-
-    public void addNew(Employee employee) {
-        //TODO: implement addNew
-    }
-
-    public void remove(Employee employee) {
-        //TODO: implement remove
-    }
-
-    public void update(Employee employee) {
-        //TODO: implement update
-    }
 }

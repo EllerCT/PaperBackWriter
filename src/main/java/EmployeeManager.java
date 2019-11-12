@@ -9,7 +9,12 @@ public class EmployeeManager {
     }
 
     public void getEmployees(){
-        //TODO: Implement this - the other version didn't match with needs.
+        employeeMap.clear();
+        employeeMap.putAll(employeeIOPipe.loadEmployees());
+    }
+
+    public void storeEmployees(){
+        employeeIOPipe.saveEmployees(employeeMap);
     }
 
     public void setEmployeeIOPipe(EmployeeIOPipe employeeIOPipe){
@@ -21,20 +26,30 @@ public class EmployeeManager {
     }
 
     public void newEmployee(Employee employee){
-        employeeIOPipe.addNew(employee);
         employeeMap.put(employee.getPin(), employee);
     }
 
     public void removeEmployee(Employee employee){
-        employeeIOPipe.remove(employee);
         employeeMap.remove(employee.getPin());
     }
 
+    /**
+     *  Take a given Employee, and changes the stored employee of the same pin
+     *  to match the given employee.
+     * @param employee The updated employee
+     */
     public void updateEmployee(Employee employee){
-        employeeIOPipe.update(employee);
-        employeeMap.put(employee.getPin(), employee);
+        if (employeeMap.containsKey(employee.getPin())) {
+            employeeMap.put(employee.getPin(), employee);
+        }
     }
 
+    /**
+     * Take a given employee with the old pin number, and assign them a new
+     * pin number.
+     * @param employee The employee with the old pin number.
+     * @param pin The new pin number.
+     */
     public void changeEmployeePin(Employee employee, PinNumber pin){
         removeEmployee(employee);
         employee.setPin(pin);
