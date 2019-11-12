@@ -6,24 +6,24 @@ public class EmployeeIO {
     }
 
     public boolean hasNextEmployee() {
-        //TODO: implement hasNextEmployee
+        hasNextEmployee();
         return false;
     }
 
     public Employee getNextEmployee() {
-        //TODO: implement getNextEmployee
+        getNextEmployee();
         return new Employee();
     }
 
     public void addNew(Employee employee) {
-        //TODO: implement addNew
+        addNew(employee);
     }
 
     public void remove(Employee employee) {
-        //TODO: implement remove
+        remove(employee);
     }
 
     public void update(Employee employee) {
-        //TODO: implement update
+        update(employee);
     }
 }
