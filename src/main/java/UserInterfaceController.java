@@ -1,9 +1,9 @@
 import swing_frames.*;
 import javax.swing.*;
-import java.util.Map;
 
 public class UserInterfaceController implements TimeclockFrontend{
-    private Map<PinNumber, Employee> employeeMap;
+    private EmployeeManager employeeManager;
+
     private void show(JPanel contentPanel, int closeBehavior){
         JFrame frame = new JFrame();
         frame.setContentPane(contentPanel);
@@ -11,6 +11,10 @@ public class UserInterfaceController implements TimeclockFrontend{
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void setEmployeeManager(EmployeeManager manager){
+        this.employeeManager = manager;
     }
 
     @Override
