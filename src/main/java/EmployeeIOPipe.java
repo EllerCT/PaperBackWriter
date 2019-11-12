@@ -70,7 +70,10 @@ public class EmployeeIOPipe {
                         employee.getClockInTime().toString()
                 );
             }
-            //TODO: Tell the IOSystem to write this CSV information, then  close / flush whatever
+            printer.flush();
+            byte[] outBytes = byteStream.toByteArray();
+            printer.close();
+            ioSystem.write(outBytes);
         } catch (IOException e){
             e.printStackTrace();
         }
