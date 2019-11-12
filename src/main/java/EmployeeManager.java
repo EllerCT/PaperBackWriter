@@ -8,7 +8,7 @@ public class EmployeeManager {
         employeeMap = new HashMap<PinNumber, Employee>();
     }
 
-    public void getEmployees(){
+    public void fetchEmployees(){
         employeeMap.clear();
         employeeMap.putAll(employeeIOPipe.loadEmployees());
     }
