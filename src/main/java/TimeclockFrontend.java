@@ -5,5 +5,5 @@ public interface TimeclockFrontend {
     void attendEvent();
     void viewEmployees();
     void manageEvents();
-    void getConfirmation();
+    boolean getConfirmation();
 }

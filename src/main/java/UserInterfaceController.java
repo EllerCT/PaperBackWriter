@@ -79,7 +79,7 @@ public class UserInterfaceController implements TimeclockFrontend{
     }
 
     @Override
-    public void getConfirmation() {
-
+    public boolean getConfirmation() {
+        return false;
     }
 }
