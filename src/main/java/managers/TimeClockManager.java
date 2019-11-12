@@ -1,10 +1,14 @@
+package managers;
+
+import data_structures.Employee;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
 
-public class TimeClock {
+public class TimeClockManager {
 
     public static boolean isNewWeekFor(Employee employee){
         ZonedDateTime lastClockOut = employee.getLastClockOutTime()

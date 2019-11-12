@@ -1,3 +1,5 @@
+package data_structures;
+
 public class Event {
     private String eventName;
     private String eventDescription;

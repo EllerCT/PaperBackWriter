@@ -52,7 +52,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Employee Name"/>
+              <text value="data_structures.Employee Name"/>
             </properties>
           </component>
           <component id="7f933" class="javax.swing.JLabel">
@@ -60,7 +60,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Employee Pin"/>
+              <text value="data_structures.Employee Pin"/>
             </properties>
           </component>
           <component id="1e6e3" class="javax.swing.JTextField" binding="newEmployeePinField">
@@ -84,7 +84,7 @@
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Employee Starting Hours"/>
+              <text value="data_structures.Employee Starting Hours"/>
             </properties>
           </component>
           <component id="9eafa" class="javax.swing.JTextField" binding="newEmployeeHoursField">
@@ -102,7 +102,7 @@
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Employee Starting Points"/>
+              <text value="data_structures.Employee Starting Points"/>
             </properties>
           </component>
           <component id="98a54" class="javax.swing.JTextField" binding="newEmployeePointsField">

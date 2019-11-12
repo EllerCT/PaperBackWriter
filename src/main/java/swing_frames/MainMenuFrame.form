@@ -37,7 +37,7 @@
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="View Employee Information"/>
+              <text value="View data_structures.Employee Information"/>
             </properties>
           </component>
           <component id="6cefd" class="javax.swing.JButton" binding="addNewEmployeeButton" default-binding="true">
@@ -45,7 +45,7 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Add New Employee"/>
+              <text value="Add New data_structures.Employee"/>
             </properties>
           </component>
           <component id="9b782" class="javax.swing.JButton" binding="manageEventsButton" default-binding="true">
@@ -68,7 +68,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Event Clock"/>
+          <text value="data_structures.Event Clock"/>
         </properties>
       </component>
     </children>

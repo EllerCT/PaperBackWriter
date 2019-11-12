@@ -1,4 +1,11 @@
-import java.util.*;
+package managers;
+
+import data_structures.Employee;
+import data_structures.PinNumber;
+import io_pipes.EmployeeIOPipe;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EmployeeManager {
     private EmployeeIOPipe employeeIOPipe;
@@ -34,7 +41,7 @@ public class EmployeeManager {
     }
 
     /**
-     *  Take a given Employee, and changes the stored employee of the same pin
+     *  Take a given data_structures.Employee, and changes the stored employee of the same pin
      *  to match the given employee.
      * @param employee The updated employee
      */
@@ -57,10 +64,10 @@ public class EmployeeManager {
     }
 
     /**
-     * Get a new instance of Employee identical to the Employee stored under the given
-     * PinNumber
-     * @param pin The PinNumber of the Employee to match
-     * @return New instance of the matching Employee
+     * Get a new instance of data_structures.Employee identical to the data_structures.Employee stored under the given
+     * data_structures.PinNumber
+     * @param pin The data_structures.PinNumber of the data_structures.Employee to match
+     * @return New instance of the matching data_structures.Employee
      */
     public Employee getEmployee(PinNumber pin) {
         if (this.employeeMap.containsKey(pin)){

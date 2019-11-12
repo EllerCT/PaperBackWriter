@@ -1,6 +1,10 @@
+import data_structures.Employee;
+import data_structures.PinNumber;
+import managers.EmployeeManager;
+import managers.TimeClockManager;
 import swing_frames.*;
+
 import javax.swing.*;
-import java.time.LocalDateTime;
 
 public class UserInterfaceController implements TimeclockFrontend{
     private EmployeeManager employeeManager;
@@ -37,7 +41,7 @@ public class UserInterfaceController implements TimeclockFrontend{
     }
 
     private void clockInOut(TimeClockFrame clockFrame) {
-        TimeClock clock = new TimeClock();
+        TimeClockManager clock = new TimeClockManager();
         if (!clockFrame.getPin().isBlank()){
             PinNumber pin = new PinNumber(clockFrame.getPin());
             Employee matchingEmployee = employeeManager.getEmployee(pin);

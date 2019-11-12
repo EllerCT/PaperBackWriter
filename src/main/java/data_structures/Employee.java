@@ -1,3 +1,5 @@
+package data_structures;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
