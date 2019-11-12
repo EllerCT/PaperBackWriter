@@ -1,9 +1,12 @@
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -11,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public class EmployeeIO {
+    private final static CSVFormat csvFormat = CSVFormat.ORACLE.withHeader("Pin","Name","Hours","Points","ClockInAt");
+
     private IOSystem ioSystem;
 
     public EmployeeIO(IOSystem ioSystem){
@@ -20,7 +25,7 @@ public class EmployeeIO {
     public Map<PinNumber, Employee> loadEmployees(){
         try {
             InputStreamReader inStreamReader = new InputStreamReader(ioSystem.read());
-            CSVParser csvParser = new CSVParser(inStreamReader, CSVFormat.DEFAULT);
+            CSVParser csvParser = new CSVParser(inStreamReader, csvFormat);
             List<CSVRecord> records = csvParser.getRecords();
             Map<PinNumber, Employee> employeeMap = new HashMap<>();
             for (CSVRecord record : records){
@@ -48,6 +53,27 @@ public class EmployeeIO {
         currentEmployee.setClockInTime(clockInTime);
         currentEmployee.setHours(hours);
         return currentEmployee;
+    }
+
+    public void saveEmployees(Map<PinNumber, Employee> employeeMap){
+        try {
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            OutputStreamWriter stream = new OutputStreamWriter(byteStream);
+            CSVPrinter printer = new CSVPrinter(stream, csvFormat);
+            for (Map.Entry<PinNumber, Employee> entry : employeeMap.entrySet()) {
+                Employee employee = entry.getValue();
+                printer.printRecords(
+                        employee.getPin().toString(),
+                        employee.getName(),
+                        employee.getHours().toString(),
+                        employee.getPoints(),
+                        employee.getClockInTime().toString()
+                );
+            }
+            //TODO: Tell the IOSystem to write this CSV information, then  close / flush whatever
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void addNew(Employee employee) {
