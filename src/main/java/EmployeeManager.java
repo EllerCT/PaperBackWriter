@@ -8,11 +8,8 @@ public class EmployeeManager {
         employeeMap = new HashMap<PinNumber, Employee>();
     }
 
-    public void loadEmployees(){
-        while (employeeIO.hasNextEmployee()) {
-            Employee nextEmployee = employeeIO.getNextEmployee();
-            employeeMap.put(nextEmployee.getPin(), nextEmployee);
-        }
+    public void getEmployees(){
+        //TODO: Implement this - the other version didn't match with needs.
     }
 
     public void setEmployeeIO(EmployeeIO employeeIO){
