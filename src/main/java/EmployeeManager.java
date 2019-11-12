@@ -41,4 +41,10 @@ public class EmployeeManager {
         newEmployee(employee);
     }
 
+    public Employee getEmployee(PinNumber pin) {
+        if (this.employeeMap.containsKey(pin)){
+            return this.employeeMap.get(pin);
+        }
+        return null;
+    }
 }
