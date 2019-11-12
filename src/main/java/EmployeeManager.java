@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class EmployeeManager {
-    private EmployeeIO employeeIO;
+    private EmployeeIOPipe employeeIOPipe;
     private Map<PinNumber,Employee> employeeMap;
 
     public EmployeeManager(){
@@ -12,8 +12,8 @@ public class EmployeeManager {
         //TODO: Implement this - the other version didn't match with needs.
     }
 
-    public void setEmployeeIO(EmployeeIO employeeIO){
-        this.employeeIO = employeeIO;
+    public void setEmployeeIOPipe(EmployeeIOPipe employeeIOPipe){
+        this.employeeIOPipe = employeeIOPipe;
     }
 
     public Map<PinNumber, Employee> getEmployeeMap(){
@@ -21,17 +21,17 @@ public class EmployeeManager {
     }
 
     public void newEmployee(Employee employee){
-        employeeIO.addNew(employee);
+        employeeIOPipe.addNew(employee);
         employeeMap.put(employee.getPin(), employee);
     }
 
     public void removeEmployee(Employee employee){
-        employeeIO.remove(employee);
+        employeeIOPipe.remove(employee);
         employeeMap.remove(employee.getPin());
     }
 
     public void updateEmployee(Employee employee){
-        employeeIO.update(employee);
+        employeeIOPipe.update(employee);
         employeeMap.put(employee.getPin(), employee);
     }
 

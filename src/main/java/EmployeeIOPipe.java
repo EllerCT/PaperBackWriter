@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EmployeeIO {
+public class EmployeeIOPipe {
     private final static CSVFormat csvFormat = CSVFormat.ORACLE.withHeader("Pin","Name","Hours","Points","ClockInAt");
 
     private IOSystem ioSystem;
 
-    public EmployeeIO(IOSystem ioSystem){
+    public EmployeeIOPipe(IOSystem ioSystem){
         this.ioSystem = ioSystem;
     }
 
