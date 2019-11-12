@@ -1,5 +1,7 @@
 import swing_frames.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class UserInterfaceController implements TimeclockFrontend{
     private EmployeeManager employeeManager;
@@ -31,11 +33,26 @@ public class UserInterfaceController implements TimeclockFrontend{
     @Override
     public void timeClock() {
         TimeClockFrame clockFrame = new TimeClockFrame();
-
-        //TODO: Tie logic to listener
-        //TODO: Demand manager password when clocking in.
-
+        clockFrame.setClockInOutAction(e -> clockInOut(clockFrame));
         show(clockFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void clockInOut(TimeClockFrame clockFrame) {
+        TimeClock clock = new TimeClock();
+        if (!clockFrame.getPin().isBlank()){
+            PinNumber pin = new PinNumber(clockFrame.getPin());
+            Employee matchingEmployee = employeeManager.getEmployee(pin);
+            if(matchingEmployee != null){
+                if(matchingEmployee.getClockInTime() == null){
+                    if(getConfirmation()){
+                        clock.clockIn(matchingEmployee);
+                    }
+                } else {
+                    clock.clockOut(matchingEmployee);
+                }
+                employeeManager.updateEmployee(matchingEmployee);
+            }
+        }
     }
 
     @Override
