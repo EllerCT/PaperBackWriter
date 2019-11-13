@@ -65,7 +65,7 @@ public class UserInterfaceController {
             AddEmployeeFrame addEmployeeFrame = new AddEmployeeFrame();
 
             addEmployeeFrame.setConfirmAction(e -> onAddNewEmployee(addEmployeeFrame));
-            addEmployeeFrame.setCloseAction(e -> ((JFrame) addEmployeeFrame.getPanel().getParent()).dispose());
+            addEmployeeFrame.setCloseAction(e -> ((JFrame) addEmployeeFrame.getPanel().getRootPane().getParent()).dispose());
 
             show(addEmployeeFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
         }
