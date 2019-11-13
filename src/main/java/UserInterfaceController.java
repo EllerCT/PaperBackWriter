@@ -5,6 +5,8 @@ import managers.TimeClockManager;
 import swing_frames.*;
 
 import javax.swing.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class UserInterfaceController implements TimeclockFrontend{
     private EmployeeManager employeeManager;
@@ -24,6 +26,7 @@ public class UserInterfaceController implements TimeclockFrontend{
 
     @Override
     public void mainMenu() {
+        employeeManager.fetchEmployees();
         MainMenuFrame menu = new MainMenuFrame();
         menu.setAddNewEmployeeAction(e -> addEmployee());
         menu.setAttendEventAction(e -> attendEvent());
@@ -60,12 +63,29 @@ public class UserInterfaceController implements TimeclockFrontend{
 
     @Override
     public void addEmployee() {
-        AddEmployeeFrame addEmployeeFrame = new AddEmployeeFrame();
+        if (getConfirmation()) {
+            employeeManager.fetchEmployees();
+            AddEmployeeFrame addEmployeeFrame = new AddEmployeeFrame();
 
-        //TODO: Tie logic to listener
-        //TODO: Demand manager password to even open this
+            addEmployeeFrame.setConfirmAction(e -> onAddNewEmployee(addEmployeeFrame));
 
-        show(addEmployeeFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+            show(addEmployeeFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+        }
+    }
+
+    private void onAddNewEmployee(AddEmployeeFrame addEmployeeFrame) {
+        Employee employee = new Employee();
+        employee.setPin(new PinNumber(addEmployeeFrame.getNewEmployeePin()));
+        employee.setName(addEmployeeFrame.getNewEmployeeName());
+        employee.setPoints(Integer.parseInt(addEmployeeFrame.getNewEmployeePoints()));
+        employee.setLastClockInTime(LocalDateTime.now());
+        employee.setLastClockOutTime(LocalDateTime.now());
+        long hours = Long.parseLong(addEmployeeFrame.getNewEmployeeHours());
+        employee.setWeeklyHours(Duration.ofHours(hours));
+        employee.setTotalHours(Duration.ofHours(hours));
+
+        employeeManager.newEmployee(employee);
+        employeeManager.storeEmployees();
     }
 
     @Override
@@ -100,6 +120,6 @@ public class UserInterfaceController implements TimeclockFrontend{
 
     @Override
     public boolean getConfirmation() {
-        return false;
+        return true;
     }
 }
