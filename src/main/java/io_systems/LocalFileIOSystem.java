@@ -16,7 +16,7 @@ public class LocalFileIOSystem implements IOSystem{
             File file = new File(location);
             if (!file.exists()) file.createNewFile();
             FileOutputStream outputStream = new FileOutputStream(file);
-            outputStream.write(stream.read());
+            outputStream.write(stream.readAllBytes());
         } catch (IOException e){
             e.printStackTrace();
         }
