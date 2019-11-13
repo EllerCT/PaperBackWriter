@@ -68,6 +68,7 @@ public class UserInterfaceController implements TimeclockFrontend{
             AddEmployeeFrame addEmployeeFrame = new AddEmployeeFrame();
 
             addEmployeeFrame.setConfirmAction(e -> onAddNewEmployee(addEmployeeFrame));
+            addEmployeeFrame.setCloseAction(e -> ((JFrame) addEmployeeFrame.getPanel().getParent()).dispose());
 
             show(addEmployeeFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
         }
@@ -86,6 +87,7 @@ public class UserInterfaceController implements TimeclockFrontend{
 
         employeeManager.newEmployee(employee);
         employeeManager.storeEmployees();
+        addEmployeeFrame.clearFields();
     }
 
     @Override
