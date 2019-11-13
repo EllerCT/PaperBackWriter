@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class UserInterfaceController implements TimeclockFrontend{
+public class UserInterfaceController {
     private EmployeeManager employeeManager;
 
     private void show(JPanel contentPanel, int closeBehavior){
@@ -24,7 +24,6 @@ public class UserInterfaceController implements TimeclockFrontend{
         this.employeeManager = manager;
     }
 
-    @Override
     public void mainMenu() {
         employeeManager.fetchEmployees();
         MainMenuFrame menu = new MainMenuFrame();
@@ -36,7 +35,6 @@ public class UserInterfaceController implements TimeclockFrontend{
         show(menu.getPanel(), JFrame.EXIT_ON_CLOSE);
     }
 
-    @Override
     public void timeClock() {
         TimeClockFrame clockFrame = new TimeClockFrame();
         clockFrame.setClockInOutAction(e -> clockInOut(clockFrame));
@@ -61,7 +59,6 @@ public class UserInterfaceController implements TimeclockFrontend{
         }
     }
 
-    @Override
     public void addEmployee() {
         if (getConfirmation()) {
             employeeManager.fetchEmployees();
@@ -90,7 +87,6 @@ public class UserInterfaceController implements TimeclockFrontend{
         addEmployeeFrame.clearFields();
     }
 
-    @Override
     public void attendEvent() {
         AttendEventFrame attendEventFrame = new AttendEventFrame();
 
@@ -100,7 +96,6 @@ public class UserInterfaceController implements TimeclockFrontend{
         show(attendEventFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
-    @Override
     public void viewEmployees() {
         EmployeesFrame employeesFrame = new EmployeesFrame();
 
@@ -110,7 +105,6 @@ public class UserInterfaceController implements TimeclockFrontend{
         show(employeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
-    @Override
     public void manageEvents() {
         ManageEventsFrame manageEventsFrame = new ManageEventsFrame();
 
@@ -120,7 +114,6 @@ public class UserInterfaceController implements TimeclockFrontend{
         show(manageEventsFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
-    @Override
     public boolean getConfirmation() {
         return true;
     }
