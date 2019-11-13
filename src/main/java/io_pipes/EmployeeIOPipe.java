@@ -8,10 +8,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -34,9 +31,13 @@ public class EmployeeIOPipe {
             CSVParser csvParser = new CSVParser(inStreamReader, csvFormat);
             List<CSVRecord> records = csvParser.getRecords();
             Map<PinNumber, Employee> employeeMap = new HashMap<>();
-            for (CSVRecord record : records){
-                Employee currentEmployee = translateRecordToEmployee(record);
-                employeeMap.put(currentEmployee.getPin(), currentEmployee);
+            if (records.size() > 1) {
+                for (CSVRecord record : records) {
+                    Employee currentEmployee = translateRecordToEmployee(record);
+                    employeeMap.put(currentEmployee.getPin(), currentEmployee);
+                }
+            } else {
+                makeNewEmployeeFile();
             }
             csvParser.close();
             return employeeMap;
@@ -44,6 +45,14 @@ public class EmployeeIOPipe {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private void makeNewEmployeeFile() throws IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        CSVPrinter printer = new CSVPrinter(new BufferedWriter(new OutputStreamWriter(stream)), csvFormat);
+        printer.printRecords();
+        printer.flush();
+        ioSystem.write(stream.toByteArray());
     }
 
     private Employee translateRecordToEmployee(CSVRecord record) {
@@ -68,7 +77,7 @@ public class EmployeeIOPipe {
     public void saveEmployees(Map<PinNumber, Employee> employeeMap){
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            OutputStreamWriter stream = new OutputStreamWriter(byteStream);
+            BufferedWriter stream = new BufferedWriter(new OutputStreamWriter(byteStream));
             CSVPrinter printer = new CSVPrinter(stream, csvFormat);
             for (Map.Entry<PinNumber, Employee> entry : employeeMap.entrySet()) {
                 Employee employee = entry.getValue();
