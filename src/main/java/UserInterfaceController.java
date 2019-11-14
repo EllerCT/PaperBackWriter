@@ -5,8 +5,12 @@ import managers.TimeClockManager;
 import swing_frames.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class UserInterfaceController {
     private EmployeeManager employeeManager;
@@ -100,9 +104,43 @@ public class UserInterfaceController {
         EmployeesFrame employeesFrame = new EmployeesFrame();
 
         //TODO: Tie logic to listeners
-        //TODO: Demand manager password before permitting this to open
+        if (getConfirmation()) {
+            employeesFrame.setTableModel(makeEmployeeModel());
+            employeesFrame.setOKAction(e -> saveEmployeesTable(employeesFrame));
+            employeesFrame.setCancelAction(e -> discardEmployeesTable(employeesFrame));
+            show(employeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
 
-        show(employeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+        }
+    }
+
+    private TableModel makeEmployeeModel() {
+        DefaultTableModel employeeTableModel = new DefaultTableModel();
+        employeeTableModel.addColumn("Pin");
+        employeeTableModel.addColumn("Name");
+        employeeTableModel.addColumn("Weekly Hours");
+        employeeTableModel.addColumn("Total Hours");
+        employeeTableModel.addColumn("Points");
+        HashMap<PinNumber, Employee> employeeMap = (HashMap<PinNumber, Employee>) employeeManager.getEmployeeMap();
+        for (Employee employee : employeeMap.values()) {
+            Vector<String> newRow = new Vector<>();
+            newRow.add(employee.getPin().toString());
+            newRow.add(employee.getName());
+            newRow.add(employee.getWeeklyHours().toHoursPart() + ":" + employee.getWeeklyHours().toMinutesPart());
+            newRow.add(employee.getTotalHours().toHoursPart() + ":" + employee.getTotalHours().toMinutesPart());
+            newRow.add(String.valueOf(employee.getPoints()));
+            employeeTableModel.addRow(newRow);
+        }
+
+        return employeeTableModel;
+    }
+
+    private void discardEmployeesTable(EmployeesFrame employeesFrame) {
+        //TODO: Dispose the window, do nothing else
+    }
+
+    private void saveEmployeesTable(EmployeesFrame employeesFrame) {
+        //TODO: Take the table model, produce employees from it, then refill the map.
+
     }
 
     public void manageEvents() {
