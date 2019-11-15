@@ -42,8 +42,9 @@ public class EmployeeIOPipe {
             csvParser.close();
             return employeeMap;
         } catch (IOException e){
+            System.err.println("Failed to load employees");
             e.printStackTrace();
-            return null;
+            return new HashMap<>();
         }
     }
 
