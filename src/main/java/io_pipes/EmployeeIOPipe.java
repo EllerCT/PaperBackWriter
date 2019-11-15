@@ -28,7 +28,7 @@ public class EmployeeIOPipe {
     public Map<PinNumber, Employee> loadEmployees(){
         try {
             InputStreamReader inStreamReader = new InputStreamReader(ioSystem.read());
-            CSVParser csvParser = new CSVParser(inStreamReader, csvFormat);
+            CSVParser csvParser = new CSVParser(inStreamReader, csvFormat.withSkipHeaderRecord());
             List<CSVRecord> records = csvParser.getRecords();
             Map<PinNumber, Employee> employeeMap = new HashMap<>();
             if (records.size() > 1) {
@@ -49,7 +49,7 @@ public class EmployeeIOPipe {
 
     private void makeNewEmployeeFile() throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        CSVPrinter printer = new CSVPrinter(new BufferedWriter(new OutputStreamWriter(stream)), csvFormat);
+        CSVPrinter printer = new CSVPrinter(new BufferedWriter(new OutputStreamWriter(stream)), csvFormat.withSkipHeaderRecord());
         printer.printRecords();
         printer.flush();
         ioSystem.write(stream.toByteArray());
@@ -81,7 +81,7 @@ public class EmployeeIOPipe {
             CSVPrinter printer = new CSVPrinter(stream, csvFormat);
             for (Map.Entry<PinNumber, Employee> entry : employeeMap.entrySet()) {
                 Employee employee = entry.getValue();
-                printer.printRecords(
+                printer.printRecord(
                         employee.getPin().toString(),
                         employee.getName(),
                         employee.getTotalHours().toString(),
