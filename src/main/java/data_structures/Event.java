@@ -1,5 +1,7 @@
 package data_structures;
 
+import java.util.Objects;
+
 public class Event {
     private String eventName;
     private String eventDescription;
@@ -35,5 +37,19 @@ public class Event {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(eventName, event.eventName) &&
+                eventCode.equals(event.eventCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventName, eventCode);
     }
 }
