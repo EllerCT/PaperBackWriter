@@ -31,7 +31,7 @@ public class EmployeeIOPipe {
             CSVParser csvParser = new CSVParser(inStreamReader, csvFormat.withSkipHeaderRecord());
             List<CSVRecord> records = csvParser.getRecords();
             Map<PinNumber, Employee> employeeMap = new HashMap<>();
-            if (records.size() > 1) {
+            if (records.size() > 0) {
                 for (CSVRecord record : records) {
                     Employee currentEmployee = translateRecordToEmployee(record);
                     employeeMap.put(currentEmployee.getPin(), currentEmployee);
