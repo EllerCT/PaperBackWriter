@@ -54,8 +54,10 @@ public class UserInterfaceController {
                         matchingEmployee.getLastClockOutTime());
                 if (clockedIn){
                     clock.clockOut(matchingEmployee);
+                    JOptionPane.showMessageDialog(null, pin + " Clocked out.");
                 } else if (getConfirmation()){
                     clock.clockIn(matchingEmployee);
+                    JOptionPane.showMessageDialog(null, pin + " Clocked in.");
                 }
                 employeeManager.updateEmployee(matchingEmployee);
                 employeeManager.storeEmployees();
@@ -180,6 +182,8 @@ public class UserInterfaceController {
     }
 
     public boolean getConfirmation() {
-        return true;
+        JPasswordField passwordField = new JPasswordField();
+        JOptionPane.showConfirmDialog(null, passwordField, "Enter password to confirm:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return String.valueOf(passwordField.getPassword()).hashCode() == 552231974;
     }
 }
