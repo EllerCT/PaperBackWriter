@@ -78,8 +78,8 @@ public class EmployeeIOPipe {
     public void saveEmployees(Map<PinNumber, Employee> employeeMap){
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            BufferedWriter stream = new BufferedWriter(new OutputStreamWriter(byteStream));
-            CSVPrinter printer = new CSVPrinter(stream, csvFormat);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteStream));
+            CSVPrinter printer = new CSVPrinter(writer, csvFormat);
             for (Map.Entry<PinNumber, Employee> entry : employeeMap.entrySet()) {
                 Employee employee = entry.getValue();
                 printer.printRecord(
