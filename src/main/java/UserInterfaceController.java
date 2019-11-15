@@ -55,12 +55,14 @@ public class UserInterfaceController {
                 if (clockedIn){
                     clock.clockOut(matchingEmployee);
                     JOptionPane.showMessageDialog(null, pin + " Clocked out.");
-                } else if (getConfirmation()){
+                } else {
                     clock.clockIn(matchingEmployee);
                     JOptionPane.showMessageDialog(null, pin + " Clocked in.");
                 }
                 employeeManager.updateEmployee(matchingEmployee);
                 employeeManager.storeEmployees();
+            } else {
+                JOptionPane.showMessageDialog(null, "Unknown Pin");
             }
             clockFrame.clearPin();
         }
