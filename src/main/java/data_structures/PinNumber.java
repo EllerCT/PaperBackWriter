@@ -1,5 +1,7 @@
 package data_structures;
 
+import java.util.Objects;
+
 public class PinNumber {
     private String pin;
     private static int maxSize = 4;
@@ -26,6 +28,6 @@ public class PinNumber {
 
     @Override
     public int hashCode() {
-        return this.pin.hashCode() * maxSize;
+        return Objects.hash(pin, maxSize);
     }
 }
