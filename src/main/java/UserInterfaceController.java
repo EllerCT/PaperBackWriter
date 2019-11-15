@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -109,11 +110,30 @@ public class UserInterfaceController {
         EmployeesFrame employeesFrame = new EmployeesFrame();
         if (getConfirmation()) {
             employeesFrame.setTableModel(makeEmployeeModel());
+            employeesFrame.setNewRowAction(e -> newEmployeeTableRow(employeesFrame));
+            employeesFrame.setRemoveRowAction(e -> removeEmployeeTableRow(employeesFrame));
             employeesFrame.setOKAction(e -> saveEmployeesTable(employeesFrame));
             employeesFrame.setCancelAction(e -> discardEmployeesTable(employeesFrame));
             show(employeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
 
         }
+    }
+
+    private void removeEmployeeTableRow(EmployeesFrame employeesFrame) {
+        DefaultTableModel table = (DefaultTableModel) employeesFrame.getModel();
+        if (JOptionPane.showConfirmDialog(employeesFrame.getPanel(), "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
+            int[] rows = employeesFrame.getTable().getSelectedRows();
+            Arrays.sort(rows);
+            for (int i = rows.length - 1; i >= 0; i--) {
+                table.removeRow(rows[i]);
+            }
+        }
+    }
+
+    private void newEmployeeTableRow(EmployeesFrame employeesFrame) {
+        DefaultTableModel table = (DefaultTableModel) employeesFrame.getModel();
+        String now = LocalDateTime.now().toString();
+        table.addRow(new String[]{"", "", "0:0", "0:0", "0", now, now});
     }
 
     private TableModel makeEmployeeModel() {

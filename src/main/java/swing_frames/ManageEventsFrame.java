@@ -12,6 +12,10 @@ public class ManageEventsFrame {
     private JButton newRow;
     private JButton removeRow;
 
+    public JTable getTable() {
+        return eventsTable;
+    }
+
     public void setConfirmAction(ActionListener action){
         confirmButton.addActionListener(action);
     }

@@ -36,6 +36,10 @@ public class EmployeesFrame {
         return employeeTable.getModel();
     }
 
+    public JTable getTable() {
+        return employeeTable;
+    }
+
     public JPanel getPanel(){
         return contentPane;
     }
