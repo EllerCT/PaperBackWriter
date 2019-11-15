@@ -3,13 +3,22 @@ package swing_frames;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class EmployeesFrame {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTable employeeTable;
+    private JButton newRow;
+    private JButton removeRow;
+
+    public void setNewRowAction(ActionListener action) {
+        newRow.addActionListener(action);
+    }
+
+    public void setRemoveRowAction(ActionListener action) {
+        removeRow.addActionListener(action);
+    }
 
     public void setOKAction(ActionListener action){
         buttonOK.addActionListener(action);
