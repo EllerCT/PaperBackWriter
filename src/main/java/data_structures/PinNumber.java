@@ -18,4 +18,14 @@ public class PinNumber {
     public String toString() {
         return this.pin;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass() == this.getClass() && obj.toString().equalsIgnoreCase(this.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.pin.hashCode() * maxSize;
+    }
 }
