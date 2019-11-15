@@ -17,7 +17,7 @@ public class TimeClockManager {
                 .get(GregorianCalendar.WEEK_OF_YEAR);
         int lastClockOutWeekOfYear = GregorianCalendar.from(lastClockOut)
                 .get(GregorianCalendar.WEEK_OF_YEAR);
-        return lastClockOutWeekOfYear == currentWeekOfYear;
+        return lastClockOutWeekOfYear != currentWeekOfYear;
     }
 
     public void clockIn(Employee employee){
@@ -33,5 +33,6 @@ public class TimeClockManager {
         Duration hoursWorked = Duration.between(employee.getLastClockInTime(),LocalDateTime.now());
         employee.setTotalHours(employee.getTotalHours().plus(hoursWorked));
         employee.setWeeklyHours(employee.getWeeklyHours().plus(hoursWorked));
+        employee.setLastClockOutTime(LocalDateTime.now());
     }
 }
