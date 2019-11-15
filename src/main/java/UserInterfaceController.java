@@ -58,7 +58,9 @@ public class UserInterfaceController {
                     clock.clockIn(matchingEmployee);
                 }
                 employeeManager.updateEmployee(matchingEmployee);
+                employeeManager.storeEmployees();
             }
+            clockFrame.clearPin();
         }
     }
 
@@ -101,8 +103,6 @@ public class UserInterfaceController {
 
     public void viewEmployees() {
         EmployeesFrame employeesFrame = new EmployeesFrame();
-
-        //TODO: Tie logic to listeners
         if (getConfirmation()) {
             employeesFrame.setTableModel(makeEmployeeModel());
             employeesFrame.setOKAction(e -> saveEmployeesTable(employeesFrame));
@@ -119,6 +119,8 @@ public class UserInterfaceController {
         employeeTableModel.addColumn("Weekly Hours");
         employeeTableModel.addColumn("Total Hours");
         employeeTableModel.addColumn("Points");
+        employeeTableModel.addColumn("Last Clock In");
+        employeeTableModel.addColumn("Last Clock Out");
         HashMap<PinNumber, Employee> employeeMap = (HashMap<PinNumber, Employee>) employeeManager.getEmployeeMap();
         for (Employee employee : employeeMap.values()) {
             Vector<String> newRow = new Vector<>();
@@ -127,6 +129,8 @@ public class UserInterfaceController {
             newRow.add(employee.getWeeklyHours().toHoursPart() + ":" + employee.getWeeklyHours().toMinutesPart());
             newRow.add(employee.getTotalHours().toHoursPart() + ":" + employee.getTotalHours().toMinutesPart());
             newRow.add(String.valueOf(employee.getPoints()));
+            newRow.add(employee.getLastClockInTime().toString());
+            newRow.add(employee.getLastClockOutTime().toString());
             employeeTableModel.addRow(newRow);
         }
 
@@ -157,9 +161,13 @@ public class UserInterfaceController {
             newEmployee.setTotalHours(totalHours);
             int points = Integer.parseInt(row.get(4));
             newEmployee.setPoints(points);
+            newEmployee.setLastClockInTime(LocalDateTime.parse(row.get(5)));
+            newEmployee.setLastClockOutTime(LocalDateTime.parse(row.get(6)));
             newMap.put(pin, newEmployee);
         }
         employeeManager.setEmployeeMap(newMap);
+        employeeManager.storeEmployees();
+        ((JFrame) employeesFrame.getPanel().getRootPane().getParent()).dispose();
     }
 
     public void manageEvents() {
