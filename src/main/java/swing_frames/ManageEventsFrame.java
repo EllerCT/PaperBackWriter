@@ -9,6 +9,8 @@ public class ManageEventsFrame {
     private JButton confirmButton;
     private JButton cancelButton;
     private JTable eventsTable;
+    private JButton newRow;
+    private JButton removeRow;
 
     public void setConfirmAction(ActionListener action){
         confirmButton.addActionListener(action);
@@ -18,6 +20,13 @@ public class ManageEventsFrame {
         cancelButton.addActionListener(action);
     }
 
+    public void setNewRowAction(ActionListener action) {
+        newRow.addActionListener(action);
+    }
+
+    public void setRemoveRowAction(ActionListener action) {
+        removeRow.addActionListener(action);
+    }
     public void setTableModel(TableModel model){
         eventsTable.setModel(model);
     }
