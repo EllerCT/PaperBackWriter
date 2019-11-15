@@ -84,4 +84,8 @@ public class EmployeeManager {
         }
         return null;
     }
+
+    public void setEmployeeMap(HashMap<PinNumber, Employee> newMap) {
+        this.employeeMap = newMap;
+    }
 }

@@ -19,7 +19,6 @@ public class UserInterfaceController {
         JFrame frame = new JFrame();
         frame.setContentPane(contentPanel);
         frame.setDefaultCloseOperation(closeBehavior);
-        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
     }
@@ -135,12 +134,32 @@ public class UserInterfaceController {
     }
 
     private void discardEmployeesTable(EmployeesFrame employeesFrame) {
-        //TODO: Dispose the window, do nothing else
+        ((JFrame) employeesFrame.getPanel().getRootPane().getParent()).dispose();
     }
 
     private void saveEmployeesTable(EmployeesFrame employeesFrame) {
-        //TODO: Take the table model, produce employees from it, then refill the map.
-
+        DefaultTableModel tableModel = (DefaultTableModel) employeesFrame.getModel();
+        Vector<Vector> rows = tableModel.getDataVector();
+        HashMap<PinNumber, Employee> newMap = new HashMap<>();
+        for (Vector<String> row : rows) {
+            Employee newEmployee = new Employee();
+            PinNumber pin = new PinNumber(row.get(0));
+            newEmployee.setPin(pin);
+            String name = row.get(1);
+            newEmployee.setName(name);
+            String hoursPart = row.get(2).split(":")[0];
+            String minutesPart = row.get(2).split(":")[1];
+            Duration weeklyHours = Duration.ofHours(Integer.parseInt(hoursPart)).plusMinutes(Integer.parseInt(minutesPart));
+            newEmployee.setWeeklyHours(weeklyHours);
+            hoursPart = row.get(3).split(":")[0];
+            minutesPart = row.get(3).split(":")[1];
+            Duration totalHours = Duration.ofHours(Integer.parseInt(hoursPart)).plusMinutes(Integer.parseInt(minutesPart));
+            newEmployee.setTotalHours(totalHours);
+            int points = Integer.parseInt(row.get(4));
+            newEmployee.setPoints(points);
+            newMap.put(pin, newEmployee);
+        }
+        employeeManager.setEmployeeMap(newMap);
     }
 
     public void manageEvents() {
