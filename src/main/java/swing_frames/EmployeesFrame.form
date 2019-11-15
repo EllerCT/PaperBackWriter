@@ -70,7 +70,8 @@
               <component id="93c74" class="javax.swing.JTable" binding="employeeTable">
                 <constraints/>
                 <properties>
-                  <autoResizeMode value="0"/>
+                  <autoCreateRowSorter value="true"/>
+                  <autoResizeMode value="4"/>
                   <enabled value="true"/>
                   <fillsViewportHeight value="false"/>
                 </properties>
