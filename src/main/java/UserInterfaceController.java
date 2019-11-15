@@ -69,6 +69,9 @@ public class UserInterfaceController {
         }
     }
 
+    // This is being left in to demonstrate to the client.
+    // If they prefer this method of entry, we'll add one for events.
+    // If they prefer the table method, we'll remove this.
     public void addEmployee() {
         if (getConfirmation()) {
             employeeManager.fetchEmployees();
