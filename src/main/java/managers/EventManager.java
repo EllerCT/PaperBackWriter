@@ -1,8 +1,8 @@
 package managers;
 
 import data_structures.Event;
-import io_pipes.EmployeeIOPipe;
 import io_pipes.EventIOPipe;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public class EventManager
 
     public EventManager() { eventMap = new HashMap<String, Event>(); }
 
-    public void fetchEvent(){
+    public void fetchEvents() {
         eventMap.clear();
         eventMap.putAll(eventIOPipe.loadEvents());
     }
@@ -29,11 +29,11 @@ public class EventManager
     }
 
     public void newEvent(Event event){
-        eventMap.put(event.getEventName(), event);
+        eventMap.put(event.getEventCode(), event);
     }
 
     public void removeEvent(Event event){
-        eventMap.remove(event.getEventName());
+        eventMap.remove(event.getEventCode());
     }
 
     public void updateEvent(Event event){
@@ -42,15 +42,13 @@ public class EventManager
         }
     }
 
-    public Event getEvent(EventName name) {
-        if (this.eventMap.containsKey(name)){
-            Event mapEvent = this.eventMap.get(name);
-            Event safeEvent = new Event();
+    public Event getEvent(String code) {
+        if (this.eventMap.containsKey(code)) {
+            Event mapEvent = this.eventMap.get(code);
+            Event safeEvent = new Event(mapEvent.getEventCode(), mapEvent.getPointWorth());
             safeEvent.setEventDescription(mapEvent.getEventDescription());
             safeEvent.setEventName(mapEvent.getEventName());
-            safeEvent.setEventCode(mapEvent.getEventCode());
-            safeEvent.setPointWorth(mapEvent.getPointWorth());
-            return this.eventMap.get(name);
+            return this.eventMap.get(code);
         }
         return null;
     }
