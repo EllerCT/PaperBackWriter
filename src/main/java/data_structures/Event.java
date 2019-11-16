@@ -19,9 +19,13 @@ public class Event {
         return eventCode;
     }
 
+    public void setEventCode(String eventCode){this.eventCode = eventCode;}
+
     public int getPointWorth() {
         return pointWorth;
     }
+
+    public void setPointWorth(int pointWorth){this.pointWorth = pointWorth;}
 
     public String getEventName() {
         return eventName;
