@@ -1,6 +1,8 @@
 import data_structures.Employee;
+import data_structures.Event;
 import data_structures.PinNumber;
 import managers.EmployeeManager;
+import managers.EventManager;
 import managers.TimeClockManager;
 import swing_frames.*;
 
@@ -15,6 +17,7 @@ import java.util.Vector;
 
 public class UserInterfaceController {
     private EmployeeManager employeeManager;
+    private EventManager eventManager;
 
     private void show(JPanel contentPanel, int closeBehavior){
         JFrame frame = new JFrame();
@@ -26,6 +29,10 @@ public class UserInterfaceController {
 
     public void setEmployeeManager(EmployeeManager manager){
         this.employeeManager = manager;
+    }
+
+    public void setEventManager(EventManager manager) {
+        this.eventManager = manager;
     }
 
     public void mainMenu() {
@@ -102,11 +109,30 @@ public class UserInterfaceController {
 
     public void attendEvent() {
         AttendEventFrame attendEventFrame = new AttendEventFrame();
-
-        //TODO: Tie logic to listeners
-        //TODO: Demand manager password before allowing this to go through.
-
+        buildEventBox(attendEventFrame);
+        attendEventFrame.setConfirmAction(e -> onConfirmAttend(attendEventFrame));
         show(attendEventFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void onConfirmAttend(AttendEventFrame attendEventFrame) {
+        Event selected = eventManager.getEvent(attendEventFrame.getSelectedEvent());
+        if (!attendEventFrame.getPin().isBlank()) {
+            PinNumber pin = new PinNumber(attendEventFrame.getPin());
+            Employee employee = employeeManager.getEmployee(pin);
+            if (employee != null && getConfirmation()) {
+                int pointTotal = employee.getPoints() + selected.getPointWorth();
+                employee.setPoints(pointTotal);
+                employeeManager.updateEmployee(employee);
+            }
+            attendEventFrame.clearPin();
+        }
+    }
+
+    private void buildEventBox(AttendEventFrame attendEventFrame) {
+        for (Event event : eventManager.getEventMap().values()) {
+            attendEventFrame.addEventBoxItem(event.getEventCode());
+        }
+
     }
 
     public void viewEmployees() {
