@@ -37,6 +37,7 @@ public class UserInterfaceController {
 
     public void mainMenu() {
         employeeManager.fetchEmployees();
+        eventManager.fetchEvents();
         MainMenuFrame menu = new MainMenuFrame();
         menu.setAddNewEmployeeAction(e -> addEmployee());
         menu.setAttendEventAction(e -> attendEvent());
@@ -149,7 +150,6 @@ public class UserInterfaceController {
     }
 
     private void removeRowsFrom(JTable table) {
-
         if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
             int[] rows = table.getSelectedRows();
             Arrays.sort(rows); // So the index shrinks from last first.
