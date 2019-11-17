@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PaperBackWriter:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PaperBackWriter_jar</output-path>
+    <root id="archive" name="PaperBackWriter.jar">
+      <element id="module-output" name="PaperBackWriter" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-csv/1.7/commons-csv-1.7.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
