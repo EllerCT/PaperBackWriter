@@ -25,6 +25,10 @@ public class LocalFileIOSystem implements IOSystem{
     public InputStream read() {
         try {
             File inputFile = new File(location);
+            if (!inputFile.exists()) {
+                inputFile.createNewFile();
+                System.err.println("Could not find file, creating new");
+            }
             return new FileInputStream(inputFile);
         } catch (Exception e){
             e.printStackTrace();
