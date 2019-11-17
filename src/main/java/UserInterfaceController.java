@@ -232,8 +232,8 @@ public class UserInterfaceController {
             manageEventsFrame.setRemoveRowAction(e -> removeRowsFrom(manageEventsFrame.getTable()));
             manageEventsFrame.setCancelAction(e -> closePanel(manageEventsFrame.getPanel()));
             manageEventsFrame.setConfirmAction(e -> saveEventsTable(manageEventsFrame));
+            show(manageEventsFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
         }
-        show(manageEventsFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void saveEventsTable(ManageEventsFrame manageEventsFrame) {
