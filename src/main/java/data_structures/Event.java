@@ -11,7 +11,7 @@ public class Event {
     public Event(String code, int points){
         this.eventCode = code;
         this.pointWorth = points;
-        this.eventName=code;
+        this.eventName = "";
         this.eventDescription ="";
     }
 
