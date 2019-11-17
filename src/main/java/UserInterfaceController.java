@@ -220,7 +220,7 @@ public class UserInterfaceController {
         }
         employeeManager.setEmployeeMap(newMap);
         employeeManager.storeEmployees();
-        ((JFrame) employeesFrame.getPanel().getRootPane().getParent()).dispose();
+        closePanel(employeesFrame.getPanel());
     }
 
     public void manageEvents() {
@@ -252,6 +252,7 @@ public class UserInterfaceController {
         }
         eventManager.setEventMap(newEventMap);
         eventManager.storeEvents();
+        closePanel(manageEventsFrame.getPanel());
     }
 
     private void newEventTableRow(ManageEventsFrame frame) {
