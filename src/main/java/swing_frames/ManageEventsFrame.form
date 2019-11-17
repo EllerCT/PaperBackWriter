@@ -67,7 +67,8 @@
           <component id="8cd1b" class="javax.swing.JTable" binding="eventsTable">
             <constraints/>
             <properties>
-              <autoResizeMode value="0"/>
+              <autoCreateRowSorter value="true"/>
+              <autoResizeMode value="4"/>
             </properties>
           </component>
         </children>
