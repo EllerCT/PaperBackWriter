@@ -10,7 +10,7 @@ public class PinNumber {
         if (pin.length() == maxSize){
             this.pin=pin;
         } else if (pin.length() > maxSize) {
-            this.pin = pin.substring(0,maxSize-1);
+            this.pin = pin.substring(0, maxSize);
         } else{
             this.pin = pin.concat("0".repeat(maxSize - pin.length()));
         }
