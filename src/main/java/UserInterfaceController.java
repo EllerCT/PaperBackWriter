@@ -140,21 +140,21 @@ public class UserInterfaceController {
         if (getConfirmation()) {
             employeesFrame.setTableModel(makeEmployeeModel());
             employeesFrame.setNewRowAction(e -> newEmployeeTableRow(employeesFrame));
-            employeesFrame.setRemoveRowAction(e -> removeEmployeeTableRow(employeesFrame));
+            employeesFrame.setRemoveRowAction(e -> removeRowsFrom(employeesFrame.getTable()));
             employeesFrame.setOKAction(e -> saveEmployeesTable(employeesFrame));
-            employeesFrame.setCancelAction(e -> discardEmployeesTable(employeesFrame));
+            employeesFrame.setCancelAction(e -> closePanel(employeesFrame.getPanel()));
             show(employeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
 
         }
     }
 
-    private void removeEmployeeTableRow(EmployeesFrame employeesFrame) {
-        DefaultTableModel table = (DefaultTableModel) employeesFrame.getModel();
-        if (JOptionPane.showConfirmDialog(employeesFrame.getPanel(), "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
-            int[] rows = employeesFrame.getTable().getSelectedRows();
-            Arrays.sort(rows);
+    private void removeRowsFrom(JTable table) {
+
+        if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
+            int[] rows = table.getSelectedRows();
+            Arrays.sort(rows); // So the index shrinks from last first.
             for (int i = rows.length - 1; i >= 0; i--) {
-                table.removeRow(rows[i]);
+                ((DefaultTableModel) table.getModel()).removeRow(i);
             }
         }
     }
@@ -190,8 +190,8 @@ public class UserInterfaceController {
         return employeeTableModel;
     }
 
-    private void discardEmployeesTable(EmployeesFrame employeesFrame) {
-        ((JFrame) employeesFrame.getPanel().getRootPane().getParent()).dispose();
+    private void closePanel(JPanel panel) {
+        ((JFrame) panel.getRootPane().getParent()).dispose();
     }
 
     private void saveEmployeesTable(EmployeesFrame employeesFrame) {
@@ -226,10 +226,59 @@ public class UserInterfaceController {
     public void manageEvents() {
         ManageEventsFrame manageEventsFrame = new ManageEventsFrame();
 
-        //TODO: Tie logic to listeners
-        //TODO: Demand manager password before permitting this to open
-
+        if (getConfirmation()) {
+            manageEventsFrame.setTableModel(makeEventModel(manageEventsFrame));
+            manageEventsFrame.setNewRowAction(e -> newEventTableRow(manageEventsFrame));
+            manageEventsFrame.setRemoveRowAction(e -> removeRowsFrom(manageEventsFrame.getTable()));
+            manageEventsFrame.setCancelAction(e -> closePanel(manageEventsFrame.getPanel()));
+            manageEventsFrame.setConfirmAction(e -> saveEventsTable(manageEventsFrame));
+        }
         show(manageEventsFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void saveEventsTable(ManageEventsFrame manageEventsFrame) {
+        DefaultTableModel tableModel = (DefaultTableModel) manageEventsFrame.getModel();
+        Vector<Vector> rows = tableModel.getDataVector();
+        HashMap<String, Event> newEventMap = new HashMap<>();
+        for (Vector<String> row : rows) {
+            String code = row.get(0);
+            String name = row.get(1);
+            int worth = Integer.parseInt(row.get(2));
+            String desc = row.get(3);
+            Event event = new Event(code, worth);
+            event.setEventName(name);
+            event.setEventDescription(desc);
+            newEventMap.put(code, event);
+        }
+        eventManager.setEventMap(newEventMap);
+        eventManager.storeEvents();
+    }
+
+    private void newEventTableRow(ManageEventsFrame frame) {
+        DefaultTableModel table = (DefaultTableModel) frame.getModel();
+        table.addRow(new String[]{"NewCode", "", "0", ""});
+    }
+
+    private TableModel makeEventModel(ManageEventsFrame manageEventsFrame) {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Code");
+        model.addColumn("Name");
+        model.addColumn("Worth");
+        model.addColumn("Description");
+        HashMap<String, Event> eventMap = (HashMap<String, Event>) eventManager.getEventMap();
+        for (Event event : eventMap.values()) {
+            String code = event.getEventCode();
+            int worth = event.getPointWorth();
+            String name = event.getEventName();
+            String desc = event.getEventDescription();
+            Vector<String> newRow = new Vector<>();
+            newRow.add(code);
+            newRow.add(name);
+            newRow.add(String.valueOf(worth));
+            newRow.add(desc);
+            model.addRow(newRow);
+        }
+        return model;
     }
 
     public boolean getConfirmation() {
