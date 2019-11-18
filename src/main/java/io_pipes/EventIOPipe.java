@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class EventIOPipe {
-    private final static CSVFormat csvFormat = CSVFormat.ORACLE.withHeader(
+    private final static CSVFormat csvFormat = CSVFormat.EXCEL.withHeader(
             "Code", "Worth", "Name", "Description");
     private IOSystem ioSystem;
 

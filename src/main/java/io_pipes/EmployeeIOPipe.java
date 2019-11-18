@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class EmployeeIOPipe {
-    private final static CSVFormat csvFormat = CSVFormat.ORACLE.withHeader(
+    private final static CSVFormat csvFormat = CSVFormat.EXCEL.withHeader(
             "Pin","Name","TotalHours","WeeklyHours","Points","ClockInAt","ClockOutAt");
 
     private IOSystem ioSystem;
