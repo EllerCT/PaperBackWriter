@@ -133,14 +133,14 @@ public class UserInterfaceController {
     }
 
     public void viewEmployees() {
-        EmployeesFrame employeesFrame = new EmployeesFrame();
+        ManageEmployeesFrame manageEmployeesFrame = new ManageEmployeesFrame();
         if (getConfirmation()) {
-            employeesFrame.setTableModel(makeEmployeeModel());
-            employeesFrame.setNewRowAction(e -> newEmployeeTableRow(employeesFrame));
-            employeesFrame.setRemoveRowAction(e -> removeRowsFrom(employeesFrame.getTable()));
-            employeesFrame.setOKAction(e -> saveEmployeesTable(employeesFrame));
-            employeesFrame.setCancelAction(e -> closePanel(employeesFrame.getPanel()));
-            show(employeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+            manageEmployeesFrame.setTableModel(makeEmployeeModel());
+            manageEmployeesFrame.setNewRowAction(e -> newEmployeeTableRow(manageEmployeesFrame));
+            manageEmployeesFrame.setRemoveRowAction(e -> removeRowsFrom(manageEmployeesFrame.getTable()));
+            manageEmployeesFrame.setOKAction(e -> saveEmployeesTable(manageEmployeesFrame));
+            manageEmployeesFrame.setCancelAction(e -> closePanel(manageEmployeesFrame.getPanel()));
+            show(manageEmployeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE);
 
         }
     }
@@ -155,8 +155,8 @@ public class UserInterfaceController {
         }
     }
 
-    private void newEmployeeTableRow(EmployeesFrame employeesFrame) {
-        DefaultTableModel table = (DefaultTableModel) employeesFrame.getModel();
+    private void newEmployeeTableRow(ManageEmployeesFrame manageEmployeesFrame) {
+        DefaultTableModel table = (DefaultTableModel) manageEmployeesFrame.getModel();
         String now = LocalDateTime.now().toString();
         table.addRow(new String[]{"", "", "0:0", "0:0", "0", now, now});
     }
@@ -190,8 +190,8 @@ public class UserInterfaceController {
         ((JFrame) panel.getRootPane().getParent()).dispose();
     }
 
-    private void saveEmployeesTable(EmployeesFrame employeesFrame) {
-        DefaultTableModel tableModel = (DefaultTableModel) employeesFrame.getModel();
+    private void saveEmployeesTable(ManageEmployeesFrame manageEmployeesFrame) {
+        DefaultTableModel tableModel = (DefaultTableModel) manageEmployeesFrame.getModel();
         Vector<Vector> rows = tableModel.getDataVector();
         HashMap<PinNumber, Employee> newMap = new HashMap<>();
         for (Vector<String> row : rows) {
@@ -216,7 +216,7 @@ public class UserInterfaceController {
         }
         employeeManager.setEmployeeMap(newMap);
         employeeManager.storeEmployees();
-        closePanel(employeesFrame.getPanel());
+        closePanel(manageEmployeesFrame.getPanel());
     }
 
     public void manageEvents() {
