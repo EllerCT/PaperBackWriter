@@ -59,8 +59,7 @@ public class UserInterfaceController {
             PinNumber pin = new PinNumber(clockFrame.getPin());
             Employee matchingEmployee = employeeManager.getEmployee(pin);
             if(matchingEmployee != null){
-                boolean clockedIn = matchingEmployee.getLastClockInTime().isAfter(
-                        matchingEmployee.getLastClockOutTime());
+                boolean clockedIn = clock.checkIfClockedIn(matchingEmployee);
                 if (clockedIn){
                     clock.clockOut(matchingEmployee);
                     JOptionPane.showMessageDialog(null, pin + " Clocked out.");

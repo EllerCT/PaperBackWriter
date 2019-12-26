@@ -35,4 +35,9 @@ public class TimeClockManager {
         employee.setWeeklyHours(employee.getWeeklyHours().plus(hoursWorked));
         employee.setLastClockOutTime(LocalDateTime.now());
     }
+
+    public boolean checkIfClockedIn(Employee employee) {
+        return employee.getLastClockInTime().isAfter(
+                employee.getLastClockOutTime());
+    }
 }
