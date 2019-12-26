@@ -38,7 +38,7 @@ public class UserInterfaceController {
     public void mainMenu() {
         employeeManager.fetchEmployees();
         eventManager.fetchEvents();
-        MainMenuFrame menu = new MainMenuFrame();
+        EmployeeMenuFrame menu = new EmployeeMenuFrame();
         menu.setAddNewEmployeeAction(e -> addEmployee());
         menu.setAttendEventAction(e -> attendEvent());
         menu.setManageEventsAction(e -> manageEvents());

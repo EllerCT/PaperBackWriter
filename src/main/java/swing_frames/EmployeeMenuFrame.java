@@ -3,7 +3,7 @@ package swing_frames;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class MainMenuFrame {
+public class EmployeeMenuFrame {
     private JButton clockInOutButton;
     private JButton viewEmployeeInformationButton;
     private JButton addNewEmployeeButton;
