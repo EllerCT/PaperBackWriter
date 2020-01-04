@@ -14,6 +14,10 @@ public class Resource {
         this.pricePerUnit = 0.00;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public ResourceType getType() {
         return type;
     }
