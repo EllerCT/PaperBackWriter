@@ -15,6 +15,15 @@ public enum ResourceType {
         this.name = name;
     }
 
+    public static ResourceType parseString(String text) {
+        for (ResourceType type : ResourceType.values()) {
+            if (type.toString().equalsIgnoreCase(text)) {
+                return type;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return name;
