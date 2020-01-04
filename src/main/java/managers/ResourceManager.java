@@ -1,6 +1,7 @@
 package managers;
 
 import data_structures.Resource;
+import io_pipes.ResourceIOPipe;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class ResourceManager {
     }
 
     public void newResource(Resource newResource) {
-        String key = generateKeyFor(newResource)
+        String key = generateKeyFor(newResource);
         if (!resourceMap.containsKey(key)) {
             resourceMap.put(key, newResource);
         }
