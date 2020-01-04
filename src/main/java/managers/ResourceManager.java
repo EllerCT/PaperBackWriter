@@ -14,10 +14,6 @@ public class ResourceManager {
         this.resourceMap = new HashMap<>();
     }
 
-    private String generateKeyFor(Resource resource) {
-        return String.format("%s.%s", resource.getType(), resource.getName());
-    }
-
     public void fetchResources() {
         resourceMap.clear();
         resourceMap.putAll(resourceIOPipe.loadResources());
@@ -36,19 +32,19 @@ public class ResourceManager {
     }
 
     public void newResource(Resource newResource) {
-        String key = generateKeyFor(newResource);
+        String key = Resource.generateKeyFor(newResource);
         if (!resourceMap.containsKey(key)) {
             resourceMap.put(key, newResource);
         }
     }
 
     public void removeResource(Resource toBeRemoved) {
-        String key = generateKeyFor(toBeRemoved);
+        String key = Resource.generateKeyFor(toBeRemoved);
         resourceMap.remove(key);
     }
 
     public void updateResource(Resource toBeUpdated) {
-        String key = generateKeyFor(toBeUpdated);
+        String key = Resource.generateKeyFor(toBeUpdated);
         if (resourceMap.containsKey(key)) {
             resourceMap.put(key, toBeUpdated);
         }

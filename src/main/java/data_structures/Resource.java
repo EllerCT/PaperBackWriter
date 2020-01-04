@@ -16,6 +16,10 @@ public class Resource {
         this.unitsInStock = 0;
     }
 
+    public static String generateKeyFor(Resource resource) {
+        return String.format("%s.%s", resource.getType(), resource.getName());
+    }
+
     public int getUnitsInStock() {
         return unitsInStock;
     }
