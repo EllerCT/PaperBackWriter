@@ -30,6 +30,6 @@ public class Main {
         UserInterfaceController uic = new UserInterfaceController();
         uic.setEmployeeManager(employeeManager);
         uic.setEventManager(eventManager);
-        uic.mainEmployeeMenu();
+        uic.mainMenu();
     }
 }
