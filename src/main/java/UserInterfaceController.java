@@ -35,7 +35,7 @@ public class UserInterfaceController {
         this.eventManager = manager;
     }
 
-    public void mainMenu() {
+    public void mainEmployeeMenu() {
         employeeManager.fetchEmployees();
         eventManager.fetchEvents();
         EmployeeMenuFrame menu = new EmployeeMenuFrame();
