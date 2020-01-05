@@ -35,6 +35,32 @@ public class UserInterfaceController {
         this.eventManager = manager;
     }
 
+    public void mainMenu() {
+        MainMenuFrame mainMenu = new MainMenuFrame();
+        mainMenu.setEmployeeButtonAction(e -> mainEmployeeMenu());
+        mainMenu.setProductButtonAction(e -> mainProductsMenu());
+        show(mainMenu.getContentPane(), JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void mainProductsMenu() {
+        ProductsMenuFrame menu = new ProductsMenuFrame();
+        // TODO: Add means of browsing complete products.
+        // menu.setBrowseProductsButtonListener();
+        menu.setCostAnalysisButtonListener(e -> costAnalysis());
+        menu.setResourcesButtonListener(e -> resources());
+        show(menu.getPane(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void resources() {
+        ResourcesFrame resources = new ResourcesFrame();
+        show(resources.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void costAnalysis() {
+        CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
+        show(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
     public void mainEmployeeMenu() {
         employeeManager.fetchEmployees();
         eventManager.fetchEvents();
@@ -44,7 +70,7 @@ public class UserInterfaceController {
         menu.setManageEventsAction(e -> manageEvents());
         menu.setTimeClockAction(e -> timeClock());
         menu.setViewEmployeesAction(e -> viewEmployees());
-        show(menu.getPanel(), JFrame.EXIT_ON_CLOSE);
+        show(menu.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 
     public void timeClock() {
