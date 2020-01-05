@@ -1,8 +1,8 @@
-import data_structures.Employee;
-import data_structures.Event;
-import data_structures.PinNumber;
+import data_structures.*;
+import io_pipes.ResourceIOPipe;
 import managers.EmployeeManager;
 import managers.EventManager;
+import managers.ResourceManager;
 import managers.TimeClockManager;
 import swing_frames.*;
 
@@ -18,6 +18,7 @@ import java.util.Vector;
 public class UserInterfaceController {
     private EmployeeManager employeeManager;
     private EventManager eventManager;
+    private ResourceManager resourceManager;
 
     private void show(JPanel contentPanel, int closeBehavior){
         JFrame frame = new JFrame();
@@ -25,6 +26,10 @@ public class UserInterfaceController {
         frame.setDefaultCloseOperation(closeBehavior);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void setResourceManager(ResourceManager manager) {
+        this.resourceManager = manager;
     }
 
     public void setEmployeeManager(EmployeeManager manager){
@@ -43,6 +48,7 @@ public class UserInterfaceController {
     }
 
     private void mainProductsMenu() {
+        resourceManager.fetchResources();
         ProductsMenuFrame menu = new ProductsMenuFrame();
         // TODO: Add means of browsing complete products.
         // menu.setBrowseProductsButtonListener();
@@ -53,7 +59,45 @@ public class UserInterfaceController {
 
     private void resources() {
         ResourcesFrame resources = new ResourcesFrame();
+        JTable table = resources.getTable();
+        table.setModel(makeResourceModel());
+        // Make a combo box and populate it with the types of resources.
+        JComboBox<ResourceType> resourceTypeDropdown = new JComboBox<>(ResourceType.values());
+        // Use that combo box to edit cells in the 'Type' column.
+        table.getColumn("Type").setCellEditor(new DefaultCellEditor(resourceTypeDropdown));
+        resources.setSaveButtonListener(e -> saveResourcesTable(resources));
+        resources.setAddButtonListener(e -> addRowToResources(resources));
+        resources.setRemoveButtonListener(e -> removeRowsFrom(table));
+        resources.setCancelButtonListener(e -> closePanel(resources.getPanel()));
         show(resources.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void saveResourcesTable(ResourcesFrame resourcesFrame) {
+        DefaultTableModel model = (DefaultTableModel) resourcesFrame.getModel();
+        Vector<Vector> rows = model.getDataVector();
+        HashMap<String, Resource> resourceMap = new HashMap<>();
+        for (Vector row : rows) {
+            ResourceType type = (ResourceType) row.get(0);
+            String name = (String) row.get(1);
+            String unitSize = (String) row.get(2);
+            double unitPrice = Double.parseDouble((String) row.get(3));
+            int stocked = Integer.parseInt((String) row.get(4));
+
+            Resource resource = new Resource(name);
+            resource.setType(type);
+            resource.setUnitSize(unitSize);
+            resource.setPricePerUnit(unitPrice);
+            resource.setUnitsInStock(stocked);
+            resourceMap.put(Resource.generateKeyFor(resource), resource);
+        }
+        resourceManager.setResourceMap(resourceMap);
+        resourceManager.storeResources();
+        closePanel(resourcesFrame.getPanel());
+    }
+
+    private void addRowToResources(ResourcesFrame resourcesFrame) {
+        DefaultTableModel tableModel = (DefaultTableModel) resourcesFrame.getModel();
+        tableModel.addRow(new Object[]{ResourceType.PAPER, "", "", 0.0, 0});
     }
 
     private void costAnalysis() {
@@ -146,6 +190,7 @@ public class UserInterfaceController {
                 int pointTotal = employee.getPoints() + selected.getPointWorth();
                 employee.setPoints(pointTotal);
                 employeeManager.updateEmployee(employee);
+                JOptionPane.showMessageDialog(null, "Confirmed attendance of " + employee.getName() + " to event: " + selected.getEventName());
             }
             attendEventFrame.clearPin();
         }
@@ -185,6 +230,26 @@ public class UserInterfaceController {
         DefaultTableModel table = (DefaultTableModel) manageEmployeesFrame.getModel();
         String now = LocalDateTime.now().toString();
         table.addRow(new String[]{"", "", "0:0", "0:0", "0", now, now});
+    }
+
+    private TableModel makeResourceModel() {
+        DefaultTableModel model = new DefaultTableModel();
+        HashMap<String, Resource> map = (HashMap<String, Resource>) resourceManager.getResourceMap();
+
+        for (String header : ResourceIOPipe.CSV_FORMAT.getHeader()) {
+            model.addColumn(header);
+        }
+        for (Resource resource : map.values()) {
+            Vector<Object> newRow = new Vector<>();
+            newRow.add(resource.getType());
+            newRow.add(resource.getName());
+            newRow.add(resource.getUnitSize());
+            newRow.add(String.format("%.2f", resource.getPricePerUnit()));
+            newRow.add(String.format("%d", resource.getUnitsInStock()));
+            model.addRow(newRow);
+        }
+
+        return model;
     }
 
     private TableModel makeEmployeeModel() {

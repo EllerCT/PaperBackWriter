@@ -49,4 +49,8 @@ public class ResourceManager {
             resourceMap.put(key, toBeUpdated);
         }
     }
+
+    public void setResourceMap(HashMap<String, Resource> map) {
+        this.resourceMap = map;
+    }
 }
