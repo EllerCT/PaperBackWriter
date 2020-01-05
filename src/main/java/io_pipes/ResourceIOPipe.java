@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class ResourceIOPipe {
 
-    private final static CSVFormat csvFormat = CSVFormat.EXCEL.withHeader("Type", "Name", "Unit Size", "Price Per Unit", "Units In Stock");
+    public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader("Type", "Name", "Unit Size", "Price Per Unit", "Units In Stock");
     private IOSystem ioSystem;
 
     public ResourceIOPipe(IOSystem ioSystem) {
@@ -25,7 +25,7 @@ public class ResourceIOPipe {
     public Map<String, Resource> loadResources() {
         try {
             InputStreamReader isr = new InputStreamReader(ioSystem.read());
-            CSVParser csvParser = new CSVParser(isr, csvFormat.withSkipHeaderRecord());
+            CSVParser csvParser = new CSVParser(isr, CSV_FORMAT.withSkipHeaderRecord());
             HashMap<String, Resource> resourceMap = new HashMap<>();
             List<CSVRecord> records = csvParser.getRecords();
             if (records.size() > 0) {
@@ -56,7 +56,7 @@ public class ResourceIOPipe {
 
     private void makeResourceFile() throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        CSVPrinter printer = new CSVPrinter(new BufferedWriter(new OutputStreamWriter(outputStream)), csvFormat.withSkipHeaderRecord());
+        CSVPrinter printer = new CSVPrinter(new BufferedWriter(new OutputStreamWriter(outputStream)), CSV_FORMAT.withSkipHeaderRecord());
         printer.printRecords();
         printer.flush();
         ioSystem.write(outputStream.toByteArray());
@@ -66,7 +66,7 @@ public class ResourceIOPipe {
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteStream));
-            CSVPrinter printer = new CSVPrinter(writer, csvFormat);
+            CSVPrinter printer = new CSVPrinter(writer, CSV_FORMAT);
             for (Map.Entry<String, Resource> entry : resourceMap.entrySet()) {
                 Resource resource = entry.getValue();
                 printer.printRecord(
