@@ -43,7 +43,7 @@ public class CostAnalysisFrame {
     private JTextField otherUnits;
     private JButton calculateButton;
 
-    public JPanel getContentPane() {
+    public JPanel getPanel() {
         return this.contentPane;
     }
 
