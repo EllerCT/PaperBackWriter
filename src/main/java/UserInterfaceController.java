@@ -11,9 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
 
 public class UserInterfaceController {
     private EmployeeManager employeeManager;
@@ -102,6 +100,33 @@ public class UserInterfaceController {
 
     private void costAnalysis() {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
+        CostAnalyser analyser = new CostAnalyser();
+        // Populate combo boxes.
+        HashMap<ResourceType, List<Resource>> boxOptions = new HashMap<>();
+        // One combo box per resource type, so one list of options per box.
+        for (ResourceType type : ResourceType.values()) {
+            boxOptions.put(type, new ArrayList<>());
+        }
+        HashMap<String, Resource> resourceMap = (HashMap<String, Resource>) resourceManager.getResourceMap();
+        // Sort the resources into the list corresponding to that resource's type.
+        for (Resource resourceEntry : resourceMap.values()) {
+            boxOptions.get(resourceEntry.getType()).add(resourceEntry);
+        }
+        // Send them to each relevant combo box
+        costAnalysis.setBoardTypeOptions(boxOptions.get(ResourceType.BOARD));
+        costAnalysis.setPaperTypeOptions(boxOptions.get(ResourceType.PAPER));
+        costAnalysis.setGlueTypeOptions(boxOptions.get(ResourceType.GLUE));
+        costAnalysis.setSpineTypeOptions(boxOptions.get(ResourceType.SPINE));
+        costAnalysis.setThreadTypeOptions(boxOptions.get(ResourceType.THREAD));
+        costAnalysis.setDecoratedPaperTypeOptions(boxOptions.get(ResourceType.DECORATED_PAPER));
+        costAnalysis.setEndBandTypeOptions(boxOptions.get(ResourceType.END_BAND));
+
+        // Perform calculations on button push
+        ArrayList<Integer> unitAmounts = new ArrayList<>();
+        ArrayList<Resource> resourcesSelected = new ArrayList<>();
+
+
+
         show(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
 

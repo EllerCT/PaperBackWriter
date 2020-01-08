@@ -1,6 +1,6 @@
 import data_structures.Resource;
 
-import java.util.List;
+import java.util.Map;
 
 public class CostAnalyser {
 
@@ -18,27 +18,19 @@ public class CostAnalyser {
     }
 
     /**
-     * Totals the un-rounded cost of a set of units and resources. This method assumes
-     * that the index of each unit corresponds with the index of each resource.
-     * <p>
-     * If the number of units does not equal the number of resources, returns -1
-     *
-     * @param units     A List of Integers
-     * @param resources A List of Resources
-     * @return The price of unit-resource pairs calculated, then summed, without rounding.
+     * Sum the combined cost of Integer units multiplied by the unit cost of their
+     * corresponding Resource resources.
+     * @param resourceUnitPairs A Map whose key is a resource, and value is an Integer.
+     * @return An unrounded decimal sum of the total costs.
      */
-    public double calculateTotalCostOf(List<Integer> units, List<Resource> resources) {
-        if (units.size() == resources.size()) {
-            double sum = 0.0;
-            for (int i = 0; i < units.size(); i++) {
-                Integer amount = units.get(i);
-                if (amount == null) amount = 0;
-                sum += calculateSingleCostFor(amount, resources.get(i));
-            }
-            return sum;
-        } else {
-            return -1.0;
+    public double calculateTotalCostOf(Map<Resource, Integer> resourceUnitPairs) {
+        double sum = 0.0;
+        for (Resource resource : resourceUnitPairs.keySet()) {
+            Integer amount = resourceUnitPairs.get(resource);
+            if (amount == null) amount = 0;
+            sum += calculateSingleCostFor(amount, resource);
         }
+        return sum;
     }
 
     /**
@@ -72,26 +64,23 @@ public class CostAnalyser {
         return resource.getUnitsInStock() >= unit;
     }
 
+
     /**
-     * Compare a list of resources to a list of values representing the number
-     * of units to compare to those resources stocked. This method assumes
-     * that the indexes of each list correspond to one another.
-     *
-     * @param resources A List of Resource objects to compare
-     * @param units     A List of Integer objects to compare against
-     * @return True if every single Resource has at least 'units' many units in stock. False otherwise.
+     * Compare stocked resources paired to a desired Integer, to determine if all
+     * given resources have at least that number in stock. Returns true if
+     * all resources have at least their paired Integer stocked, false otherwise.
+     * @param resourceUnitPairs A map of resources, and integers paired with them.
+     * @return True if all resources have sufficient stock, otherwise false.
      */
-    public boolean compareAll(List<Resource> resources, List<Integer> units) {
+    public boolean compareAll(Map<Resource, Integer> resourceUnitPairs) {
         boolean allResourcesHaveEnough = true;
-        for (int i = 0; i < units.size(); i++) {
+        for (Resource resource : resourceUnitPairs.keySet()) {
             // Break out of the loop if any is false, we don't need to see
             // how many are false.
             if (allResourcesHaveEnough == false) break;
-            // Skip the current one if a resource is not provided for that index.
-            if (resources.get(i) == null) continue;
-            Integer amount = units.get(i);
+            Integer amount = resourceUnitPairs.get(resource);
             if (amount == null) amount = 0;
-            allResourcesHaveEnough = compareStockToUnits(resources.get(i), amount);
+            allResourcesHaveEnough = compareStockToUnits(resource, amount);
         }
         return allResourcesHaveEnough;
     }
