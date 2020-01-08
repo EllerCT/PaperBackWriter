@@ -189,7 +189,7 @@ public class CostAnalysisFrame {
         for (Resource resource : resources) {
             glueType.addItem(resource);
         }
-        glueType.setSelectedIndex(0);
+        if (glueType.getItemCount() > 0) glueType.setSelectedIndex(0);
     }
 
     public Resource getCurrentGlueType() {
@@ -200,7 +200,7 @@ public class CostAnalysisFrame {
         for (Resource resource : resources) {
             boardType.addItem(resource);
         }
-        glueType.setSelectedIndex(0);
+        if (boardType.getItemCount() > 0) boardType.setSelectedIndex(0);
     }
 
     public Resource getCurrentBoardType() {
@@ -211,7 +211,7 @@ public class CostAnalysisFrame {
         for (Resource resource : resources) {
             decoratedPaperType.addItem(resource);
         }
-        decoratedPaperType.setSelectedIndex(0);
+        if (decoratedPaperType.getItemCount() > 0) decoratedPaperType.setSelectedIndex(0);
     }
 
     public Resource getCurrentDecoratedPaperType() {
@@ -223,7 +223,7 @@ public class CostAnalysisFrame {
         for (Resource resource : resources) {
             spineType.addItem(resource);
         }
-        spineType.setSelectedIndex(0);
+        if (spineType.getItemCount() > 0) spineType.setSelectedIndex(0);
     }
 
     public Resource getCurrentSpineType() {
@@ -234,7 +234,7 @@ public class CostAnalysisFrame {
         for (Resource resource : resources) {
             endBandType.addItem(resource);
         }
-        endBandType.setSelectedIndex(0);
+        if (endBandType.getItemCount() > 0) endBandType.setSelectedIndex(0);
     }
 
     public Resource getCurrentEndBandType() {
