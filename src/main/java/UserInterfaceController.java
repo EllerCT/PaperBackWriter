@@ -56,7 +56,8 @@ public class UserInterfaceController {
         resourceManager.fetchResources();
         ProductsMenuFrame menu = new ProductsMenuFrame();
         // TODO: Add means of browsing complete products.
-        // menu.setBrowseProductsButtonListener();
+        // TODO: Determine what is desired for complete products.
+        menu.setBrowseProductsButtonListener(e -> JOptionPane.showMessageDialog(null, "Browsing products is not presently supported."));
         menu.setCostAnalysisButtonListener(e -> costAnalysis());
         menu.setResourcesButtonListener(e -> resources());
         show(menu.getPane(), JFrame.DISPOSE_ON_CLOSE);
