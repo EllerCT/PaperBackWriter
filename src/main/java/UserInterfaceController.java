@@ -18,6 +18,12 @@ public class UserInterfaceController {
     private EventManager eventManager;
     private ResourceManager resourceManager;
 
+    /**
+     * Open a new window with given content and close behavior.
+     *
+     * @param contentPanel  A JPanel representing a content panel
+     * @param closeBehavior An integer such as JFrame.DISPOSE_ON_CLOSE
+     */
     private void show(JPanel contentPanel, int closeBehavior){
         JFrame frame = new JFrame();
         frame.setContentPane(contentPanel);
@@ -102,6 +108,17 @@ public class UserInterfaceController {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyser analyser = new CostAnalyser();
         // Populate combo boxes.
+        populateCostAnalysisComboBoxes(costAnalysis);
+
+        // Set button behavior
+        costAnalysis.setCalculateButtonAction(e -> calculateCosts(costAnalysis, analyser));
+        costAnalysis.setCancelButtonAction(e -> closePanel(costAnalysis.getPanel()));
+        costAnalysis.setSubmitButtonAction(e -> JOptionPane.showMessageDialog(null, "Storage of products not currently supported."));
+
+        show(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void populateCostAnalysisComboBoxes(CostAnalysisFrame costAnalysis) {
         HashMap<ResourceType, List<Resource>> boxOptions = new HashMap<>();
         // One combo box per resource type, so one list of options per box.
         for (ResourceType type : ResourceType.values()) {
@@ -120,15 +137,70 @@ public class UserInterfaceController {
         costAnalysis.setThreadTypeOptions(boxOptions.get(ResourceType.THREAD));
         costAnalysis.setDecoratedPaperTypeOptions(boxOptions.get(ResourceType.DECORATED_PAPER));
         costAnalysis.setEndBandTypeOptions(boxOptions.get(ResourceType.END_BAND));
-
-        // Perform calculations on button push
-        ArrayList<Integer> unitAmounts = new ArrayList<>();
-        ArrayList<Resource> resourcesSelected = new ArrayList<>();
-
-
-
-        show(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE);
     }
+
+    private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyser analyser) {
+        double paperCost = analyser.calculateSingleCostFor(
+                costAnalysis.getPaperUnits(),
+                costAnalysis.getCurrentPaperType());
+        costAnalysis.setPaperCost(String.format("%.2f", paperCost));
+
+        double boardCost = analyser.calculateSingleCostFor(
+                costAnalysis.getBoardUnits(),
+                costAnalysis.getCurrentBoardType());
+        costAnalysis.setBoardCost(String.format("%.2f", boardCost));
+
+        double threadCost = analyser.calculateSingleCostFor(
+                costAnalysis.getThreadUnits(),
+                costAnalysis.getCurrentThreadType());
+        costAnalysis.setThreadCost(String.format("%.2f", threadCost));
+
+        double glueCost = analyser.calculateSingleCostFor(
+                costAnalysis.getGlueUnits(),
+                costAnalysis.getCurrentGlueType());
+        costAnalysis.setGlueCost(String.format("%.2f", glueCost));
+
+        double decorativePaperCost = analyser.calculateSingleCostFor(
+                costAnalysis.getDecoratedPaperUnits(),
+                costAnalysis.getCurrentDecoratedPaperType());
+        costAnalysis.setDecoratedPaperCost(String.format("%.2f", decorativePaperCost));
+
+        double endBandCost = analyser.calculateSingleCostFor(
+                costAnalysis.getEndBandUnits(),
+                costAnalysis.getCurrentEndBandType());
+        costAnalysis.setEndBandCost(String.format("%.2f", endBandCost));
+
+        double spineCost = analyser.calculateSingleCostFor(
+                costAnalysis.getSpineUnits(),
+                costAnalysis.getCurrentSpineType());
+        costAnalysis.setSpineCost(String.format("%.2f", spineCost));
+
+        // 'other' costs is a manual field to account for the unaccountable.
+        // There is no 'other' resource fitting the pattern for the analyser.
+        // This should be a formatted text field but at present I can't wrangle
+        // one into working. Doing so would remove all logic from this initialization.
+        // TODO: Introduce formatted text field to remove need for checks in controller.
+        double otherCost;
+        if (costAnalysis.getOtherCost().isEmpty() || !costAnalysis.getOtherCost().matches("(0-9)*")) {
+            otherCost = 0.0;
+        } else {
+            otherCost = Double.parseDouble(costAnalysis.getOtherCost());
+        }
+
+        List<Double> subtotals = Arrays.asList(
+                paperCost,
+                spineCost,
+                boardCost,
+                glueCost,
+                threadCost,
+                endBandCost,
+                decorativePaperCost,
+                otherCost);
+
+        double totalCost = analyser.calculateTotalCostFromSubtotals(subtotals);
+        costAnalysis.setTotalCost(totalCost);
+    }
+
 
     public void mainEmployeeMenu() {
         employeeManager.fetchEmployees();
