@@ -5,6 +5,7 @@ import managers.EventManager;
 import managers.ResourceManager;
 import managers.TimeClockManager;
 import swing_frames.*;
+import utilities.CostAnalyser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

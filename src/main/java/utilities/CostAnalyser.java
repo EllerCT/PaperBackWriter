@@ -1,3 +1,5 @@
+package utilities;
+
 import data_structures.Resource;
 
 import java.util.List;
