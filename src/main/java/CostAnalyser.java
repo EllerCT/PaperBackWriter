@@ -1,5 +1,6 @@
 import data_structures.Resource;
 
+import java.util.List;
 import java.util.Map;
 
 public class CostAnalyser {
@@ -29,6 +30,21 @@ public class CostAnalyser {
             Integer amount = resourceUnitPairs.get(resource);
             if (amount == null) amount = 0;
             sum += calculateSingleCostFor(amount, resource);
+        }
+        return sum;
+    }
+
+    /**
+     * An alternative means of calculating an unrounded total from a list of already
+     * calculated subtotals.
+     *
+     * @param costs A list of decimals from which to generate a total
+     * @return The total of the given list, unrounded.
+     */
+    public double calculateTotalCostFromSubtotals(List<Double> costs) {
+        double sum = 0.0;
+        for (Double cost : costs) {
+            sum += cost;
         }
         return sum;
     }
