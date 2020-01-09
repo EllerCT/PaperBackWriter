@@ -327,7 +327,7 @@ public class CostAnalysisFrame {
         return totalCost.getText();
     }
 
-    public void setTotalCost(float cost) {
+    public void setTotalCost(double cost) {
         String total = String.format("%.2f", cost);
         totalCost.setText(total);
     }
