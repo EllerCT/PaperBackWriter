@@ -183,7 +183,7 @@ public class UserInterfaceController {
         // one into working. Doing so would remove all logic from this initialization.
         // TODO: Introduce formatted text field to remove need for checks in controller.
         double otherCost;
-        if (costAnalysis.getOtherCost().isEmpty() || !costAnalysis.getOtherCost().matches("(0-9)*")) {
+        if (costAnalysis.getOtherCost().isEmpty() || !costAnalysis.getOtherCost().matches(".*[0-9]*.*")) {
             otherCost = 0.0;
         } else {
             otherCost = Double.parseDouble(costAnalysis.getOtherCost());
