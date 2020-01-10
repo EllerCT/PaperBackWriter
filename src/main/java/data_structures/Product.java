@@ -33,6 +33,10 @@ public class Product {
     private String otherAmount;
     private String otherCost;
 
+    public static String generateKeyFor(Product product) {
+        return product.getId();
+    }
+
     public String getId() {
         return id;
     }
