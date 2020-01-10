@@ -167,7 +167,7 @@ public class CostAnalysisFrame {
         for (Resource resource : resources) {
             paperType.addItem(resource);
         }
-        paperType.setSelectedIndex(0);
+        if (paperType.getItemCount() > 0) paperType.setSelectedIndex(0);
     }
 
     public Resource getCurrentPaperType() {
@@ -178,7 +178,7 @@ public class CostAnalysisFrame {
         for (Resource resource : resources) {
             threadType.addItem(resource);
         }
-        threadType.setSelectedIndex(0);
+        if (threadType.getItemCount() > 0) threadType.setSelectedIndex(0);
     }
 
     public Resource getCurrentThreadType() {
