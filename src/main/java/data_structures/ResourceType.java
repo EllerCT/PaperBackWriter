@@ -7,7 +7,8 @@ public enum ResourceType {
     BOARD("Board"),
     DECORATED_PAPER("Decorated Paper"),
     SPINE("Spine"),
-    END_BAND("End Band");
+    END_BAND("End Band"),
+    MINERAL_SPIRIT("Mineral Spirit");
 
     private String name;
 

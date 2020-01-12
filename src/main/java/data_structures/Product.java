@@ -32,6 +32,25 @@ public class Product {
     private String other;
     private String otherAmount;
     private String otherCost;
+    private String spiritType;
+    private String spiritAmount;
+    private String spiritCost;
+
+    public String getSpiritCost() {
+        return spiritCost;
+    }
+
+    public void setSpiritCost(String spiritCost) {
+        this.spiritCost = spiritCost;
+    }
+
+    public String getSpiritAmount() {
+        return spiritAmount;
+    }
+
+    public void setSpiritAmount(String spiritAmount) {
+        this.spiritAmount = spiritAmount;
+    }
 
     public static String generateKeyFor(Product product) {
         return product.getId();
@@ -283,5 +302,13 @@ public class Product {
 
     public void setOtherCost(String otherCost) {
         this.otherCost = otherCost;
+    }
+
+    public String getSpiritType() {
+        return this.spiritType;
+    }
+
+    public void setSpiritType(String spiritType) {
+        this.spiritType = spiritType;
     }
 }

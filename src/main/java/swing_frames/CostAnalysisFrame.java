@@ -42,12 +42,37 @@ public class CostAnalysisFrame {
     private JTextField endBandUnits;
     private JTextField otherUnits;
     private JButton calculateButton;
+    private JTextField spiritsUnits;
+    private JTextField spiritsCost;
+    private JComboBox spiritsType;
 
     public JPanel getPanel() {
         return this.contentPane;
     }
 
     // Unit fields
+
+    public int getSpiritsUnits() {
+        String text = spiritsUnits.getText();
+        if (text.isEmpty()) {
+            return 0;
+        } else if (text.matches("[0-9]*")) {
+            return Integer.parseInt(text);
+        }
+        return 0;
+    }
+
+    public void setSpiritUnits(int units) {
+        spiritsUnits.setText(Integer.toString(units));
+    }
+
+    public String getSpiritsCost() {
+        return spiritsCost.getText();
+    }
+
+    public void setSpiritsCost(String text) {
+        spiritsCost.setText(text);
+    }
 
     public int getPaperUnits() {
         String text = paperUnits.getText();
@@ -239,6 +264,17 @@ public class CostAnalysisFrame {
 
     public Resource getCurrentEndBandType() {
         return (Resource) endBandType.getSelectedItem();
+    }
+
+    public void setSpiritsTypeOptions(List<Resource> resources) {
+        for (Resource resource : resources) {
+            spiritsType.addItem(resource);
+        }
+        if (spiritsType.getItemCount() > 0) endBandType.setSelectedIndex(0);
+    }
+
+    public Resource getCurrentSpiritsType() {
+        return (Resource) spiritsType.getSelectedItem();
     }
 
     // Text fields

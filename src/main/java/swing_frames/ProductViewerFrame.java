@@ -37,6 +37,9 @@ public class ProductViewerFrame {
     private JTextField spineUnits;
     private JTextField endBandUnits;
     private JTextField otherUnits;
+    private JTextField spiritsUnits;
+    private JTextField spiritsCost;
+    private JTextField spiritsType;
 
     public JPanel getPanel() {
         return this.contentPane;
@@ -44,6 +47,18 @@ public class ProductViewerFrame {
 
     public void setOkButtonListener(ActionListener listener) {
         this.okButton.addActionListener(listener);
+    }
+
+    public void setSpiritsType(String text) {
+        spiritsType.setText(text);
+    }
+
+    public void setSpiritUnits(int units) {
+        spiritsUnits.setText(Integer.toString(units));
+    }
+
+    public void setSpiritsCost(String text) {
+        spiritsCost.setText(text);
     }
 
     public void setTotalCost(String totalCost) {

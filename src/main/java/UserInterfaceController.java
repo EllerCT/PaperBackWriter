@@ -139,6 +139,7 @@ public class UserInterfaceController {
         costAnalysis.setThreadTypeOptions(boxOptions.get(ResourceType.THREAD));
         costAnalysis.setDecoratedPaperTypeOptions(boxOptions.get(ResourceType.DECORATED_PAPER));
         costAnalysis.setEndBandTypeOptions(boxOptions.get(ResourceType.END_BAND));
+        costAnalysis.setSpiritsTypeOptions(boxOptions.get(ResourceType.MINERAL_SPIRIT));
     }
 
     private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyser analyser) {
@@ -189,6 +190,11 @@ public class UserInterfaceController {
             otherCost = Double.parseDouble(costAnalysis.getOtherCost());
         }
 
+        double spiritsCost = analyser.calculateSingleCostFor(
+                costAnalysis.getSpiritsUnits(),
+                costAnalysis.getCurrentSpiritsType());
+        costAnalysis.setSpiritsCost(String.format("%.2f", spineCost));
+
         List<Double> subtotals = Arrays.asList(
                 paperCost,
                 spineCost,
@@ -197,7 +203,8 @@ public class UserInterfaceController {
                 threadCost,
                 endBandCost,
                 decorativePaperCost,
-                otherCost);
+                otherCost,
+                spiritsCost);
 
         double totalCost = analyser.calculateTotalCostFromSubtotals(subtotals);
         costAnalysis.setTotalCost(totalCost);

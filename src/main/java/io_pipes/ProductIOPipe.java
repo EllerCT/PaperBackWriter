@@ -45,7 +45,10 @@ public class ProductIOPipe {
             "End Band Cost",
             "Other",
             "Amount of Other",
-            "Other Cost");
+            "Other Cost",
+            "Mineral Spirit Type",
+            "Amount of Mineral Spirit",
+            "Mineral Spirit Cost");
     private IOSystem ioSystem;
 
     public ProductIOPipe(IOSystem ioSystem) {
@@ -108,6 +111,9 @@ public class ProductIOPipe {
         product.setOther(record.get("Other"));
         product.setOtherAmount(record.get("Amount of Other"));
         product.setOtherCost(record.get("Other Cost"));
+        product.setSpiritType(record.get("Mineral Spirit Type"));
+        product.setSpiritAmount(record.get("Amount of Mineral Spirit"));
+        product.setSpiritCost(record.get("Mineral Spirit Cost"));
         return product;
     }
 
