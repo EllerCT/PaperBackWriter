@@ -1,9 +1,6 @@
 import data_structures.*;
 import io_pipes.ResourceIOPipe;
-import managers.EmployeeManager;
-import managers.EventManager;
-import managers.ResourceManager;
-import managers.TimeClockManager;
+import managers.*;
 import swing_frames.*;
 import utilities.CostAnalyser;
 
@@ -18,6 +15,7 @@ public class UserInterfaceController {
     private EmployeeManager employeeManager;
     private EventManager eventManager;
     private ResourceManager resourceManager;
+    private ProductManager productManager;
 
     /**
      * Open a new window with given content and close behavior.
@@ -31,6 +29,10 @@ public class UserInterfaceController {
         frame.setDefaultCloseOperation(closeBehavior);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void setProductManager(ProductManager manager) {
+        this.productManager = manager;
     }
 
     public void setResourceManager(ResourceManager manager) {
@@ -109,15 +111,57 @@ public class UserInterfaceController {
     private void costAnalysis() {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyser analyser = new CostAnalyser();
+        // TODO: Set ID automatically
         // Populate combo boxes.
         populateCostAnalysisComboBoxes(costAnalysis);
 
         // Set button behavior
         costAnalysis.setCalculateButtonAction(e -> calculateCosts(costAnalysis, analyser));
         costAnalysis.setCancelButtonAction(e -> closePanel(costAnalysis.getPanel()));
-        costAnalysis.setSubmitButtonAction(e -> JOptionPane.showMessageDialog(null, "Storage of products not currently supported."));
+        costAnalysis.setSubmitButtonAction(e -> saveNewProduct(costAnalysis));
 
         show(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void saveNewProduct(CostAnalysisFrame costAnalysis) {
+        calculateCosts(costAnalysis, new CostAnalyser());
+        Product product = new Product();
+        product.setId(costAnalysis.getIdNumber());
+        product.setName(costAnalysis.getName());
+        product.setType(costAnalysis.getProductType());
+        product.setDate(costAnalysis.getDate());
+        product.setDescription(costAnalysis.getProductDescription());
+        product.setGrade(costAnalysis.getGrade());
+        product.setTotalCost(costAnalysis.getTotalCost());
+        product.setPaperType(costAnalysis.getCurrentPaperType().toString());
+        product.setPaperAmount(String.valueOf(costAnalysis.getPaperUnits()));
+        product.setPaperCost(costAnalysis.getPaperCost());
+        product.setThreadType(costAnalysis.getCurrentThreadType().toString());
+        product.setThreadAmount(String.valueOf(costAnalysis.getThreadUnits()));
+        product.setThreadCost(costAnalysis.getThreadCost());
+        product.setGlueType(costAnalysis.getCurrentGlueType().toString());
+        product.setGlueAmount(String.valueOf(costAnalysis.getGlueUnits()));
+        product.setGlueCost(costAnalysis.getGlueCost());
+        product.setBoardType(costAnalysis.getCurrentBoardType().toString());
+        product.setBoardAmount(String.valueOf(costAnalysis.getGlueUnits()));
+        product.setBoardCost(costAnalysis.getBoardCost());
+        product.setDecoratedPaperType(costAnalysis.getCurrentDecoratedPaperType().toString());
+        product.setDecoratedPaperAmount(String.valueOf((costAnalysis.getDecoratedPaperUnits())));
+        product.setDecoratedPaperCost(costAnalysis.getDecoratedPaperCost());
+        product.setSpineType(costAnalysis.getCurrentSpineType().toString());
+        product.setSpineAmount(String.valueOf(costAnalysis.getSpineUnits()));
+        product.setSpineCost(costAnalysis.getSpineCost());
+        product.setEndBandType(costAnalysis.getCurrentEndBandType().toString());
+        product.setEndBandAmount(String.valueOf(costAnalysis.getEndBandUnits()));
+        product.setEndBandCost(costAnalysis.getEndBandCost());
+        product.setOther(costAnalysis.getOtherMaterial());
+        product.setOtherAmount(String.valueOf(costAnalysis.getOtherUnits()));
+        product.setOtherCost(costAnalysis.getOtherCost());
+        product.setSpiritType(costAnalysis.getCurrentSpiritsType().toString());
+        product.setSpiritAmount(String.valueOf(costAnalysis.getSpiritsUnits()));
+        product.setSpiritCost(costAnalysis.getSpiritsCost());
+        productManager.newProduct(product);
+        closePanel(costAnalysis.getPanel());
     }
 
     private void populateCostAnalysisComboBoxes(CostAnalysisFrame costAnalysis) {
