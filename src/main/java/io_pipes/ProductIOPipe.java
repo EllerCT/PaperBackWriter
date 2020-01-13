@@ -163,7 +163,10 @@ public class ProductIOPipe {
                         product.getEndBandCost(),
                         product.getOther(),
                         product.getOtherAmount(),
-                        product.getOtherCost()
+                        product.getOtherCost(),
+                        product.getSpiritType(),
+                        product.getSpiritAmount(),
+                        product.getSpiritCost()
                 );
             }
             printer.flush();
