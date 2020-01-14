@@ -1,3 +1,4 @@
+import data_structures.Product;
 import io_pipes.EmployeeIOPipe;
 import io_pipes.EventIOPipe;
 import io_pipes.ProductIOPipe;
@@ -48,6 +49,7 @@ public class Main {
         uic.setResourceManager(resourceManager);
         uic.setProductManager(productManager);
         uic.mainMenu();
+        SettingManager.store("currentID", Product.getCurrentID());
         SettingManager.save();
     }
 }

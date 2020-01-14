@@ -1,6 +1,7 @@
 package data_structures;
 
 public class Product {
+    private static String currentID = "0";
     private String id;
     private String name;
     private String type;
@@ -35,6 +36,14 @@ public class Product {
     private String spiritType;
     private String spiritAmount;
     private String spiritCost;
+
+    public static String getCurrentID() {
+        return currentID;
+    }
+
+    public static void setCurrentID(String current) {
+        currentID = current;
+    }
 
     public String getSpiritCost() {
         return spiritCost;

@@ -202,6 +202,7 @@ public class UserInterfaceController {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyser analyser = new CostAnalyser();
         // TODO: Set ID automatically
+        costAnalysis.setIdNumber(Product.getCurrentID());
         // Populate combo boxes.
         populateCostAnalysisComboBoxes(costAnalysis);
 
@@ -251,6 +252,8 @@ public class UserInterfaceController {
         product.setSpiritAmount(String.valueOf(costAnalysis.getSpiritsUnits()));
         product.setSpiritCost(costAnalysis.getSpiritsCost());
         productManager.newProduct(product);
+        String newCurrentID = String.valueOf(Integer.parseInt(Product.getCurrentID()));
+        Product.setCurrentID(newCurrentID);
         closePanel(costAnalysis.getPanel());
     }
 
