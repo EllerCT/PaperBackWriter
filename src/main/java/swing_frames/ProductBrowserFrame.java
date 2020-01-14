@@ -3,7 +3,6 @@ package swing_frames;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
 
 public class ProductBrowserFrame {
     private JPanel contentPanel;
@@ -11,14 +10,24 @@ public class ProductBrowserFrame {
     private JButton closeButton;
     private JTable productsTable;
     private JCheckBox grading;
+    private JButton enableGradingButton;
 
     public boolean isGrading() {
         return grading.isSelected();
     }
 
-    public void setGradingListener(ItemListener listener) {
-        grading.addItemListener(listener);
+    public void setEnableGradingButtonListener(ActionListener listener) {
+        this.enableGradingButton.addActionListener(listener);
     }
+
+    public void enableGradingCheckbox() {
+        this.grading.setEnabled(true);
+    }
+
+    public JTable getProductsTable() {
+        return productsTable;
+    }
+
 
     public void setViewButtonListener(ActionListener listener) {
         this.viewButton.addActionListener(listener);

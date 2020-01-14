@@ -57,9 +57,7 @@ public class UserInterfaceController {
     private void mainProductsMenu() {
         resourceManager.fetchResources();
         ProductsMenuFrame menu = new ProductsMenuFrame();
-        // TODO: Add means of browsing complete products.
-        // TODO: Determine what is desired for complete products.
-        menu.setBrowseProductsButtonListener(e -> JOptionPane.showMessageDialog(null, "Browsing products is not presently supported."));
+        menu.setBrowseProductsButtonListener(e -> productBrowser());
         menu.setCostAnalysisButtonListener(e -> costAnalysis());
         menu.setResourcesButtonListener(e -> resources());
         show(menu.getPane(), JFrame.DISPOSE_ON_CLOSE);
@@ -106,6 +104,98 @@ public class UserInterfaceController {
     private void addRowToResources(ResourcesFrame resourcesFrame) {
         DefaultTableModel tableModel = (DefaultTableModel) resourcesFrame.getModel();
         tableModel.addRow(new Object[]{ResourceType.PAPER, "", "", 0.0, 0});
+    }
+
+    private void productBrowser() {
+        productManager.fetchProducts();
+        ProductBrowserFrame productBrowser = new ProductBrowserFrame();
+        productBrowser.setCloseButtonListener(e -> closePanel(productBrowser.getContentPanel()));
+        productBrowser.setViewButtonListener(e -> viewProduct(productBrowser));
+        productBrowser.setEnableGradingButtonListener(e -> enableGrading(productBrowser));
+
+        DefaultTableModel model = makeProductModel();
+        productBrowser.setProductsTableModel(model);
+
+        show(productBrowser.getContentPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void enableGrading(ProductBrowserFrame browser) {
+        if (getConfirmation()) {
+            browser.enableGradingCheckbox();
+        }
+    }
+
+    private void viewProduct(ProductBrowserFrame productBrowser) {
+        boolean grading = productBrowser.isGrading();
+        int selectedRow = productBrowser.getProductsTable().getSelectedRow();
+        String id = (String) productBrowser.getProductsTableModel().getValueAt(selectedRow, 0);
+        Product selectedProduct = productManager.getProductMap().get(id);
+
+        ProductViewerFrame viewer = new ProductViewerFrame();
+        viewer.setOkButtonListener(e -> onProductViewerOK(grading, selectedProduct, viewer));
+        viewer.setIdNumber(selectedProduct.getId());
+        viewer.setName(selectedProduct.getName());
+        viewer.setProductType(selectedProduct.getType());
+        viewer.setDate(selectedProduct.getDate());
+        viewer.setProductDescription(selectedProduct.getDescription());
+        viewer.setGrade(selectedProduct.getGrade());
+        viewer.setTotalCost(selectedProduct.getTotalCost());
+        viewer.setPaperType(selectedProduct.getPaperType());
+        viewer.setPaperUnits(selectedProduct.getPaperAmount());
+        viewer.setPaperCost(selectedProduct.getPaperCost());
+        viewer.setThreadType(selectedProduct.getThreadType());
+        viewer.setThreadUnits(selectedProduct.getThreadAmount());
+        viewer.setThreadCost(selectedProduct.getThreadCost());
+        viewer.setGlueType(selectedProduct.getGlueType());
+        viewer.setGlueUnits(selectedProduct.getGlueAmount());
+        viewer.setGlueCost(selectedProduct.getGlueCost());
+        viewer.setBoardType(selectedProduct.getBoardType());
+        viewer.setBoardUnits(selectedProduct.getBoardAmount());
+        viewer.setBoardCost(selectedProduct.getBoardCost());
+        viewer.setDecoratedPaperType(selectedProduct.getDecoratedPaperType());
+        viewer.setDecoratedPaperUnits(selectedProduct.getDecoratedPaperAmount());
+        viewer.setDecoratedPaperCost(selectedProduct.getDecoratedPaperCost());
+        viewer.setSpineType(selectedProduct.getSpineType());
+        viewer.setSpineUnits(selectedProduct.getSpineAmount());
+        viewer.setSpineCost(selectedProduct.getSpineCost());
+        viewer.setEndBandType(selectedProduct.getEndBandType());
+        viewer.setEndBandUnits(selectedProduct.getEndBandAmount());
+        viewer.setEndBandCost(selectedProduct.getEndBandCost());
+        viewer.setOtherMaterial(selectedProduct.getOther());
+        viewer.setOtherUnits(selectedProduct.getOtherAmount());
+        viewer.setOtherCost(selectedProduct.getOtherCost());
+        viewer.setSpiritsType(selectedProduct.getSpiritType());
+        viewer.setSpiritUnits(selectedProduct.getSpiritAmount());
+        viewer.setSpiritsCost(selectedProduct.getSpiritCost());
+
+        show(viewer.getPanel(), JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void onProductViewerOK(boolean grading, Product selected, ProductViewerFrame viewer) {
+        if (!grading) {
+            closePanel(viewer.getPanel());
+        } else {
+            selected.setGrade(viewer.getGrade());
+            productManager.updateProduct(selected);
+            productManager.storeProducts();
+        }
+    }
+
+    private DefaultTableModel makeProductModel() {
+        // An uneditable table.
+        DefaultTableModel model = new DefaultTableModel() {
+            public boolean isCellEditable(int x, int y) {
+                return false;
+            }
+        };
+        model.addColumn("ID");
+        model.addColumn("Name");
+        model.addColumn("Grade");
+        model.addColumn("Total Cost");
+        for (Product product : productManager.getProductMap().values()) {
+            model.addRow(new String[]{product.getId(), product.getName(), product.getGrade(), product.getTotalCost()});
+        }
+        return model;
     }
 
     private void costAnalysis() {

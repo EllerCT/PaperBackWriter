@@ -53,8 +53,8 @@ public class ProductViewerFrame {
         spiritsType.setText(text);
     }
 
-    public void setSpiritUnits(int units) {
-        spiritsUnits.setText(Integer.toString(units));
+    public void setSpiritUnits(String units) {
+        spiritsUnits.setText(units);
     }
 
     public void setSpiritsCost(String text) {
@@ -183,5 +183,9 @@ public class ProductViewerFrame {
 
     public void setOtherUnits(String otherUnits) {
         this.otherUnits.setText(otherUnits);
+    }
+
+    public String getGrade() {
+        return this.grade.getText();
     }
 }
