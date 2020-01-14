@@ -3,6 +3,7 @@ import io_pipes.ResourceIOPipe;
 import managers.*;
 import swing_frames.*;
 import utilities.CostAnalyser;
+import utilities.Settings;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -264,8 +265,8 @@ public class UserInterfaceController {
         productManager.storeProducts();
         String newCurrentID = String.valueOf(Integer.parseInt(Product.getCurrentID()) + 1);
         Product.setCurrentID(newCurrentID);
-        SettingManager.store("currentID", newCurrentID);
-        SettingManager.save();
+        Settings.store("currentID", newCurrentID);
+        Settings.save();
         closePanel(costAnalysis.getPanel());
     }
 

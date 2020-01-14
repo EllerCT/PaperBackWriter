@@ -5,14 +5,18 @@ import io_pipes.ProductIOPipe;
 import io_pipes.ResourceIOPipe;
 import io_systems.IOSystem;
 import io_systems.LocalFileIOSystem;
-import managers.*;
+import managers.EmployeeManager;
+import managers.EventManager;
+import managers.ProductManager;
+import managers.ResourceManager;
+import utilities.Settings;
 
 import java.io.File;
 
 public class Main {
     public static void main(String[] args){
-        SettingManager.load();
-        Product.setCurrentID(SettingManager.read("currentID", "0"));
+        Settings.load();
+        Product.setCurrentID(Settings.read("currentID", "0"));
         EmployeeManager employeeManager = new EmployeeManager();
         EventManager eventManager = new EventManager();
         ResourceManager resourceManager = new ResourceManager();

@@ -1,9 +1,9 @@
-package managers;
+package utilities;
 
 import java.io.*;
 import java.util.Properties;
 
-public class SettingManager {
+public class Settings {
 
     private static Properties paperBackProperties = new Properties();
 
