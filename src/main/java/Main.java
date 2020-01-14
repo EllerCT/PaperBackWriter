@@ -1,3 +1,4 @@
+import data_structures.Product;
 import io_pipes.EmployeeIOPipe;
 import io_pipes.EventIOPipe;
 import io_pipes.ProductIOPipe;
@@ -11,6 +12,7 @@ import java.io.File;
 public class Main {
     public static void main(String[] args){
         SettingManager.load();
+        Product.setCurrentID(SettingManager.read("currentID", "0"));
         EmployeeManager employeeManager = new EmployeeManager();
         EventManager eventManager = new EventManager();
         ResourceManager resourceManager = new ResourceManager();
@@ -48,6 +50,5 @@ public class Main {
         uic.setResourceManager(resourceManager);
         uic.setProductManager(productManager);
         uic.mainMenu();
-        SettingManager.save();
     }
 }

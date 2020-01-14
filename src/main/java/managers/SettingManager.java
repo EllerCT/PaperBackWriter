@@ -1,9 +1,6 @@
 package managers;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class SettingManager {
@@ -12,18 +9,24 @@ public class SettingManager {
 
     public static void load() {
         try {
-            InputStream in = SettingManager.class.getClassLoader().getResourceAsStream("config.properties");
+            InputStream in = new FileInputStream("config.properties");
             paperBackProperties.load(in);
             in.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Settings file not found.");
         } catch (IOException e) {
-            System.err.println("Loading settings failed.");
             e.printStackTrace();
         }
     }
 
     public static void save() {
         try {
-            OutputStream out = new FileOutputStream(SettingManager.class.getClassLoader().getResource("config.properties").getFile());
+            OutputStream out;
+            if (!new File("config.properties)").exists()) {
+                System.err.println("Creating new config file");
+                new File("config.properties").createNewFile();
+            }
+            out = new FileOutputStream("config.properties");
             paperBackProperties.store(out, null);
             out.close();
         } catch (IOException e) {
