@@ -4,15 +4,13 @@ import io_pipes.ProductIOPipe;
 import io_pipes.ResourceIOPipe;
 import io_systems.IOSystem;
 import io_systems.LocalFileIOSystem;
-import managers.EmployeeManager;
-import managers.EventManager;
-import managers.ProductManager;
-import managers.ResourceManager;
+import managers.*;
 
 import java.io.File;
 
 public class Main {
     public static void main(String[] args){
+        SettingManager.load();
         EmployeeManager employeeManager = new EmployeeManager();
         EventManager eventManager = new EventManager();
         ResourceManager resourceManager = new ResourceManager();
@@ -50,5 +48,6 @@ public class Main {
         uic.setResourceManager(resourceManager);
         uic.setProductManager(productManager);
         uic.mainMenu();
+        SettingManager.save();
     }
 }
