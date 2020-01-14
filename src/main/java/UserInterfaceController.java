@@ -450,14 +450,26 @@ public class UserInterfaceController {
         if (!attendEventFrame.getPin().isBlank()) {
             PinNumber pin = new PinNumber(attendEventFrame.getPin());
             Employee employee = employeeManager.getEmployee(pin);
-            if (employee != null && getConfirmation()) {
-                int pointTotal = employee.getPoints() + selected.getPointWorth();
-                employee.setPoints(pointTotal);
-                employeeManager.updateEmployee(employee);
-                JOptionPane.showMessageDialog(null, "Confirmed attendance of " + employee.getName() + " to event: " + selected.getEventName());
+            if (employee != null) {
+                if (selected.getEventConfirmationCode().isBlank()) {
+                    System.out.println(selected.getEventConfirmationCode());
+                    creditEvent(selected, employee);
+                } else {
+                    String code = JOptionPane.showInputDialog("Please enter the confirmation code for this event.");
+                    if (code.equals(selected.getEventConfirmationCode()))
+                        creditEvent(selected, employee);
+                    else JOptionPane.showMessageDialog(null, "That code was incorrect.");
+                }
             }
             attendEventFrame.clearPin();
         }
+    }
+
+    private void creditEvent(Event selected, Employee employee) {
+        int pointTotal = employee.getPoints() + selected.getPointWorth();
+        employee.setPoints(pointTotal);
+        employeeManager.updateEmployee(employee);
+        JOptionPane.showMessageDialog(null, "Confirmed attendance of " + employee.getName() + " to event: " + selected.getEventName());
     }
 
     private void buildEventBox(AttendEventFrame attendEventFrame) {
@@ -597,9 +609,11 @@ public class UserInterfaceController {
             String name = row.get(1);
             int worth = Integer.parseInt(row.get(2));
             String desc = row.get(3);
+            String confirmation = row.get(4);
             Event event = new Event(code, worth);
             event.setEventName(name);
             event.setEventDescription(desc);
+            event.setEventConfirmationCode(confirmation);
             newEventMap.put(code, event);
         }
         eventManager.setEventMap(newEventMap);
@@ -609,7 +623,7 @@ public class UserInterfaceController {
 
     private void newEventTableRow(ManageEventsFrame frame) {
         DefaultTableModel table = (DefaultTableModel) frame.getModel();
-        table.addRow(new String[]{"NewCode", "", "0", ""});
+        table.addRow(new String[]{"NewCode", "", "0", "", ""});
     }
 
     private TableModel makeEventModel(ManageEventsFrame manageEventsFrame) {
@@ -618,17 +632,20 @@ public class UserInterfaceController {
         model.addColumn("Name");
         model.addColumn("Worth");
         model.addColumn("Description");
+        model.addColumn("Confirmation Code");
         HashMap<String, Event> eventMap = (HashMap<String, Event>) eventManager.getEventMap();
         for (Event event : eventMap.values()) {
             String code = event.getEventCode();
             int worth = event.getPointWorth();
             String name = event.getEventName();
             String desc = event.getEventDescription();
+            String confirm = event.getEventConfirmationCode();
             Vector<String> newRow = new Vector<>();
             newRow.add(code);
             newRow.add(name);
             newRow.add(String.valueOf(worth));
             newRow.add(desc);
+            newRow.add(confirm);
             model.addRow(newRow);
         }
         return model;

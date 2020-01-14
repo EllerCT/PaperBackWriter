@@ -7,12 +7,14 @@ public class Event {
     private String eventDescription;
     private String eventCode;
     private int pointWorth;
+    private String eventConfirmationCode;
 
     public Event(String code, int points){
         this.eventCode = code;
         this.pointWorth = points;
         this.eventName = "";
         this.eventDescription ="";
+        this.eventConfirmationCode = "";
     }
 
     public String getEventCode() {
@@ -41,6 +43,14 @@ public class Event {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    public String getEventConfirmationCode() {
+        return eventConfirmationCode;
+    }
+
+    public void setEventConfirmationCode(String eventConfirmationCode) {
+        this.eventConfirmationCode = eventConfirmationCode;
     }
 
     @Override

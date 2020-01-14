@@ -48,6 +48,7 @@ public class EventManager
             Event safeEvent = new Event(mapEvent.getEventCode(), mapEvent.getPointWorth());
             safeEvent.setEventDescription(mapEvent.getEventDescription());
             safeEvent.setEventName(mapEvent.getEventName());
+            safeEvent.setEventConfirmationCode(mapEvent.getEventConfirmationCode());
             return this.eventMap.get(code);
         }
         return null;

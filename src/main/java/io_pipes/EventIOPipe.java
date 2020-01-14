@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class EventIOPipe {
     private final static CSVFormat csvFormat = CSVFormat.EXCEL.withHeader(
-            "Code", "Worth", "Name", "Description");
+            "Code", "Worth", "Name", "Description", "Confirmation");
     private IOSystem ioSystem;
 
     public EventIOPipe(IOSystem ioSystem) {
@@ -56,6 +56,7 @@ public class EventIOPipe {
         Event event = new Event(record.get("Code"), Integer.parseInt(record.get("Worth")));
         event.setEventName(record.get("Name"));
         event.setEventDescription(record.get("Description"));
+        event.setEventConfirmationCode(record.get("Confirmation"));
         return event;
     }
 
@@ -70,7 +71,8 @@ public class EventIOPipe {
                         event.getEventCode(),
                         event.getPointWorth(),
                         event.getEventName(),
-                        event.getEventDescription()
+                        event.getEventDescription(),
+                        event.getEventConfirmationCode()
                 );
             }
             printer.flush();
