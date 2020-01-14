@@ -224,7 +224,6 @@ public class UserInterfaceController {
 
     private void saveNewProduct(CostAnalysisFrame costAnalysis) {
         calculateCosts(costAnalysis, new CostAnalyser());
-        System.out.println("Saving new product...");
         Product product = new Product();
         product.setId(costAnalysis.getIdNumber());
         product.setName(costAnalysis.getName());
