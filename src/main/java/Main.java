@@ -1,3 +1,4 @@
+import controllers.UserInterfaceController;
 import data_structures.Product;
 import io_pipes.EmployeeIOPipe;
 import io_pipes.EventIOPipe;
