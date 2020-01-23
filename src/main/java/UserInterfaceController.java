@@ -23,12 +23,14 @@ public class UserInterfaceController {
      *
      * @param contentPanel  A JPanel representing a content panel
      * @param closeBehavior An integer such as JFrame.DISPOSE_ON_CLOSE
+     * @return - The JFrame created
      */
     private JFrame show(JPanel contentPanel, int closeBehavior) {
         JFrame frame = new JFrame();
         frame.setContentPane(contentPanel);
         frame.setDefaultCloseOperation(closeBehavior);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         return frame;
     }
@@ -455,6 +457,7 @@ public class UserInterfaceController {
                     creditEvent(selected, employee);
                 } else {
                     String code = JOptionPane.showInputDialog("Please enter the confirmation code for this event.");
+                    if (code == null) code = "";
                     if (code.equals(selected.getEventConfirmationCode()))
                         creditEvent(selected, employee);
                     else JOptionPane.showMessageDialog(null, "That code was incorrect.");

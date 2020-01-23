@@ -5,12 +5,14 @@
     <constraints>
       <xy x="20" y="20" width="208" height="202"/>
     </constraints>
-    <properties/>
+    <properties>
+      <preferredSize width="600" height="300"/>
+    </properties>
     <border type="none"/>
     <children>
       <component id="787b1" class="javax.swing.JButton" binding="costAnalysisButton" default-binding="true">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Cost Analysis"/>
@@ -18,7 +20,7 @@
       </component>
       <component id="51636" class="javax.swing.JButton" binding="resourcesButton" default-binding="true">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Resources"/>
@@ -26,7 +28,7 @@
       </component>
       <component id="4b53c" class="javax.swing.JButton" binding="browseProductsButton" default-binding="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Browse Products"/>
