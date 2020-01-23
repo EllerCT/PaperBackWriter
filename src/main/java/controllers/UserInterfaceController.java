@@ -2,10 +2,14 @@ package controllers;
 
 import data_structures.*;
 import io_pipes.ResourceIOPipe;
-import managers.*;
+import managers.EmployeeManager;
+import managers.EventManager;
+import managers.ProductManager;
+import managers.ResourceManager;
 import swing_frames.*;
 import utilities.CostAnalyser;
 import utilities.Settings;
+import utilities.TimeClock;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -389,7 +393,7 @@ public class UserInterfaceController {
     }
 
     private void clockInOut(TimeClockFrame clockFrame) {
-        TimeClockManager clock = new TimeClockManager();
+        TimeClock clock = new TimeClock();
         if (!clockFrame.getPin().isBlank()){
             PinNumber pin = new PinNumber(clockFrame.getPin());
             Employee matchingEmployee = employeeManager.getEmployee(pin);
