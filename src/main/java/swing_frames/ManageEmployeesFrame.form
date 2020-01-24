@@ -81,6 +81,9 @@
                   <enabled value="true"/>
                   <fillsViewportHeight value="false"/>
                 </properties>
+                <clientProperties>
+                  <terminateEditOnFocusLost class="java.lang.Boolean" value="true"/>
+                </clientProperties>
               </component>
             </children>
           </scrollpane>
