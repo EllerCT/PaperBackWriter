@@ -6,6 +6,10 @@ public class DesktopFrame {
     private JPanel contentPane;
     private JDesktopPane desktopPane;
 
+    public DesktopFrame() {
+        desktopPane.setLayout(null);
+    }
+
     public JPanel getContentPane() {
         return contentPane;
     }
