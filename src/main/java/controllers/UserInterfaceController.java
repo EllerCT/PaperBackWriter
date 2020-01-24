@@ -399,10 +399,10 @@ public class UserInterfaceController {
                 boolean clockedIn = clock.checkIfClockedIn(matchingEmployee);
                 if (clockedIn){
                     clock.clockOut(matchingEmployee);
-                    JOptionPane.showMessageDialog(null, pin + " Clocked out.");
+                    JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked out.");
                 } else {
                     clock.clockIn(matchingEmployee);
-                    JOptionPane.showMessageDialog(null, pin + " Clocked in.");
+                    JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked in.");
                 }
                 employeeManager.updateEmployee(matchingEmployee);
                 employeeManager.storeEmployees();
