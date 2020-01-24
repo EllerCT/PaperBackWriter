@@ -7,25 +7,15 @@ public class Resource {
     private String unitSize;
     private double pricePerUnit;
     private String name;
-    private int unitsInStock;
 
     public Resource(String name) {
         this.name = name;
         this.unitSize = "";
         this.pricePerUnit = 0.00;
-        this.unitsInStock = 0;
     }
 
     public static String generateKeyFor(Resource resource) {
         return String.format("%s.%s", resource.getType(), resource.getName());
-    }
-
-    public int getUnitsInStock() {
-        return unitsInStock;
-    }
-
-    public void setUnitsInStock(int unitsInStock) {
-        this.unitsInStock = unitsInStock;
     }
 
     public String getName() {

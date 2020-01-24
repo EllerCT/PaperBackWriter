@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class ResourceIOPipe implements IOPipe {
 
-    public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader("Type", "Name", "Unit Size", "Price Per Unit", "Units In Stock");
+    public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader("Type", "Name", "Unit Size", "Price Per Unit");
     private IOSystem ioSystem;
 
     public ResourceIOPipe(IOSystem ioSystem) {
@@ -50,7 +50,6 @@ public class ResourceIOPipe implements IOPipe {
         resource.setPricePerUnit(Double.parseDouble(record.get("Price Per Unit")));
         resource.setType(ResourceType.parseString(record.get("Type")));
         resource.setUnitSize(record.get("Unit Size"));
-        resource.setUnitsInStock(Integer.parseInt(record.get("Units In Stock")));
         return resource;
     }
 
@@ -74,8 +73,7 @@ public class ResourceIOPipe implements IOPipe {
                         resource.getType(),
                         resource.getName(),
                         resource.getUnitSize(),
-                        resource.getPricePerUnit(),
-                        resource.getUnitsInStock()
+                        resource.getPricePerUnit()
                 );
             }
             printer.flush();

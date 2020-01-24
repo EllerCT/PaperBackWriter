@@ -100,13 +100,11 @@ public class UserInterfaceController {
             String name = (String) row.get(1);
             String unitSize = (String) row.get(2);
             double unitPrice = Double.parseDouble((String) row.get(3));
-            int stocked = Integer.parseInt((String) row.get(4));
 
             Resource resource = new Resource(name);
             resource.setType(type);
             resource.setUnitSize(unitSize);
             resource.setPricePerUnit(unitPrice);
-            resource.setUnitsInStock(stocked);
             resourceMap.put(Resource.generateKeyFor(resource), resource);
         }
         resourceManager.setResourceMap(resourceMap);
@@ -529,7 +527,6 @@ public class UserInterfaceController {
             newRow.add(resource.getName());
             newRow.add(resource.getUnitSize());
             newRow.add(String.format("%.2f", resource.getPricePerUnit()));
-            newRow.add(String.format("%d", resource.getUnitsInStock()));
             model.addRow(newRow);
         }
 
