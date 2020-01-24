@@ -1,7 +1,6 @@
 package controllers;
 
 import swing_frames.DesktopFrame;
-import swing_frames.MainMenuFrame;
 
 import javax.swing.*;
 
@@ -10,12 +9,6 @@ public class DesktopController {
 
     public DesktopController() {
         this.desktopFrame = new DesktopFrame();
-    }
-
-    public static void main(String[] args) {
-        DesktopController dc = new DesktopController();
-        dc.open();
-        dc.show(new MainMenuFrame().getContentPane(), "PBW");
     }
 
     public void open() {
