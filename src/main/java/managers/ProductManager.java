@@ -17,11 +17,11 @@ public class ProductManager {
 
     public void fetchProducts() {
         productMap.clear();
-        productMap.putAll(productIOPipe.loadProducts());
+        productMap.putAll(productIOPipe.load());
     }
 
     public void storeProducts() {
-        productIOPipe.saveProducts(productMap);
+        productIOPipe.save(productMap);
     }
 
     public void setProductIOPipe(ProductIOPipe pipe) {

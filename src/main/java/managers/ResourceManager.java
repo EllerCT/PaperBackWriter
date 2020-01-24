@@ -16,11 +16,11 @@ public class ResourceManager {
 
     public void fetchResources() {
         resourceMap.clear();
-        resourceMap.putAll(resourceIOPipe.loadResources());
+        resourceMap.putAll(resourceIOPipe.load());
     }
 
     public void storeResources() {
-        resourceIOPipe.saveResources(resourceMap);
+        resourceIOPipe.save(resourceMap);
     }
 
     public void setResourceIOPipe(ResourceIOPipe pipe) {

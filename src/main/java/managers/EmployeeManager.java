@@ -17,11 +17,11 @@ public class EmployeeManager {
 
     public void fetchEmployees(){
         employeeMap.clear();
-        employeeMap.putAll(employeeIOPipe.loadEmployees());
+        employeeMap.putAll(employeeIOPipe.load());
     }
 
     public void storeEmployees(){
-        employeeIOPipe.saveEmployees(employeeMap);
+        employeeIOPipe.save(employeeMap);
     }
 
     public void setEmployeeIOPipe(EmployeeIOPipe employeeIOPipe){

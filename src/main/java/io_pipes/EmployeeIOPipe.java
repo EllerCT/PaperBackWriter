@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EmployeeIOPipe {
+public class EmployeeIOPipe implements IOPipe {
     private final static CSVFormat csvFormat = CSVFormat.EXCEL.withHeader(
             "Pin","Name","TotalHours","WeeklyHours","Points","ClockInAt","ClockOutAt");
 
@@ -25,7 +25,7 @@ public class EmployeeIOPipe {
         this.ioSystem = ioSystem;
     }
 
-    public Map<PinNumber, Employee> loadEmployees(){
+    public Map<PinNumber, Employee> load() {
         try {
             InputStreamReader inStreamReader = new InputStreamReader(ioSystem.read());
             CSVParser csvParser = new CSVParser(inStreamReader, csvFormat.withSkipHeaderRecord());
@@ -75,7 +75,8 @@ public class EmployeeIOPipe {
         return currentEmployee;
     }
 
-    public void saveEmployees(Map<PinNumber, Employee> employeeMap){
+    public void save(Map map) {
+        Map<PinNumber, Employee> employeeMap = (Map<PinNumber, Employee>) map;
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteStream));

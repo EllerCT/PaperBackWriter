@@ -15,11 +15,11 @@ public class EventManager
 
     public void fetchEvents() {
         eventMap.clear();
-        eventMap.putAll(eventIOPipe.loadEvents());
+        eventMap.putAll(eventIOPipe.load());
     }
 
     public void storeEvents(){
-        eventIOPipe.saveEvents(eventMap);
+        eventIOPipe.save(eventMap);
     }
 
     public void setEventIOPipe( EventIOPipe eventIOPipe) { this.eventIOPipe = eventIOPipe; }

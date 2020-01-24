@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResourceIOPipe {
+public class ResourceIOPipe implements IOPipe {
 
     public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader("Type", "Name", "Unit Size", "Price Per Unit", "Units In Stock");
     private IOSystem ioSystem;
@@ -22,7 +22,7 @@ public class ResourceIOPipe {
         this.ioSystem = ioSystem;
     }
 
-    public Map<String, Resource> loadResources() {
+    public Map<String, Resource> load() {
         try {
             InputStreamReader isr = new InputStreamReader(ioSystem.read());
             CSVParser csvParser = new CSVParser(isr, CSV_FORMAT.withSkipHeaderRecord());
@@ -62,7 +62,8 @@ public class ResourceIOPipe {
         ioSystem.write(outputStream.toByteArray());
     }
 
-    public void saveResources(HashMap<String, Resource> resourceMap) {
+    public void save(Map map) {
+        HashMap<String, Resource> resourceMap = (HashMap<String, Resource>) map;
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteStream));

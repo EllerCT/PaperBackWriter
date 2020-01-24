@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventIOPipe {
+public class EventIOPipe implements IOPipe {
     private final static CSVFormat csvFormat = CSVFormat.EXCEL.withHeader(
             "Code", "Worth", "Name", "Description", "Confirmation");
     private IOSystem ioSystem;
@@ -21,7 +21,7 @@ public class EventIOPipe {
         this.ioSystem = ioSystem;
     }
 
-    public Map<String, Event> loadEvents() {
+    public Map<String, Event> load() {
         try {
             InputStreamReader isr = new InputStreamReader(ioSystem.read());
             CSVParser csvParser = new CSVParser(isr, csvFormat.withSkipHeaderRecord());
@@ -60,7 +60,8 @@ public class EventIOPipe {
         return event;
     }
 
-    public void saveEvents(Map<String, Event> events) {
+    public void save(Map map) {
+        Map<String, Event> events = (Map<String, Event>) map;
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteStream));

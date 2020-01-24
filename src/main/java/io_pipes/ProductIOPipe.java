@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductIOPipe {
+public class ProductIOPipe implements IOPipe {
 
     public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader(
             "ID",
@@ -55,7 +55,7 @@ public class ProductIOPipe {
         this.ioSystem = ioSystem;
     }
 
-    public Map<String, Product> loadProducts() {
+    public Map<String, Product> load() {
         try {
             InputStreamReader isr = new InputStreamReader(ioSystem.read());
             CSVParser csvParser = new CSVParser(isr, CSV_FORMAT.withSkipHeaderRecord());
@@ -125,7 +125,8 @@ public class ProductIOPipe {
         ioSystem.write(outputStream.toByteArray());
     }
 
-    public void saveProducts(HashMap<String, Product> productsMap) {
+    public void save(Map map) {
+        HashMap<String, Product> productsMap = (HashMap<String, Product>) map;
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteStream));
