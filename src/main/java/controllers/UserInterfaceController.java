@@ -31,7 +31,7 @@ public class UserInterfaceController {
      * @param closeBehavior An integer such as JFrame.DISPOSE_ON_CLOSE
      * @return - The JFrame created
      */
-    private JFrame show(JPanel contentPanel, int closeBehavior) {
+    public static JFrame showNewWindow(JPanel contentPanel, int closeBehavior) {
         JFrame frame = new JFrame();
         frame.setContentPane(contentPanel);
         frame.setDefaultCloseOperation(closeBehavior);
@@ -61,7 +61,7 @@ public class UserInterfaceController {
         MainMenuFrame mainMenu = new MainMenuFrame();
         mainMenu.setEmployeeButtonAction(e -> mainEmployeeMenu());
         mainMenu.setProductButtonAction(e -> mainProductsMenu());
-        show(mainMenu.getContentPane(), JFrame.EXIT_ON_CLOSE)
+        showNewWindow(mainMenu.getContentPane(), JFrame.EXIT_ON_CLOSE)
                 .setTitle("Paper Back Writer");
     }
 
@@ -71,7 +71,7 @@ public class UserInterfaceController {
         menu.setBrowseProductsButtonListener(e -> productBrowser());
         menu.setCostAnalysisButtonListener(e -> costAnalysis());
         menu.setResourcesButtonListener(e -> resources());
-        show(menu.getPane(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(menu.getPane(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Products");
     }
 
@@ -87,7 +87,7 @@ public class UserInterfaceController {
         resources.setAddButtonListener(e -> addRowToResources(resources));
         resources.setRemoveButtonListener(e -> removeRowsFrom(table));
         resources.setCancelButtonListener(e -> closePanel(resources.getPanel()));
-        show(resources.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(resources.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW Resources");
     }
 
@@ -127,7 +127,7 @@ public class UserInterfaceController {
         DefaultTableModel model = makeProductModel();
         productBrowser.setProductsTableModel(model);
 
-        show(productBrowser.getContentPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(productBrowser.getContentPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW Product Browser");
     }
 
@@ -180,7 +180,7 @@ public class UserInterfaceController {
         viewer.setSpiritUnits(selectedProduct.getSpiritAmount());
         viewer.setSpiritsCost(selectedProduct.getSpiritCost());
 
-        show(viewer.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(viewer.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Product Viewer");
     }
 
@@ -224,7 +224,7 @@ public class UserInterfaceController {
         costAnalysis.setCancelButtonAction(e -> closePanel(costAnalysis.getPanel()));
         costAnalysis.setSubmitButtonAction(e -> saveNewProduct(costAnalysis));
 
-        show(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Cost Analysis");
     }
 
@@ -379,14 +379,14 @@ public class UserInterfaceController {
         menu.setManageEventsAction(e -> manageEvents());
         menu.setTimeClockAction(e -> timeClock());
         menu.setViewEmployeesAction(e -> viewEmployees());
-        show(menu.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(menu.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Employee");
     }
 
     public void timeClock() {
         TimeClockFrame clockFrame = new TimeClockFrame();
         clockFrame.setClockInOutAction(e -> clockInOut(clockFrame));
-        show(clockFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(clockFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Clock");
     }
 
@@ -421,7 +421,7 @@ public class UserInterfaceController {
             addEmployeeFrame.setConfirmAction(e -> onAddNewEmployee(addEmployeeFrame));
             addEmployeeFrame.setCloseAction(e -> ((JFrame) addEmployeeFrame.getPanel().getRootPane().getParent()).dispose());
 
-            show(addEmployeeFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+            showNewWindow(addEmployeeFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                     .setTitle("PBW - Add Employee");
         }
     }
@@ -446,7 +446,7 @@ public class UserInterfaceController {
         AttendEventFrame attendEventFrame = new AttendEventFrame();
         buildEventBox(attendEventFrame);
         attendEventFrame.setConfirmAction(e -> onConfirmAttend(attendEventFrame));
-        show(attendEventFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(attendEventFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Event Attendance");
     }
 
@@ -493,7 +493,7 @@ public class UserInterfaceController {
             manageEmployeesFrame.setRemoveRowAction(e -> removeRowsFrom(manageEmployeesFrame.getTable()));
             manageEmployeesFrame.setOKAction(e -> saveEmployeesTable(manageEmployeesFrame));
             manageEmployeesFrame.setCancelAction(e -> closePanel(manageEmployeesFrame.getPanel()));
-            show(manageEmployeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+            showNewWindow(manageEmployeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                     .setTitle("PBW - View Employee Infomration");
         }
     }
@@ -600,7 +600,7 @@ public class UserInterfaceController {
             manageEventsFrame.setRemoveRowAction(e -> removeRowsFrom(manageEventsFrame.getTable()));
             manageEventsFrame.setCancelAction(e -> closePanel(manageEventsFrame.getPanel()));
             manageEventsFrame.setConfirmAction(e -> saveEventsTable(manageEventsFrame));
-            show(manageEventsFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+            showNewWindow(manageEventsFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                     .setTitle("PBW - Manage Event Information");
         }
     }
