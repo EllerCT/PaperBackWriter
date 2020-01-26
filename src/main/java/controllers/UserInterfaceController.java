@@ -2,6 +2,7 @@ package controllers;
 
 import data_structures.*;
 import io_pipes.ResourceIOPipe;
+import listeners.cost_analysis.SaveNewProductListener;
 import listeners.time_clock.ClockInOutListener;
 import managers.EmployeeManager;
 import managers.EventManager;
@@ -9,7 +10,6 @@ import managers.ProductManager;
 import managers.ResourceManager;
 import swing_frames.*;
 import utilities.CostAnalyser;
-import utilities.Settings;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -222,85 +222,13 @@ public class UserInterfaceController {
         // Set button behavior
         costAnalysis.setCalculateButtonAction(e -> calculateCosts(costAnalysis, analyser));
         costAnalysis.setCancelButtonAction(e -> closePanel(costAnalysis.getPanel()));
-        costAnalysis.setSubmitButtonAction(e -> saveNewProduct(costAnalysis));
+        costAnalysis.setSubmitButtonAction(new SaveNewProductListener(costAnalysis, productManager));
 
         showNewWindow(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Cost Analysis");
     }
 
-    private void saveNewProduct(CostAnalysisFrame costAnalysis) {
-        calculateCosts(costAnalysis, new CostAnalyser());
-        Product product = new Product();
-        product.setId(costAnalysis.getIdNumber());
-        product.setName(costAnalysis.getName());
-        product.setType(costAnalysis.getProductType());
-        product.setDate(costAnalysis.getDate());
-        product.setDescription(costAnalysis.getProductDescription());
-        product.setGrade(costAnalysis.getGrade());
-        product.setTotalCost(costAnalysis.getTotalCost());
-        product.setPaperType(costAnalysis.getCurrentPaperType().toString());
-        product.setPaperAmount(String.valueOf(costAnalysis.getPaperUnits()));
-        product.setPaperCost(costAnalysis.getPaperCost());
-        product.setThreadType(costAnalysis.getCurrentThreadType().toString());
-        product.setThreadAmount(String.valueOf(costAnalysis.getThreadUnits()));
-        product.setThreadCost(costAnalysis.getThreadCost());
-        product.setGlueType(costAnalysis.getCurrentGlueType().toString());
-        product.setGlueAmount(String.valueOf(costAnalysis.getGlueUnits()));
-        product.setGlueCost(costAnalysis.getGlueCost());
-        product.setBoardType(costAnalysis.getCurrentBoardType().toString());
-        product.setBoardAmount(String.valueOf(costAnalysis.getGlueUnits()));
-        product.setBoardCost(costAnalysis.getBoardCost());
-        product.setDecoratedPaperType(costAnalysis.getCurrentDecoratedPaperType().toString());
-        product.setDecoratedPaperAmount(String.valueOf((costAnalysis.getDecoratedPaperUnits())));
-        product.setDecoratedPaperCost(costAnalysis.getDecoratedPaperCost());
-        product.setSpineType(costAnalysis.getCurrentSpineType().toString());
-        product.setSpineAmount(String.valueOf(costAnalysis.getSpineUnits()));
-        product.setSpineCost(costAnalysis.getSpineCost());
-        product.setEndBandType(costAnalysis.getCurrentEndBandType().toString());
-        product.setEndBandAmount(String.valueOf(costAnalysis.getEndBandUnits()));
-        product.setEndBandCost(costAnalysis.getEndBandCost());
-        product.setOther(costAnalysis.getOtherMaterial());
-        product.setOtherAmount(String.valueOf(costAnalysis.getOtherUnits()));
-        product.setOtherCost(costAnalysis.getOtherCost());
-        product.setSpiritType(costAnalysis.getCurrentSpiritsType().toString());
-        product.setSpiritAmount(String.valueOf(costAnalysis.getSpiritsUnits()));
-        product.setSpiritCost(costAnalysis.getSpiritsCost());
-        productManager.newProduct(product);
-        productManager.storeProducts();
-        String newCurrentID = String.valueOf(Integer.parseInt(Product.getCurrentID()) + 1);
-        Product.setCurrentID(newCurrentID);
-        // TODO: Figure out how to handle this better
-        Settings.store("currentID", newCurrentID);
-        Settings.save();
-        closePanel(costAnalysis.getPanel());
-    }
-
-    private void populateCostAnalysisComboBoxes(CostAnalysisFrame costAnalysis) {
-        HashMap<ResourceType, List<Resource>> boxOptions = new HashMap<>();
-        // One combo box per resource type, so one list of options per box.
-        for (ResourceType type : ResourceType.values()) {
-            boxOptions.put(type, new ArrayList<>());
-            // Add an empty resource 'None' by default.
-            Resource defaultEmptyResource = new Resource("None");
-            defaultEmptyResource.setType(type);
-            boxOptions.get(type).add(defaultEmptyResource);
-        }
-        HashMap<String, Resource> resourceMap = (HashMap<String, Resource>) resourceManager.getResourceMap();
-        // Sort the resources into the list corresponding to that resource's type.
-        for (Resource resourceEntry : resourceMap.values()) {
-            boxOptions.get(resourceEntry.getType()).add(resourceEntry);
-        }
-        // Send them to each relevant combo box
-        costAnalysis.setBoardTypeOptions(boxOptions.get(ResourceType.BOARD));
-        costAnalysis.setPaperTypeOptions(boxOptions.get(ResourceType.PAPER));
-        costAnalysis.setGlueTypeOptions(boxOptions.get(ResourceType.GLUE));
-        costAnalysis.setSpineTypeOptions(boxOptions.get(ResourceType.SPINE));
-        costAnalysis.setThreadTypeOptions(boxOptions.get(ResourceType.THREAD));
-        costAnalysis.setDecoratedPaperTypeOptions(boxOptions.get(ResourceType.DECORATED_PAPER));
-        costAnalysis.setEndBandTypeOptions(boxOptions.get(ResourceType.END_BAND));
-        costAnalysis.setSpiritsTypeOptions(boxOptions.get(ResourceType.MINERAL_SPIRIT));
-    }
-
+    //TODO: Remove duplicate code... somehow
     private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyser analyser) {
         double paperCost = analyser.calculateSingleCostFor(
                 costAnalysis.getPaperUnits(),
@@ -368,6 +296,34 @@ public class UserInterfaceController {
         double totalCost = analyser.calculateTotalCostFromSubtotals(subtotals);
         costAnalysis.setTotalCost(totalCost);
     }
+
+    private void populateCostAnalysisComboBoxes(CostAnalysisFrame costAnalysis) {
+        HashMap<ResourceType, List<Resource>> boxOptions = new HashMap<>();
+        // One combo box per resource type, so one list of options per box.
+        for (ResourceType type : ResourceType.values()) {
+            boxOptions.put(type, new ArrayList<>());
+            // Add an empty resource 'None' by default.
+            Resource defaultEmptyResource = new Resource("None");
+            defaultEmptyResource.setType(type);
+            boxOptions.get(type).add(defaultEmptyResource);
+        }
+        HashMap<String, Resource> resourceMap = (HashMap<String, Resource>) resourceManager.getResourceMap();
+        // Sort the resources into the list corresponding to that resource's type.
+        for (Resource resourceEntry : resourceMap.values()) {
+            boxOptions.get(resourceEntry.getType()).add(resourceEntry);
+        }
+        // Send them to each relevant combo box
+        costAnalysis.setBoardTypeOptions(boxOptions.get(ResourceType.BOARD));
+        costAnalysis.setPaperTypeOptions(boxOptions.get(ResourceType.PAPER));
+        costAnalysis.setGlueTypeOptions(boxOptions.get(ResourceType.GLUE));
+        costAnalysis.setSpineTypeOptions(boxOptions.get(ResourceType.SPINE));
+        costAnalysis.setThreadTypeOptions(boxOptions.get(ResourceType.THREAD));
+        costAnalysis.setDecoratedPaperTypeOptions(boxOptions.get(ResourceType.DECORATED_PAPER));
+        costAnalysis.setEndBandTypeOptions(boxOptions.get(ResourceType.END_BAND));
+        costAnalysis.setSpiritsTypeOptions(boxOptions.get(ResourceType.MINERAL_SPIRIT));
+    }
+
+
 
 
     public void mainEmployeeMenu() {
