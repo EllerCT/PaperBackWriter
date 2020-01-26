@@ -2,6 +2,7 @@ package controllers;
 
 import data_structures.*;
 import io_pipes.ResourceIOPipe;
+import listeners.cost_analysis.CalculateCostsListener;
 import listeners.cost_analysis.SubmitProductListener;
 import listeners.time_clock.ClockInOutListener;
 import managers.EmployeeManager;
@@ -220,81 +221,12 @@ public class UserInterfaceController {
         populateCostAnalysisComboBoxes(costAnalysis);
 
         // Set button behavior
-        costAnalysis.setCalculateButtonAction(e -> calculateCosts(costAnalysis, analyser));
+        costAnalysis.setCalculateButtonAction(new CalculateCostsListener(costAnalysis, analyser));
         costAnalysis.setCancelButtonAction(e -> closePanel(costAnalysis.getPanel()));
         costAnalysis.setSubmitButtonAction(new SubmitProductListener(costAnalysis, productManager));
 
         showNewWindow(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Cost Analysis");
-    }
-
-    //TODO: Remove duplicate code... somehow
-    private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyzer analyser) {
-        double paperCost = analyser.calculateSingleCostFor(
-                costAnalysis.getPaperUnits(),
-                costAnalysis.getCurrentPaperType());
-        costAnalysis.setPaperCost(String.format("%.2f", paperCost));
-
-        double boardCost = analyser.calculateSingleCostFor(
-                costAnalysis.getBoardUnits(),
-                costAnalysis.getCurrentBoardType());
-        costAnalysis.setBoardCost(String.format("%.2f", boardCost));
-
-        double threadCost = analyser.calculateSingleCostFor(
-                costAnalysis.getThreadUnits(),
-                costAnalysis.getCurrentThreadType());
-        costAnalysis.setThreadCost(String.format("%.2f", threadCost));
-
-        double glueCost = analyser.calculateSingleCostFor(
-                costAnalysis.getGlueUnits(),
-                costAnalysis.getCurrentGlueType());
-        costAnalysis.setGlueCost(String.format("%.2f", glueCost));
-
-        double decorativePaperCost = analyser.calculateSingleCostFor(
-                costAnalysis.getDecoratedPaperUnits(),
-                costAnalysis.getCurrentDecoratedPaperType());
-        costAnalysis.setDecoratedPaperCost(String.format("%.2f", decorativePaperCost));
-
-        double endBandCost = analyser.calculateSingleCostFor(
-                costAnalysis.getEndBandUnits(),
-                costAnalysis.getCurrentEndBandType());
-        costAnalysis.setEndBandCost(String.format("%.2f", endBandCost));
-
-        double spineCost = analyser.calculateSingleCostFor(
-                costAnalysis.getSpineUnits(),
-                costAnalysis.getCurrentSpineType());
-        costAnalysis.setSpineCost(String.format("%.2f", spineCost));
-
-        // 'other' costs is a manual field to account for the unaccountable.
-        // There is no 'other' resource fitting the pattern for the analyser.
-        // This should be a formatted text field but at present I can't wrangle
-        // one into working. Doing so would remove all logic from this initialization.
-        // TODO: Introduce formatted text field to remove need for checks in controller.
-        double otherCost;
-        if (costAnalysis.getOtherCost().isEmpty() || !costAnalysis.getOtherCost().matches(".*[0-9]*.*")) {
-            otherCost = 0.0;
-        } else {
-            otherCost = Double.parseDouble(costAnalysis.getOtherCost());
-        }
-
-        double spiritsCost = analyser.calculateSingleCostFor(
-                costAnalysis.getSpiritsUnits(),
-                costAnalysis.getCurrentSpiritsType());
-        costAnalysis.setSpiritsCost(String.format("%.2f", spineCost));
-
-        List<Double> subtotals = Arrays.asList(
-                paperCost,
-                spineCost,
-                boardCost,
-                glueCost,
-                threadCost,
-                endBandCost,
-                decorativePaperCost,
-                otherCost,
-                spiritsCost);
-
-        double totalCost = analyser.calculateTotalCostFromSubtotals(subtotals);
-        costAnalysis.setTotalCost(totalCost);
     }
 
     private void populateCostAnalysisComboBoxes(CostAnalysisFrame costAnalysis) {
