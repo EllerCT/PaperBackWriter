@@ -5,7 +5,7 @@ import data_structures.Resource;
 import java.util.List;
 import java.util.Map;
 
-public class CostAnalyser {
+public class CostAnalyzer {
 
     /**
      * Yield the price of a number of units of the given resource, without sales tax

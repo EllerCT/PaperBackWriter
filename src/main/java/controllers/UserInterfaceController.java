@@ -9,7 +9,7 @@ import managers.EventManager;
 import managers.ProductManager;
 import managers.ResourceManager;
 import swing_frames.*;
-import utilities.CostAnalyser;
+import utilities.CostAnalyzer;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -214,7 +214,7 @@ public class UserInterfaceController {
 
     private void costAnalysis() {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
-        CostAnalyser analyser = new CostAnalyser();
+        CostAnalyzer analyser = new CostAnalyzer();
         costAnalysis.setIdNumber(Product.getCurrentID());
         // Populate combo boxes.
         populateCostAnalysisComboBoxes(costAnalysis);
@@ -229,7 +229,7 @@ public class UserInterfaceController {
     }
 
     //TODO: Remove duplicate code... somehow
-    private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyser analyser) {
+    private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyzer analyser) {
         double paperCost = analyser.calculateSingleCostFor(
                 costAnalysis.getPaperUnits(),
                 costAnalysis.getCurrentPaperType());

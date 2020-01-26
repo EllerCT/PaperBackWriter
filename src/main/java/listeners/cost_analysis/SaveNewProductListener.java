@@ -3,7 +3,7 @@ package listeners.cost_analysis;
 import data_structures.Product;
 import managers.ProductManager;
 import swing_frames.CostAnalysisFrame;
-import utilities.CostAnalyser;
+import utilities.CostAnalyzer;
 import utilities.Settings;
 
 import java.awt.event.ActionEvent;
@@ -22,7 +22,7 @@ public class SaveNewProductListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        calculateCosts(costAnalysis, new CostAnalyser());
+        calculateCosts(costAnalysis, new CostAnalyzer());
         Product product = new Product();
         product.setId(costAnalysis.getIdNumber());
         product.setName(costAnalysis.getName());
@@ -69,7 +69,7 @@ public class SaveNewProductListener implements ActionListener {
     }
 
     //TODO: Remove duplicate code... somehow
-    private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyser analyser) {
+    private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyzer analyser) {
         double paperCost = analyser.calculateSingleCostFor(
                 costAnalysis.getPaperUnits(),
                 costAnalysis.getCurrentPaperType());
