@@ -21,7 +21,7 @@ public class TimeClockFrame extends JFrame {
         pinField.setText("");
     }
 
-    public JPanel getPanel() {
+    public JPanel getContentPane() {
         return contentPane;
     }
 }

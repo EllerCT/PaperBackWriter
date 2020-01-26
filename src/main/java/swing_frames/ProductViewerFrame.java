@@ -41,7 +41,7 @@ public class ProductViewerFrame extends JFrame {
     private JTextField spiritsCost;
     private JTextField spiritsType;
 
-    public JPanel getPanel() {
+    public JPanel getContentPane() {
         return this.contentPane;
     }
 

@@ -37,7 +37,7 @@ public class ProductBrowserFrame extends JFrame {
         this.closeButton.addActionListener(listener);
     }
 
-    public JPanel getContentPanel() {
+    public JPanel getContentPane() {
         return this.contentPanel;
     }
 

@@ -38,7 +38,7 @@ public class AttendEventFrame extends JFrame {
         return (String) eventCombo.getSelectedItem();
     }
 
-    public JPanel getPanel() {
+    public JPanel getContentPane() {
         return contentPane;
     }
 }

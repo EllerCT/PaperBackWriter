@@ -31,7 +31,7 @@ public class EmployeeMenuFrame extends JFrame {
         manageEventsButton.addActionListener(action);
     }
 
-    public JPanel getPanel() {
+    public JPanel getContentPane() {
         return contentPane;
     }
 }

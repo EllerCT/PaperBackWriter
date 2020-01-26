@@ -9,7 +9,7 @@ public class ProductsMenuFrame extends JFrame {
     private JButton resourcesButton;
     private JButton browseProductsButton;
 
-    public JPanel getPane() {
+    public JPanel getContentPane() {
         return contentPane;
     }
 

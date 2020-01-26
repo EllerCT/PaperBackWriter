@@ -12,7 +12,7 @@ public class ResourcesFrame extends JFrame {
     private JButton addButton;
     private JButton removeButton;
 
-    public JPanel getPanel() {
+    public JPanel getContentPane() {
         return this.contentPane;
     }
 

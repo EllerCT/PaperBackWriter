@@ -43,7 +43,7 @@ public class AddEmployeeFrame extends JFrame {
         newEmployeePointsField.setText("0");
     }
 
-    public JPanel getPanel() {
+    public JPanel getContentPane() {
         return contentPane;
     }
 }

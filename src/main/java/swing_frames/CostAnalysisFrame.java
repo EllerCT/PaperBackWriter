@@ -46,7 +46,7 @@ public class CostAnalysisFrame extends JFrame {
     private JTextField spiritsCost;
     private JComboBox spiritsType;
 
-    public JPanel getPanel() {
+    public JPanel getContentPane() {
         return this.contentPane;
     }
 

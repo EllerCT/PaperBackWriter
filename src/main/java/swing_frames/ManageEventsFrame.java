@@ -40,7 +40,7 @@ public class ManageEventsFrame extends JFrame {
     }
 
 
-    public JPanel getPanel() {
+    public JPanel getContentPane() {
         return contentPane;
     }
 }

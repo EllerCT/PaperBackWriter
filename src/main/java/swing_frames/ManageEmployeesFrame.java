@@ -40,7 +40,7 @@ public class ManageEmployeesFrame extends JFrame {
         return employeeTable;
     }
 
-    public JPanel getPanel(){
+    public JPanel getContentPane() {
         return contentPane;
     }
 }
