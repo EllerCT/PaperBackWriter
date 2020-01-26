@@ -4,6 +4,8 @@ import data_structures.*;
 import io_pipes.ResourceIOPipe;
 import listeners.cost_analysis.CalculateCostsListener;
 import listeners.cost_analysis.SubmitProductListener;
+import listeners.employee_manager.AddEmployeeRowListener;
+import listeners.general.RemoveRowListener;
 import listeners.time_clock.ClockInOutListener;
 import managers.EmployeeManager;
 import managers.EventManager;
@@ -17,24 +19,22 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Vector;
 
 public class UserInterfaceController {
+
     private EmployeeManager employeeManager;
     private EventManager eventManager;
     private ResourceManager resourceManager;
     private ProductManager productManager;
 
-    /**
-     * Open a new window with given content and close behavior.
-     *
-     * @param contentPanel  A JPanel representing a content panel
-     * @param closeBehavior An integer such as JFrame.DISPOSE_ON_CLOSE
-     * @return - The JFrame created
-     */
-    public static JFrame showNewWindow(JPanel contentPanel, int closeBehavior) {
-        JFrame frame = new JFrame();
-        frame.setContentPane(contentPanel);
+
+    private JFrame showNewWindow(JFrame frame, int closeBehavior) {
+        // This is ridiculous but necessary
+        frame.setContentPane(frame.getContentPane());
         frame.setDefaultCloseOperation(closeBehavior);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -62,7 +62,7 @@ public class UserInterfaceController {
         MainMenuFrame mainMenu = new MainMenuFrame();
         mainMenu.setEmployeeButtonAction(e -> mainEmployeeMenu());
         mainMenu.setProductButtonAction(e -> mainProductsMenu());
-        showNewWindow(mainMenu.getContentPane(), JFrame.EXIT_ON_CLOSE)
+        showNewWindow(mainMenu, JFrame.EXIT_ON_CLOSE)
                 .setTitle("Paper Back Writer");
     }
 
@@ -72,7 +72,7 @@ public class UserInterfaceController {
         menu.setBrowseProductsButtonListener(e -> productBrowser());
         menu.setCostAnalysisButtonListener(e -> costAnalysis());
         menu.setResourcesButtonListener(e -> resources());
-        showNewWindow(menu.getPane(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(menu, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Products");
     }
 
@@ -86,9 +86,9 @@ public class UserInterfaceController {
         table.getColumn("Type").setCellEditor(new DefaultCellEditor(resourceTypeDropdown));
         resources.setSaveButtonListener(e -> saveResourcesTable(resources));
         resources.setAddButtonListener(e -> addRowToResources(resources));
-        resources.setRemoveButtonListener(e -> removeRowsFrom(table));
-        resources.setCancelButtonListener(e -> closePanel(resources.getPanel()));
-        showNewWindow(resources.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        resources.setRemoveButtonListener(new RemoveRowListener(table));
+        resources.setCancelButtonListener(e -> resources.dispose());
+        showNewWindow(resources, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW Resources");
     }
 
@@ -110,7 +110,7 @@ public class UserInterfaceController {
         }
         resourceManager.setResourceMap(resourceMap);
         resourceManager.storeResources();
-        closePanel(resourcesFrame.getPanel());
+        resourcesFrame.dispose();
     }
 
     private void addRowToResources(ResourcesFrame resourcesFrame) {
@@ -121,14 +121,14 @@ public class UserInterfaceController {
     private void productBrowser() {
         productManager.fetchProducts();
         ProductBrowserFrame productBrowser = new ProductBrowserFrame();
-        productBrowser.setCloseButtonListener(e -> closePanel(productBrowser.getContentPanel()));
+        productBrowser.setCloseButtonListener(e -> productBrowser.dispose());
         productBrowser.setViewButtonListener(e -> viewProduct(productBrowser));
         productBrowser.setEnableGradingButtonListener(e -> enableGrading(productBrowser));
 
         DefaultTableModel model = makeProductModel();
         productBrowser.setProductsTableModel(model);
 
-        showNewWindow(productBrowser.getContentPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(productBrowser, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW Product Browser");
     }
 
@@ -181,18 +181,18 @@ public class UserInterfaceController {
         viewer.setSpiritUnits(selectedProduct.getSpiritAmount());
         viewer.setSpiritsCost(selectedProduct.getSpiritCost());
 
-        showNewWindow(viewer.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(viewer, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Product Viewer");
     }
 
     private void onProductViewerOK(boolean grading, Product selected, ProductViewerFrame viewer) {
         if (!grading) {
-            closePanel(viewer.getPanel());
+            viewer.dispose();
         } else {
             selected.setGrade(viewer.getGrade());
             productManager.updateProduct(selected);
             productManager.storeProducts();
-            closePanel(viewer.getPanel());
+            viewer.dispose();
         }
     }
 
@@ -222,10 +222,10 @@ public class UserInterfaceController {
 
         // Set button behavior
         costAnalysis.setCalculateButtonAction(new CalculateCostsListener(costAnalysis, analyser));
-        costAnalysis.setCancelButtonAction(e -> closePanel(costAnalysis.getPanel()));
+        costAnalysis.setCancelButtonAction(e -> costAnalysis.dispose());
         costAnalysis.setSubmitButtonAction(new SubmitProductListener(costAnalysis, productManager));
 
-        showNewWindow(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(costAnalysis, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Cost Analysis");
     }
 
@@ -267,14 +267,14 @@ public class UserInterfaceController {
         menu.setManageEventsAction(e -> manageEvents());
         menu.setTimeClockAction(e -> timeClock());
         menu.setViewEmployeesAction(e -> viewEmployees());
-        showNewWindow(menu.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(menu, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Employee");
     }
 
     public void timeClock() {
         TimeClockFrame clockFrame = new TimeClockFrame();
         clockFrame.setClockInOutAction(new ClockInOutListener(clockFrame, employeeManager));
-        showNewWindow(clockFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(clockFrame, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Clock");
     }
 
@@ -285,9 +285,9 @@ public class UserInterfaceController {
             AddEmployeeFrame addEmployeeFrame = new AddEmployeeFrame();
 
             addEmployeeFrame.setConfirmAction(e -> onAddNewEmployee(addEmployeeFrame));
-            addEmployeeFrame.setCloseAction(e -> ((JFrame) addEmployeeFrame.getPanel().getRootPane().getParent()).dispose());
+            addEmployeeFrame.setCloseAction(e -> addEmployeeFrame.dispose());
 
-            showNewWindow(addEmployeeFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+            showNewWindow(addEmployeeFrame, JFrame.DISPOSE_ON_CLOSE)
                     .setTitle("PBW - Add Employee");
         }
     }
@@ -312,7 +312,7 @@ public class UserInterfaceController {
         AttendEventFrame attendEventFrame = new AttendEventFrame();
         buildEventBox(attendEventFrame);
         attendEventFrame.setConfirmAction(e -> onConfirmAttend(attendEventFrame));
-        showNewWindow(attendEventFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+        showNewWindow(attendEventFrame, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Event Attendance");
     }
 
@@ -353,31 +353,16 @@ public class UserInterfaceController {
 
     public void viewEmployees() {
         ManageEmployeesFrame manageEmployeesFrame = new ManageEmployeesFrame();
+        JTable table = manageEmployeesFrame.getTable();
         if (getConfirmation()) {
             manageEmployeesFrame.setTableModel(makeEmployeeModel());
-            manageEmployeesFrame.setNewRowAction(e -> newEmployeeTableRow(manageEmployeesFrame));
-            manageEmployeesFrame.setRemoveRowAction(e -> removeRowsFrom(manageEmployeesFrame.getTable()));
+            manageEmployeesFrame.setNewRowAction(new AddEmployeeRowListener(table));
+            manageEmployeesFrame.setRemoveRowAction(new RemoveRowListener(table));
             manageEmployeesFrame.setOKAction(e -> saveEmployeesTable(manageEmployeesFrame));
-            manageEmployeesFrame.setCancelAction(e -> closePanel(manageEmployeesFrame.getPanel()));
-            showNewWindow(manageEmployeesFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+            manageEmployeesFrame.setCancelAction(e -> manageEmployeesFrame.dispose());
+            showNewWindow(manageEmployeesFrame, JFrame.DISPOSE_ON_CLOSE)
                     .setTitle("PBW - View Employee Infomration");
         }
-    }
-
-    private void removeRowsFrom(JTable table) {
-        if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
-            int[] rows = table.getSelectedRows();
-            Arrays.sort(rows); // So the index shrinks from last first.
-            for (int i = rows.length - 1; i >= 0; i--) {
-                ((DefaultTableModel) table.getModel()).removeRow(i);
-            }
-        }
-    }
-
-    private void newEmployeeTableRow(ManageEmployeesFrame manageEmployeesFrame) {
-        DefaultTableModel table = (DefaultTableModel) manageEmployeesFrame.getModel();
-        String now = LocalDateTime.now().toString();
-        table.addRow(new String[]{"", "", "0:0", "0:0", "0", now, now});
     }
 
     private TableModel makeResourceModel() {
@@ -454,19 +439,19 @@ public class UserInterfaceController {
         }
         employeeManager.setEmployeeMap(newMap);
         employeeManager.storeEmployees();
-        closePanel(manageEmployeesFrame.getPanel());
+        manageEmployeesFrame.dispose();
     }
 
     public void manageEvents() {
         ManageEventsFrame manageEventsFrame = new ManageEventsFrame();
-
+        JTable table = manageEventsFrame.getTable();
         if (getConfirmation()) {
             manageEventsFrame.setTableModel(makeEventModel(manageEventsFrame));
             manageEventsFrame.setNewRowAction(e -> newEventTableRow(manageEventsFrame));
-            manageEventsFrame.setRemoveRowAction(e -> removeRowsFrom(manageEventsFrame.getTable()));
-            manageEventsFrame.setCancelAction(e -> closePanel(manageEventsFrame.getPanel()));
+            manageEventsFrame.setRemoveRowAction(new RemoveRowListener(table));
+            manageEventsFrame.setCancelAction(e -> manageEventsFrame.dispose());
             manageEventsFrame.setConfirmAction(e -> saveEventsTable(manageEventsFrame));
-            showNewWindow(manageEventsFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
+            showNewWindow(manageEventsFrame, JFrame.DISPOSE_ON_CLOSE)
                     .setTitle("PBW - Manage Event Information");
         }
     }
@@ -489,7 +474,7 @@ public class UserInterfaceController {
         }
         eventManager.setEventMap(newEventMap);
         eventManager.storeEvents();
-        closePanel(manageEventsFrame.getPanel());
+        manageEventsFrame.dispose();
     }
 
     private void newEventTableRow(ManageEventsFrame frame) {
