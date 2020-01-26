@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class CostAnalysisFrame {
+public class CostAnalysisFrame extends JFrame {
     private JPanel contentPane;
     private JTextField totalCost;
     private JTextField name;
