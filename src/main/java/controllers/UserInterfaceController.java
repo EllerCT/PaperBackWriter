@@ -2,6 +2,7 @@ package controllers;
 
 import data_structures.*;
 import io_pipes.ResourceIOPipe;
+import listeners.time_clock.ClockInOutListener;
 import managers.EmployeeManager;
 import managers.EventManager;
 import managers.ProductManager;
@@ -9,7 +10,6 @@ import managers.ResourceManager;
 import swing_frames.*;
 import utilities.CostAnalyser;
 import utilities.Settings;
-import utilities.TimeClock;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -385,33 +385,11 @@ public class UserInterfaceController {
 
     public void timeClock() {
         TimeClockFrame clockFrame = new TimeClockFrame();
-        clockFrame.setClockInOutAction(e -> clockInOut(clockFrame));
+        clockFrame.setClockInOutAction(new ClockInOutListener(clockFrame, employeeManager));
         showNewWindow(clockFrame.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Clock");
     }
 
-    private void clockInOut(TimeClockFrame clockFrame) {
-        TimeClock clock = new TimeClock();
-        if (!clockFrame.getPin().isBlank()){
-            PinNumber pin = new PinNumber(clockFrame.getPin());
-            Employee matchingEmployee = employeeManager.getEmployee(pin);
-            if(matchingEmployee != null){
-                boolean clockedIn = clock.checkIfClockedIn(matchingEmployee);
-                if (clockedIn){
-                    clock.clockOut(matchingEmployee);
-                    JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked out.");
-                } else {
-                    clock.clockIn(matchingEmployee);
-                    JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked in.");
-                }
-                employeeManager.updateEmployee(matchingEmployee);
-                employeeManager.storeEmployees();
-            } else {
-                JOptionPane.showMessageDialog(null, "Unknown Pin");
-            }
-            clockFrame.clearPin();
-        }
-    }
 
     public void addEmployee() {
         if (getConfirmation()) {
