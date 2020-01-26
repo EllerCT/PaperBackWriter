@@ -8,8 +8,6 @@ import utilities.Settings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.List;
 
 public class SubmitProductListener implements ActionListener {
     private CostAnalysisFrame costAnalysis;
@@ -22,7 +20,7 @@ public class SubmitProductListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        calculateCosts(costAnalysis, new CostAnalyzer());
+        new CalculateCostsListener(costAnalysis, new CostAnalyzer()).actionPerformed(null);
         Product product = new Product();
         product.setId(costAnalysis.getIdNumber());
         product.setName(costAnalysis.getName());
@@ -66,74 +64,5 @@ public class SubmitProductListener implements ActionListener {
         Settings.store("currentID", newCurrentID);
         Settings.save();
         costAnalysis.dispose();
-    }
-
-    //TODO: Remove duplicate code... somehow
-    private void calculateCosts(CostAnalysisFrame costAnalysis, CostAnalyzer analyser) {
-        double paperCost = analyser.calculateSingleCostFor(
-                costAnalysis.getPaperUnits(),
-                costAnalysis.getCurrentPaperType());
-        costAnalysis.setPaperCost(String.format("%.2f", paperCost));
-
-        double boardCost = analyser.calculateSingleCostFor(
-                costAnalysis.getBoardUnits(),
-                costAnalysis.getCurrentBoardType());
-        costAnalysis.setBoardCost(String.format("%.2f", boardCost));
-
-        double threadCost = analyser.calculateSingleCostFor(
-                costAnalysis.getThreadUnits(),
-                costAnalysis.getCurrentThreadType());
-        costAnalysis.setThreadCost(String.format("%.2f", threadCost));
-
-        double glueCost = analyser.calculateSingleCostFor(
-                costAnalysis.getGlueUnits(),
-                costAnalysis.getCurrentGlueType());
-        costAnalysis.setGlueCost(String.format("%.2f", glueCost));
-
-        double decorativePaperCost = analyser.calculateSingleCostFor(
-                costAnalysis.getDecoratedPaperUnits(),
-                costAnalysis.getCurrentDecoratedPaperType());
-        costAnalysis.setDecoratedPaperCost(String.format("%.2f", decorativePaperCost));
-
-        double endBandCost = analyser.calculateSingleCostFor(
-                costAnalysis.getEndBandUnits(),
-                costAnalysis.getCurrentEndBandType());
-        costAnalysis.setEndBandCost(String.format("%.2f", endBandCost));
-
-        double spineCost = analyser.calculateSingleCostFor(
-                costAnalysis.getSpineUnits(),
-                costAnalysis.getCurrentSpineType());
-        costAnalysis.setSpineCost(String.format("%.2f", spineCost));
-
-        // 'other' costs is a manual field to account for the unaccountable.
-        // There is no 'other' resource fitting the pattern for the analyser.
-        // This should be a formatted text field but at present I can't wrangle
-        // one into working. Doing so would remove all logic from this initialization.
-        // TODO: Introduce formatted text field to remove need for checks in controller.
-        double otherCost;
-        if (costAnalysis.getOtherCost().isEmpty() || !costAnalysis.getOtherCost().matches(".*[0-9]*.*")) {
-            otherCost = 0.0;
-        } else {
-            otherCost = Double.parseDouble(costAnalysis.getOtherCost());
-        }
-
-        double spiritsCost = analyser.calculateSingleCostFor(
-                costAnalysis.getSpiritsUnits(),
-                costAnalysis.getCurrentSpiritsType());
-        costAnalysis.setSpiritsCost(String.format("%.2f", spineCost));
-
-        List<Double> subtotals = Arrays.asList(
-                paperCost,
-                spineCost,
-                boardCost,
-                glueCost,
-                threadCost,
-                endBandCost,
-                decorativePaperCost,
-                otherCost,
-                spiritsCost);
-
-        double totalCost = analyser.calculateTotalCostFromSubtotals(subtotals);
-        costAnalysis.setTotalCost(totalCost);
     }
 }
