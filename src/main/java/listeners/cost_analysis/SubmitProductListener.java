@@ -11,11 +11,11 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
-public class SaveNewProductListener implements ActionListener {
+public class SubmitProductListener implements ActionListener {
     private CostAnalysisFrame costAnalysis;
     private ProductManager productManager;
 
-    public SaveNewProductListener(CostAnalysisFrame costAnalysisFrame, ProductManager productManager) {
+    public SubmitProductListener(CostAnalysisFrame costAnalysisFrame, ProductManager productManager) {
         this.productManager = productManager;
         this.costAnalysis = costAnalysisFrame;
     }

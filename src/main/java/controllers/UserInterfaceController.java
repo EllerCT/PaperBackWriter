@@ -2,7 +2,7 @@ package controllers;
 
 import data_structures.*;
 import io_pipes.ResourceIOPipe;
-import listeners.cost_analysis.SaveNewProductListener;
+import listeners.cost_analysis.SubmitProductListener;
 import listeners.time_clock.ClockInOutListener;
 import managers.EmployeeManager;
 import managers.EventManager;
@@ -222,7 +222,7 @@ public class UserInterfaceController {
         // Set button behavior
         costAnalysis.setCalculateButtonAction(e -> calculateCosts(costAnalysis, analyser));
         costAnalysis.setCancelButtonAction(e -> closePanel(costAnalysis.getPanel()));
-        costAnalysis.setSubmitButtonAction(new SaveNewProductListener(costAnalysis, productManager));
+        costAnalysis.setSubmitButtonAction(new SubmitProductListener(costAnalysis, productManager));
 
         showNewWindow(costAnalysis.getPanel(), JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Cost Analysis");
