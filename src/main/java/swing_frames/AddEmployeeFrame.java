@@ -3,7 +3,7 @@ package swing_frames;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class AddEmployeeFrame {
+public class AddEmployeeFrame extends JFrame {
     private JButton closeButton;
     private JButton confirmButton;
     private JTextField newEmployeePinField;

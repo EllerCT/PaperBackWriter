@@ -3,7 +3,7 @@ package swing_frames;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class ProductsMenuFrame {
+public class ProductsMenuFrame extends JFrame {
     private JPanel contentPane;
     private JButton costAnalysisButton;
     private JButton resourcesButton;

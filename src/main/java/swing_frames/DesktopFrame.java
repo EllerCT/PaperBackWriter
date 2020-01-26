@@ -2,7 +2,7 @@ package swing_frames;
 
 import javax.swing.*;
 
-public class DesktopFrame {
+public class DesktopFrame extends JFrame {
     private JPanel contentPane;
     private JDesktopPane desktopPane;
 

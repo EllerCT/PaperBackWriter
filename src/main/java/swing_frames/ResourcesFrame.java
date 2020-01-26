@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 
-public class ResourcesFrame {
+public class ResourcesFrame extends JFrame {
     private JPanel contentPane;
     private JTable resourceTable;
     private JButton saveButton;

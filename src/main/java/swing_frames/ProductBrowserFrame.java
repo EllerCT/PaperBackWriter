@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 
-public class ProductBrowserFrame {
+public class ProductBrowserFrame extends JFrame {
     private JPanel contentPanel;
     private JButton viewButton;
     private JButton closeButton;

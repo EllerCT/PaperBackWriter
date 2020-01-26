@@ -3,7 +3,7 @@ package swing_frames;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class ProductViewerFrame {
+public class ProductViewerFrame extends JFrame {
     private JPanel contentPane;
     private JTextField totalCost;
     private JTextField name;
