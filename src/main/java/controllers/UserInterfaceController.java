@@ -4,8 +4,15 @@ import data_structures.*;
 import io_pipes.ResourceIOPipe;
 import listeners.cost_analysis.CalculateCostsListener;
 import listeners.cost_analysis.SubmitProductListener;
-import listeners.employee_manager.AddEmployeeRowListener;
+import listeners.employee_browser.AddEmployeeRowListener;
+import listeners.employee_browser.SaveEmployeeTableListener;
+import listeners.event_browser.AddEventRowListener;
+import listeners.event_browser.SaveEventTableListener;
+import listeners.event_confirmation.ConfirmAttendanceListener;
 import listeners.general.RemoveRowListener;
+import listeners.product_viewer.ViewerFinishedListener;
+import listeners.resource_browser.AddResourceRowListener;
+import listeners.resource_browser.SaveResourceTableListener;
 import listeners.time_clock.ClockInOutListener;
 import managers.EmployeeManager;
 import managers.EventManager;
@@ -35,6 +42,7 @@ public class UserInterfaceController {
     private JFrame showNewWindow(JFrame frame, int closeBehavior) {
         // This is ridiculous but necessary
         frame.setContentPane(frame.getContentPane());
+
         frame.setDefaultCloseOperation(closeBehavior);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -50,7 +58,7 @@ public class UserInterfaceController {
         this.resourceManager = manager;
     }
 
-    public void setEmployeeManager(EmployeeManager manager){
+    public void setEmployeeManager(EmployeeManager manager) {
         this.employeeManager = manager;
     }
 
@@ -84,38 +92,12 @@ public class UserInterfaceController {
         JComboBox<ResourceType> resourceTypeDropdown = new JComboBox<>(ResourceType.values());
         // Use that combo box to edit cells in the 'Type' column.
         table.getColumn("Type").setCellEditor(new DefaultCellEditor(resourceTypeDropdown));
-        resources.setSaveButtonListener(e -> saveResourcesTable(resources));
-        resources.setAddButtonListener(e -> addRowToResources(resources));
+        resources.setSaveButtonListener(new SaveResourceTableListener(resources, resourceManager));
+        resources.setAddButtonListener(e -> new AddResourceRowListener(table));
         resources.setRemoveButtonListener(new RemoveRowListener(table));
         resources.setCancelButtonListener(e -> resources.dispose());
         showNewWindow(resources, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW Resources");
-    }
-
-    private void saveResourcesTable(ResourcesFrame resourcesFrame) {
-        DefaultTableModel model = (DefaultTableModel) resourcesFrame.getModel();
-        Vector<Vector> rows = model.getDataVector();
-        HashMap<String, Resource> resourceMap = new HashMap<>();
-        for (Vector row : rows) {
-            ResourceType type = (ResourceType) row.get(0);
-            String name = (String) row.get(1);
-            String unitSize = (String) row.get(2);
-            double unitPrice = Double.parseDouble((String) row.get(3));
-
-            Resource resource = new Resource(name);
-            resource.setType(type);
-            resource.setUnitSize(unitSize);
-            resource.setPricePerUnit(unitPrice);
-            resourceMap.put(Resource.generateKeyFor(resource), resource);
-        }
-        resourceManager.setResourceMap(resourceMap);
-        resourceManager.storeResources();
-        resourcesFrame.dispose();
-    }
-
-    private void addRowToResources(ResourcesFrame resourcesFrame) {
-        DefaultTableModel tableModel = (DefaultTableModel) resourcesFrame.getModel();
-        tableModel.addRow(new Object[]{ResourceType.PAPER, "", "", 0.0, 0});
     }
 
     private void productBrowser() {
@@ -145,7 +127,14 @@ public class UserInterfaceController {
         Product selectedProduct = productManager.getProductMap().get(id);
 
         ProductViewerFrame viewer = new ProductViewerFrame();
-        viewer.setOkButtonListener(e -> onProductViewerOK(grading, selectedProduct, viewer));
+        viewer.setOkButtonListener(new ViewerFinishedListener(viewer, productManager, grading, selectedProduct));
+        fillViewerFields(viewer, selectedProduct);
+
+        showNewWindow(viewer, JFrame.DISPOSE_ON_CLOSE)
+                .setTitle("PBW - Product Viewer");
+    }
+
+    private void fillViewerFields(ProductViewerFrame viewer, Product selectedProduct) {
         viewer.setIdNumber(selectedProduct.getId());
         viewer.setName(selectedProduct.getName());
         viewer.setProductType(selectedProduct.getType());
@@ -180,20 +169,6 @@ public class UserInterfaceController {
         viewer.setSpiritsType(selectedProduct.getSpiritType());
         viewer.setSpiritUnits(selectedProduct.getSpiritAmount());
         viewer.setSpiritsCost(selectedProduct.getSpiritCost());
-
-        showNewWindow(viewer, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW - Product Viewer");
-    }
-
-    private void onProductViewerOK(boolean grading, Product selected, ProductViewerFrame viewer) {
-        if (!grading) {
-            viewer.dispose();
-        } else {
-            selected.setGrade(viewer.getGrade());
-            productManager.updateProduct(selected);
-            productManager.storeProducts();
-            viewer.dispose();
-        }
     }
 
     private DefaultTableModel makeProductModel() {
@@ -256,8 +231,6 @@ public class UserInterfaceController {
     }
 
 
-
-
     public void mainEmployeeMenu() {
         employeeManager.fetchEmployees();
         eventManager.fetchEvents();
@@ -311,37 +284,9 @@ public class UserInterfaceController {
     public void attendEvent() {
         AttendEventFrame attendEventFrame = new AttendEventFrame();
         buildEventBox(attendEventFrame);
-        attendEventFrame.setConfirmAction(e -> onConfirmAttend(attendEventFrame));
+        attendEventFrame.setConfirmAction(new ConfirmAttendanceListener(attendEventFrame, employeeManager, eventManager));
         showNewWindow(attendEventFrame, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Event Attendance");
-    }
-
-    private void onConfirmAttend(AttendEventFrame attendEventFrame) {
-        Event selected = eventManager.getEvent(attendEventFrame.getSelectedEvent());
-        if (!attendEventFrame.getPin().isBlank()) {
-            PinNumber pin = new PinNumber(attendEventFrame.getPin());
-            Employee employee = employeeManager.getEmployee(pin);
-            if (employee != null) {
-                if (selected.getEventConfirmationCode().isBlank()) {
-                    System.out.println(selected.getEventConfirmationCode());
-                    creditEvent(selected, employee);
-                } else {
-                    String code = JOptionPane.showInputDialog("Please enter the confirmation code for this event.");
-                    if (code == null) code = "";
-                    if (code.equals(selected.getEventConfirmationCode()))
-                        creditEvent(selected, employee);
-                    else JOptionPane.showMessageDialog(null, "That code was incorrect.");
-                }
-            }
-            attendEventFrame.clearPin();
-        }
-    }
-
-    private void creditEvent(Event selected, Employee employee) {
-        int pointTotal = employee.getPoints() + selected.getPointWorth();
-        employee.setPoints(pointTotal);
-        employeeManager.updateEmployee(employee);
-        JOptionPane.showMessageDialog(null, "Confirmed attendance of " + employee.getName() + " to event: " + selected.getEventName());
     }
 
     private void buildEventBox(AttendEventFrame attendEventFrame) {
@@ -358,7 +303,7 @@ public class UserInterfaceController {
             manageEmployeesFrame.setTableModel(makeEmployeeModel());
             manageEmployeesFrame.setNewRowAction(new AddEmployeeRowListener(table));
             manageEmployeesFrame.setRemoveRowAction(new RemoveRowListener(table));
-            manageEmployeesFrame.setOKAction(e -> saveEmployeesTable(manageEmployeesFrame));
+            manageEmployeesFrame.setOKAction(new SaveEmployeeTableListener(manageEmployeesFrame, employeeManager));
             manageEmployeesFrame.setCancelAction(e -> manageEmployeesFrame.dispose());
             showNewWindow(manageEmployeesFrame, JFrame.DISPOSE_ON_CLOSE)
                     .setTitle("PBW - View Employee Infomration");
@@ -409,77 +354,18 @@ public class UserInterfaceController {
         return employeeTableModel;
     }
 
-    private void closePanel(JPanel panel) {
-        ((JFrame) panel.getRootPane().getParent()).dispose();
-    }
-
-    private void saveEmployeesTable(ManageEmployeesFrame manageEmployeesFrame) {
-        DefaultTableModel tableModel = (DefaultTableModel) manageEmployeesFrame.getModel();
-        Vector<Vector> rows = tableModel.getDataVector();
-        HashMap<PinNumber, Employee> newMap = new HashMap<>();
-        for (Vector<String> row : rows) {
-            Employee newEmployee = new Employee();
-            PinNumber pin = new PinNumber(row.get(0));
-            newEmployee.setPin(pin);
-            String name = row.get(1);
-            newEmployee.setName(name);
-            String hoursPart = row.get(2).split(":")[0];
-            String minutesPart = row.get(2).split(":")[1];
-            Duration weeklyHours = Duration.ofHours(Integer.parseInt(hoursPart)).plusMinutes(Integer.parseInt(minutesPart));
-            newEmployee.setWeeklyHours(weeklyHours);
-            hoursPart = row.get(3).split(":")[0];
-            minutesPart = row.get(3).split(":")[1];
-            Duration totalHours = Duration.ofHours(Integer.parseInt(hoursPart)).plusMinutes(Integer.parseInt(minutesPart));
-            newEmployee.setTotalHours(totalHours);
-            int points = Integer.parseInt(row.get(4));
-            newEmployee.setPoints(points);
-            newEmployee.setLastClockInTime(LocalDateTime.parse(row.get(5)));
-            newEmployee.setLastClockOutTime(LocalDateTime.parse(row.get(6)));
-            newMap.put(pin, newEmployee);
-        }
-        employeeManager.setEmployeeMap(newMap);
-        employeeManager.storeEmployees();
-        manageEmployeesFrame.dispose();
-    }
-
     public void manageEvents() {
         ManageEventsFrame manageEventsFrame = new ManageEventsFrame();
         JTable table = manageEventsFrame.getTable();
         if (getConfirmation()) {
             manageEventsFrame.setTableModel(makeEventModel(manageEventsFrame));
-            manageEventsFrame.setNewRowAction(e -> newEventTableRow(manageEventsFrame));
+            manageEventsFrame.setNewRowAction(new AddEventRowListener(table));
             manageEventsFrame.setRemoveRowAction(new RemoveRowListener(table));
             manageEventsFrame.setCancelAction(e -> manageEventsFrame.dispose());
-            manageEventsFrame.setConfirmAction(e -> saveEventsTable(manageEventsFrame));
+            manageEventsFrame.setConfirmAction(new SaveEventTableListener(manageEventsFrame, eventManager));
             showNewWindow(manageEventsFrame, JFrame.DISPOSE_ON_CLOSE)
                     .setTitle("PBW - Manage Event Information");
         }
-    }
-
-    private void saveEventsTable(ManageEventsFrame manageEventsFrame) {
-        DefaultTableModel tableModel = (DefaultTableModel) manageEventsFrame.getModel();
-        Vector<Vector> rows = tableModel.getDataVector();
-        HashMap<String, Event> newEventMap = new HashMap<>();
-        for (Vector<String> row : rows) {
-            String code = row.get(0);
-            String name = row.get(1);
-            int worth = Integer.parseInt(row.get(2));
-            String desc = row.get(3);
-            String confirmation = row.get(4);
-            Event event = new Event(code, worth);
-            event.setEventName(name);
-            event.setEventDescription(desc);
-            event.setEventConfirmationCode(confirmation);
-            newEventMap.put(code, event);
-        }
-        eventManager.setEventMap(newEventMap);
-        eventManager.storeEvents();
-        manageEventsFrame.dispose();
-    }
-
-    private void newEventTableRow(ManageEventsFrame frame) {
-        DefaultTableModel table = (DefaultTableModel) frame.getModel();
-        table.addRow(new String[]{"NewCode", "", "0", "", ""});
     }
 
     private TableModel makeEventModel(ManageEventsFrame manageEventsFrame) {
