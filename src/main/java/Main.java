@@ -50,10 +50,7 @@ public class Main {
         productManager.setProductIOPipe(productPipe);
 
         UserInterfaceController uic = new UserInterfaceController();
-        uic.setEmployeeManager(employeeManager);
-        uic.setEventManager(eventManager);
-        uic.setResourceManager(resourceManager);
-        uic.setProductManager(productManager);
-        uic.mainMenu();
+
+        uic.Launch(eventManager, employeeManager, productManager, resourceManager);
     }
 }
