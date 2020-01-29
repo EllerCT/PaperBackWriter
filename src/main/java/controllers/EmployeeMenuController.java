@@ -58,7 +58,7 @@ public class EmployeeMenuController {
                 .setTitle("PBW - Employee");
     }
 
-    private void timeClock() {
+    public void timeClock() {
         TimeClockFrame clockFrame = new TimeClockFrame();
         clockFrame.setClockInOutAction(new ClockInOutListener(clockFrame, employeeManager));
         showNewWindow(clockFrame, JFrame.DISPOSE_ON_CLOSE)
@@ -66,7 +66,7 @@ public class EmployeeMenuController {
     }
 
 
-    private void addEmployee() {
+    public void addEmployee() {
         if (new Security().getAuthorization()) {
             employeeManager.fetchEmployees();
             AddEmployeeFrame addEmployeeFrame = new AddEmployeeFrame();
@@ -79,7 +79,7 @@ public class EmployeeMenuController {
         }
     }
 
-    private void onAddNewEmployee(AddEmployeeFrame addEmployeeFrame) {
+    public void onAddNewEmployee(AddEmployeeFrame addEmployeeFrame) {
         Employee employee = new Employee();
         employee.setPin(new PinNumber(addEmployeeFrame.getNewEmployeePin()));
         employee.setName(addEmployeeFrame.getNewEmployeeName());
@@ -95,7 +95,7 @@ public class EmployeeMenuController {
         addEmployeeFrame.clearFields();
     }
 
-    private void attendEvent() {
+    public void attendEvent() {
         AttendEventFrame attendEventFrame = new AttendEventFrame();
         buildEventBox(attendEventFrame);
         attendEventFrame.setConfirmAction(new ConfirmAttendanceListener(attendEventFrame, employeeManager, eventManager));
@@ -110,7 +110,7 @@ public class EmployeeMenuController {
 
     }
 
-    private void viewEmployees() {
+    public void viewEmployees() {
         ManageEmployeesFrame manageEmployeesFrame = new ManageEmployeesFrame();
         JTable table = manageEmployeesFrame.getTable();
         if (new Security().getAuthorization()) {
@@ -149,7 +149,7 @@ public class EmployeeMenuController {
         return employeeTableModel;
     }
 
-    private void manageEvents() {
+    public void manageEvents() {
         ManageEventsFrame manageEventsFrame = new ManageEventsFrame();
         JTable table = manageEventsFrame.getTable();
         if (new Security().getAuthorization()) {

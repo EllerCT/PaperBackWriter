@@ -3,6 +3,7 @@ package utilities;
 import java.io.*;
 import java.util.Properties;
 
+//TODO: Turn this into a singleton?
 public class Settings {
 
     private static Properties paperBackProperties = new Properties();

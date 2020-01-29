@@ -2,6 +2,7 @@ package utilities;
 
 import javax.swing.*;
 
+//TODO: Should this be here?
 public class Security {
 
     public boolean getAuthorization() {

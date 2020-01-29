@@ -56,7 +56,7 @@ public class ProductMenuController {
                 .setTitle("PBW - Products");
     }
 
-    private void resources() {
+    public void resources() {
         ResourcesFrame resources = new ResourcesFrame();
         JTable table = resources.getTable();
         table.setModel(makeResourceModel());
@@ -72,7 +72,7 @@ public class ProductMenuController {
                 .setTitle("PBW Resources");
     }
 
-    private void productBrowser() {
+    public void productBrowser() {
         productManager.fetchProducts();
         ProductBrowserFrame productBrowser = new ProductBrowserFrame();
         productBrowser.setCloseButtonListener(e -> productBrowser.dispose());
@@ -92,7 +92,7 @@ public class ProductMenuController {
         }
     }
 
-    private void viewProduct(ProductBrowserFrame productBrowser) {
+    public void viewProduct(ProductBrowserFrame productBrowser) {
         boolean grading = productBrowser.isGrading();
         int selectedRow = productBrowser.getProductsTable().getSelectedRow();
         String id = (String) productBrowser.getProductsTableModel().getValueAt(selectedRow, 0);
@@ -106,6 +106,7 @@ public class ProductMenuController {
                 .setTitle("PBW - Product Viewer");
     }
 
+    //TODO: If this can be done with a loop, do it
     private void fillViewerFields(ProductViewerFrame viewer, Product selectedProduct) {
         viewer.setIdNumber(selectedProduct.getId());
         viewer.setName(selectedProduct.getName());
@@ -160,7 +161,7 @@ public class ProductMenuController {
         return model;
     }
 
-    private void costAnalysis() {
+    public void costAnalysis() {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyzer analyser = new CostAnalyzer();
         costAnalysis.setIdNumber(Product.getCurrentID());

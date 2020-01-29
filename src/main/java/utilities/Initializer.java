@@ -15,6 +15,7 @@ import managers.ResourceManager;
 
 import java.io.File;
 
+//TODO: Make this a bit more readable?
 public class Initializer {
     public void run() {
         Settings.load();
@@ -29,6 +30,7 @@ public class Initializer {
         IOSystem resourceIOS = new LocalFileIOSystem();
         IOSystem productIOS = new LocalFileIOSystem();
 
+        //TODO: Make these configurable?
         File employeeFile = new File("EmployeeCSV.csv");
         File eventsFile = new File("EventCSV.csv");
         File resourcesFile = new File("Resources.csv");
