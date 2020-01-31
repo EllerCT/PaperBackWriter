@@ -27,20 +27,27 @@ public class ClockInOutListener implements ActionListener {
             PinNumber pin = new PinNumber(clockFrame.getPin());
             Employee matchingEmployee = employeeManager.getEmployee(pin);
             if (matchingEmployee != null) {
-                boolean clockedIn = clock.checkIfClockedIn(matchingEmployee);
-                if (clockedIn) {
-                    clock.clockOut(matchingEmployee);
-                    JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked out.");
-                } else {
-                    clock.clockIn(matchingEmployee);
-                    JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked in.");
+                if (checkIfShouldContinueWith(matchingEmployee)) {
+                    boolean clockedIn = clock.checkIfClockedIn(matchingEmployee);
+                    if (clockedIn) {
+                        clock.clockOut(matchingEmployee);
+                        JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked out.");
+                    } else {
+                        clock.clockIn(matchingEmployee);
+                        JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked in.");
+                    }
+                    employeeManager.updateEmployee(matchingEmployee);
+                    employeeManager.storeEmployees();
                 }
-                employeeManager.updateEmployee(matchingEmployee);
-                employeeManager.storeEmployees();
             } else {
                 JOptionPane.showMessageDialog(null, "Unknown Pin");
             }
             clockFrame.clearPin();
         }
+    }
+
+    private boolean checkIfShouldContinueWith(Employee employee) {
+        int result = JOptionPane.showConfirmDialog(null, String.format("Please confirm:%nName:%s. Pin: %s.\nIs this you?", employee.getName(), employee.getPin()), "Confirmation", JOptionPane.YES_NO_OPTION);
+        return result == JOptionPane.YES_OPTION;
     }
 }
