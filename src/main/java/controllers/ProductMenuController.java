@@ -65,7 +65,7 @@ public class ProductMenuController {
         // Use that combo box to edit cells in the 'Type' column.
         table.getColumn("Type").setCellEditor(new DefaultCellEditor(resourceTypeDropdown));
         resources.setSaveButtonListener(new SaveResourceTableListener(resources, resourceManager));
-        resources.setAddButtonListener(e -> new AddResourceRowListener(table));
+        resources.setAddButtonListener(new AddResourceRowListener(table));
         resources.setRemoveButtonListener(new RemoveRowListener(table));
         resources.setCancelButtonListener(e -> resources.dispose());
         showNewWindow(resources, JFrame.DISPOSE_ON_CLOSE)
