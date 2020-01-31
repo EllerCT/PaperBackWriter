@@ -21,6 +21,10 @@ public class Settings {
     }
 
     public static void save() {
+        save(null);
+    }
+
+    public static void save(String comments) {
         try {
             OutputStream out;
             if (!new File("config.properties)").exists()) {
@@ -28,7 +32,7 @@ public class Settings {
                 new File("config.properties").createNewFile();
             }
             out = new FileOutputStream("config.properties");
-            paperBackProperties.store(out, null);
+            paperBackProperties.store(out, comments);
             out.close();
         } catch (IOException e) {
             System.err.println("Failed to write settings.");

@@ -13,12 +13,21 @@ import managers.EventManager;
 import managers.ProductManager;
 import managers.ResourceManager;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.util.Map;
 
 //TODO: Make this a bit more readable?
 public class Initializer {
     public void run() {
         Settings.load();
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {
+        }
+        setFontSize(18);
         Product.setCurrentID(Settings.read("currentID", "0"));
         EmployeeManager employeeManager = new EmployeeManager();
         EventManager eventManager = new EventManager();
@@ -55,5 +64,14 @@ public class Initializer {
         UserInterfaceController uic = new UserInterfaceController();
 
         uic.Launch(eventManager, employeeManager, productManager, resourceManager);
+    }
+
+    private void setFontSize(Integer fontSize) {
+        UIDefaults defaults = UIManager.getLookAndFeelDefaults();
+        for (Map.Entry<Object, Object> entry : defaults.entrySet()) {
+            if (entry.getKey().toString().contains(".font")) {
+                defaults.put(entry.getKey(), new Font("Dialog", Font.PLAIN, fontSize));
+            }
+        }
     }
 }
