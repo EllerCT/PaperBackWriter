@@ -71,7 +71,7 @@ public class CalculateCostsListener implements ActionListener {
         double spiritsCost = analyzer.calculateSingleCostFor(
                 costAnalysis.getSpiritsUnits(),
                 costAnalysis.getCurrentSpiritsType());
-        costAnalysis.setSpiritsCost(String.format("%.2f", spineCost));
+        costAnalysis.setSpiritsCost(String.format("%.2f", spiritsCost));
 
         List<Double> subtotals = Arrays.asList(
                 paperCost,
