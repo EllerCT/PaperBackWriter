@@ -14,7 +14,6 @@ public class EventManager
     public EventManager() { eventMap = new HashMap<String, Event>(); }
 
     public void fetchEvents() {
-        eventMap.clear();
         eventMap.putAll(eventIOPipe.load());
     }
 

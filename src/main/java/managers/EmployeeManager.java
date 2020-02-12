@@ -16,7 +16,6 @@ public class EmployeeManager {
     }
 
     public void fetchEmployees(){
-        employeeMap.clear();
         employeeMap.putAll(employeeIOPipe.load());
     }
 

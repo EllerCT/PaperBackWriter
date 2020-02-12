@@ -16,7 +16,6 @@ public class ProductManager {
     }
 
     public void fetchProducts() {
-        productMap.clear();
         productMap.putAll(productIOPipe.load());
     }
 

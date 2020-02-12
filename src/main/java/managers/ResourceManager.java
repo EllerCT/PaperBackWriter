@@ -15,7 +15,6 @@ public class ResourceManager {
     }
 
     public void fetchResources() {
-        resourceMap.clear();
         resourceMap.putAll(resourceIOPipe.load());
     }
 
