@@ -1,6 +1,6 @@
 package data_structures;
 
-//TODO: Make this more extensible
+@Deprecated
 public class Product {
     private static String currentID = "0";
     private String id;
