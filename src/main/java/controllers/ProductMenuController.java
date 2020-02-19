@@ -4,6 +4,7 @@ import data_structures.Product;
 import data_structures.Resource;
 import data_structures.ResourceType;
 import io_pipes.ResourceIOPipe;
+import listeners.cost_analysis.AddMaterialListener;
 import listeners.cost_analysis.CalculateCostsListener;
 import listeners.cost_analysis.SubmitProductListener;
 import listeners.general.RemoveRowListener;
@@ -13,15 +14,14 @@ import listeners.resource_browser.SaveResourceTableListener;
 import managers.ProductManager;
 import managers.ResourceManager;
 import swing_frames.*;
+import ui_components.MaterialPane;
 import utilities.CostAnalyzer;
 import utilities.Security;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
 
 public class ProductMenuController {
@@ -165,42 +165,15 @@ public class ProductMenuController {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyzer analyser = new CostAnalyzer();
         costAnalysis.setIdNumber(Product.getCurrentID());
-        // Populate combo boxes.
-        populateCostAnalysisComboBoxes(costAnalysis);
-
+        costAnalysis.addMaterialPane(new MaterialPane());
         // Set button behavior
         costAnalysis.setCalculateButtonAction(new CalculateCostsListener(costAnalysis, analyser));
         costAnalysis.setCancelButtonAction(e -> costAnalysis.dispose());
         costAnalysis.setSubmitButtonAction(new SubmitProductListener(costAnalysis, productManager));
+        costAnalysis.setAddMaterialButtonAction(new AddMaterialListener(costAnalysis));
 
         showNewWindow(costAnalysis, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Cost Analysis");
-    }
-
-    private void populateCostAnalysisComboBoxes(CostAnalysisFrame costAnalysis) {
-        HashMap<ResourceType, List<Resource>> boxOptions = new HashMap<>();
-        // One combo box per resource type, so one list of options per box.
-        for (ResourceType type : ResourceType.values()) {
-            boxOptions.put(type, new ArrayList<>());
-            // Add an empty resource 'None' by default.
-            Resource defaultEmptyResource = new Resource("None");
-            defaultEmptyResource.setType(type);
-            boxOptions.get(type).add(defaultEmptyResource);
-        }
-        HashMap<String, Resource> resourceMap = (HashMap<String, Resource>) resourceManager.getResourceMap();
-        // Sort the resources into the list corresponding to that resource's type.
-        for (Resource resourceEntry : resourceMap.values()) {
-            boxOptions.get(resourceEntry.getType()).add(resourceEntry);
-        }
-        // Send them to each relevant combo box
-        costAnalysis.setBoardTypeOptions(boxOptions.get(ResourceType.BOARD));
-        costAnalysis.setPaperTypeOptions(boxOptions.get(ResourceType.PAPER));
-        costAnalysis.setGlueTypeOptions(boxOptions.get(ResourceType.GLUE));
-        costAnalysis.setSpineTypeOptions(boxOptions.get(ResourceType.SPINE));
-        costAnalysis.setThreadTypeOptions(boxOptions.get(ResourceType.THREAD));
-        costAnalysis.setDecoratedPaperTypeOptions(boxOptions.get(ResourceType.DECORATED_PAPER));
-        costAnalysis.setEndBandTypeOptions(boxOptions.get(ResourceType.END_BAND));
-        costAnalysis.setSpiritsTypeOptions(boxOptions.get(ResourceType.MINERAL_SPIRIT));
     }
 
 

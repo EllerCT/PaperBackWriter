@@ -205,18 +205,25 @@
           <text value="Calculate"/>
         </properties>
       </component>
-      <scrollpane id="ac701" binding="materialsPane">
+      <scrollpane id="ac701" binding="scrollPane">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <minimum-size width="450" height="50"/>
-            <preferred-size width="450" height="100"/>
+            <preferred-size width="450" height="300"/>
           </grid>
         </constraints>
         <properties>
           <verticalScrollBarPolicy value="22"/>
         </properties>
         <border type="line"/>
-        <children/>
+        <children>
+          <grid id="caeea" class="javax.swing.Box" binding="materialsBox" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
       </scrollpane>
       <component id="1a81b" class="javax.swing.JButton" binding="addMaterialButton">
         <constraints>

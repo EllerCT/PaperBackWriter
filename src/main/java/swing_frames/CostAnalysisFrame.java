@@ -21,28 +21,27 @@ public class CostAnalysisFrame extends JFrame {
     private JTextField grade;
     private JTextArea productDescription;
     private JButton calculateButton;
-    private JScrollPane materialsPane;
+    private JScrollPane scrollPane;
     private JButton addMaterialButton;
+    private Box materialsBox;
+
+    public void createUIComponents() {
+        materialsBox = Box.createVerticalBox();
+    }
 
     public JPanel getContentPane() {
         return this.contentPane;
     }
 
     public void addMaterialPane(MaterialPane materialPane) {
-        materialsPane.add(materialPane);
-        materialsPane.revalidate();
-        materialsPane.updateUI();
-    }
-
-    public void removeMaterialPane(MaterialPane materialPane) {
-        materialsPane.remove(materialPane);
-        materialsPane.revalidate();
-        materialsPane.updateUI();
+        materialsBox.add(materialPane);
+        materialsBox.revalidate();
+        materialsBox.repaint();
     }
 
     public List<Material> getMaterials() {
         ArrayList<Material> materials = new ArrayList<>();
-        for (Component component : materialsPane.getComponents()) {
+        for (Component component : materialsBox.getComponents()) {
             if (component instanceof MaterialPane) {
                 materials.add(((MaterialPane) component).getMaterial());
             }
