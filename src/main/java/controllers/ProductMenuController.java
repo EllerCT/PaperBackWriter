@@ -49,6 +49,7 @@ public class ProductMenuController {
 
     public void mainProductsMenu() {
         resourceManager.fetchResources();
+        modularProductManager.fetch();
         ProductsMenuFrame menu = new ProductsMenuFrame();
         menu.setBrowseProductsButtonListener(e -> productBrowser());
         menu.setCostAnalysisButtonListener(e -> costAnalysis());
@@ -141,6 +142,7 @@ public class ProductMenuController {
     }
 
     public void costAnalysis() {
+        modularProductManager.fetch(); // Maybe unnecessary but better safe.
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyzer analyser = new CostAnalyzer();
         costAnalysis.setIdNumber(ModularProduct.getCurrentID());
