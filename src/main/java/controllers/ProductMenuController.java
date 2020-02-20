@@ -14,7 +14,6 @@ import listeners.resource_browser.SaveResourceTableListener;
 import managers.ProductManager;
 import managers.ResourceManager;
 import swing_frames.*;
-import ui_components.MaterialPane;
 import utilities.CostAnalyzer;
 import utilities.Security;
 
@@ -165,12 +164,12 @@ public class ProductMenuController {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyzer analyser = new CostAnalyzer();
         costAnalysis.setIdNumber(Product.getCurrentID());
-        costAnalysis.addMaterialPane(new MaterialPane());
+
         // Set button behavior
         costAnalysis.setCalculateButtonAction(new CalculateCostsListener(costAnalysis, analyser));
         costAnalysis.setCancelButtonAction(e -> costAnalysis.dispose());
         costAnalysis.setSubmitButtonAction(new SubmitProductListener(costAnalysis, productManager));
-        costAnalysis.setAddMaterialButtonAction(new AddMaterialListener(costAnalysis));
+        costAnalysis.setAddMaterialButtonAction(new AddMaterialListener(costAnalysis, resourceManager.getResourceMap(), new CostAnalyzer()));
 
         showNewWindow(costAnalysis, JFrame.DISPOSE_ON_CLOSE)
                 .setTitle("PBW - Cost Analysis");
