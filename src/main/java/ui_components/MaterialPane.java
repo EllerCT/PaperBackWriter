@@ -22,9 +22,7 @@ public class MaterialPane extends JPanel {
     private JButton removeMaterial;
 
     public MaterialPane() {
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        this.setPreferredSize(new Dimension(500, PREFERRED_HEIGHT));
-        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, PREFERRED_HEIGHT));
+        configureThis();
         typeOfMaterial = new JComboBox<>(ResourceType.values());
         configureTypeOfMaterialBox();
         specificMaterial = new JComboBox<>();
@@ -35,11 +33,21 @@ public class MaterialPane extends JPanel {
         configurePriceOfMaterial();
         removeMaterial = new JButton("Remove");
         configureRemoveMaterial();
+        addComponents();
+    }
+
+    private void addComponents() {
         this.add(typeOfMaterial);
         this.add(specificMaterial);
         this.add(numberOfMaterial);
         this.add(priceOfMaterial);
         this.add(removeMaterial);
+    }
+
+    private void configureThis() {
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        this.setPreferredSize(new Dimension(500, PREFERRED_HEIGHT));
+        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, PREFERRED_HEIGHT));
     }
 
     public JComboBox<ResourceType> getTypeOfMaterial() {
@@ -78,7 +86,6 @@ public class MaterialPane extends JPanel {
     private void configureSpecificMaterialBox() {
         specificMaterial.setPreferredSize(new Dimension(150, PREFERRED_HEIGHT));
         specificMaterial.addItem(new Resource("None"));
-
     }
 
     private void configureNumberOfMaterialField() {
