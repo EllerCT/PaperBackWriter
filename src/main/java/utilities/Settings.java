@@ -5,10 +5,19 @@ import java.util.Properties;
 
 //TODO: Turn this into a singleton?
 public class Settings {
+    private static final Settings instance = new Settings();
 
-    private static Properties paperBackProperties = new Properties();
+    private Properties paperBackProperties = new Properties();
 
-    public static void load() {
+    // Singleton, cannot be called
+    private Settings() {
+    }
+
+    public static Settings getInstance() {
+        return instance;
+    }
+
+    public void load() {
         try {
             InputStream in = new FileInputStream("config.properties");
             paperBackProperties.load(in);
@@ -20,11 +29,11 @@ public class Settings {
         }
     }
 
-    public static void save() {
+    public void save() {
         save(null);
     }
 
-    public static void save(String comments) {
+    public void save(String comments) {
         try {
             OutputStream out;
             if (!new File("config.properties)").exists()) {
@@ -43,14 +52,14 @@ public class Settings {
         }
     }
 
-    public static String read(String name, String defaultValue) {
+    public String read(String name, String defaultValue) {
         if (defaultValue == null || defaultValue.isBlank()) {
             return paperBackProperties.getProperty(name);
         }
         return paperBackProperties.getProperty(name, defaultValue);
     }
 
-    public static void store(String name, String value) {
+    public void store(String name, String value) {
         paperBackProperties.setProperty(name, value);
     }
 
