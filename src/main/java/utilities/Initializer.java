@@ -21,14 +21,14 @@ import java.util.Map;
 //TODO: Make this a bit more readable?
 public class Initializer implements Runnable {
     public void run() {
-        Settings.load();
+        Settings.getInstance().load();
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
         setFontSize(18);
-        ModularProduct.setCurrentID(Settings.read("currentID", "0"));
+        ModularProduct.setCurrentID(Settings.getInstance().read("currentID", "0"));
         EmployeeManager employeeManager = new EmployeeManager();
         EventManager eventManager = new EventManager();
         ResourceManager resourceManager = new ResourceManager();

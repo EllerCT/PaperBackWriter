@@ -1,6 +1,9 @@
 package controllers;
 
-import data_structures.*;
+import data_structures.Material;
+import data_structures.ModularProduct;
+import data_structures.Resource;
+import data_structures.ResourceType;
 import io_pipes.ResourceIOPipe;
 import listeners.cost_analysis.AddMaterialListener;
 import listeners.cost_analysis.CalculateCostsListener;
@@ -140,7 +143,7 @@ public class ProductMenuController {
     public void costAnalysis() {
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyzer analyser = new CostAnalyzer();
-        costAnalysis.setIdNumber(Product.getCurrentID());
+        costAnalysis.setIdNumber(ModularProduct.getCurrentID());
 
         // Set button behavior
         costAnalysis.setCalculateButtonAction(new CalculateCostsListener(costAnalysis, analyser));

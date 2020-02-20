@@ -5,6 +5,7 @@ import data_structures.ModularProduct;
 import managers.ModularProductManager;
 import swing_frames.CostAnalysisFrame;
 import utilities.CostAnalyzer;
+import utilities.Settings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +34,10 @@ public class SubmitProductListener implements ActionListener {
         product.setMaterials(materials);
         modularProductManager.add(product);
         modularProductManager.store();
+        Integer updatedID = Integer.parseInt(ModularProduct.getCurrentID()) + 1;
+        Settings.getInstance().store("currentID", updatedID.toString());
+        ModularProduct.setCurrentID(updatedID.toString());
+        Settings.getInstance().save();
         costAnalysis.dispose();
     }
 }
