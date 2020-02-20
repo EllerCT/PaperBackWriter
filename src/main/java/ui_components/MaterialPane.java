@@ -57,6 +57,7 @@ public class MaterialPane extends JPanel {
 
     public void setMaterialTypeChangedAction(ActionListener listener) {
         typeOfMaterial.addActionListener(listener);
+        typeOfMaterial.setSelectedIndex(0);
     }
 
     public void setUpdatePriceAction(UpdatePriceListener listener) {
