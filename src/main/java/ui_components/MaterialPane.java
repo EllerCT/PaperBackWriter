@@ -123,7 +123,9 @@ public class MaterialPane extends JPanel {
     }
 
     public Material getMaterial() {
-        if (!specificMaterial.getSelectedItem().equals(new Resource("None"))) {
+        Resource emptyResource = new Resource("None");
+        emptyResource.setType((ResourceType) typeOfMaterial.getSelectedItem());
+        if (specificMaterial.getSelectedItem().equals(emptyResource)) {
             return null;
         } else {
             Material material = new Material(
