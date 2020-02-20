@@ -14,7 +14,6 @@ import java.util.Map;
 //TODO: Generify IOPipe load/saves.
 public abstract class AbstractIOPipe implements IOPipe {
 
-    protected static CSVFormat CSV_FORMAT;
     protected IOSystem ioSystem;
 
     public AbstractIOPipe(IOSystem ioSystem) {
@@ -25,7 +24,7 @@ public abstract class AbstractIOPipe implements IOPipe {
     public Map load() {
         try {
             InputStreamReader isr = new InputStreamReader(ioSystem.read());
-            CSVParser csvParser = new CSVParser(isr, CSV_FORMAT.withSkipHeaderRecord());
+            CSVParser csvParser = new CSVParser(isr, this.getCsvFormat().withSkipHeaderRecord());
             HashMap<Object, Object> map = new HashMap<>();
             List<CSVRecord> records = csvParser.getRecords();
             if (records.size() > 0) {
@@ -47,7 +46,7 @@ public abstract class AbstractIOPipe implements IOPipe {
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteStream));
-            CSVPrinter printer = new CSVPrinter(writer, CSV_FORMAT);
+            CSVPrinter printer = new CSVPrinter(writer, this.getCsvFormat());
             for (Object entry : map.values()) {
                 translateToRecord(printer, entry);
             }
@@ -60,15 +59,19 @@ public abstract class AbstractIOPipe implements IOPipe {
         }
     }
 
-    protected abstract Object keyMakerFor(Object object);
+    protected abstract CSVFormat getCsvFormat();
 
-    protected abstract void setCsvFormat(CSVFormat format);
+    protected abstract Object keyMakerFor(Object object);
 
     protected abstract Object translateFromRecord(CSVRecord record);
 
-    protected abstract void translateToRecord(CSVPrinter printer, Object object);
+    protected abstract void translateToRecord(CSVPrinter printer, Object object) throws IOException;
 
-    protected void makeNewFile(String name) throws IOException {
-
+    protected void makeNewFile() throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        CSVPrinter printer = new CSVPrinter(new BufferedWriter(new OutputStreamWriter(outputStream)), getCsvFormat().withSkipHeaderRecord());
+        printer.printRecords();
+        printer.flush();
+        ioSystem.write(outputStream.toByteArray());
     }
 }
