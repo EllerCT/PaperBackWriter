@@ -49,6 +49,16 @@ public class CostAnalysisFrame extends JFrame {
         return materials;
     }
 
+    public ArrayList<Double> getMaterialCosts() {
+        ArrayList<Double> costs = new ArrayList<>();
+        for (Component component : materialsBox.getComponents()) {
+            if (component instanceof MaterialPane) {
+                costs.add(((MaterialPane) component).getPrice());
+            }
+        }
+        return costs;
+    }
+
     public String getProductDescription() {
         return productDescription.getText();
     }
@@ -105,4 +115,6 @@ public class CostAnalysisFrame extends JFrame {
     public void setCalculateButtonAction(ActionListener action) {
         calculateButton.addActionListener(action);
     }
+
+
 }
