@@ -29,6 +29,10 @@ public abstract class AbstractManager {
         return this.map;
     }
 
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
     public abstract void addNew(Object object);
 
     public abstract void remove(Object object);
