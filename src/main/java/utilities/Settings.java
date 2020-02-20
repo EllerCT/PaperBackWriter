@@ -36,7 +36,7 @@ public class Settings {
     public void save(String comments) {
         try {
             OutputStream out;
-            if (!new File("config.properties)").exists()) {
+            if (!new File("config.properties").exists()) {
                 System.err.println("Creating new config file");
                 new File("config.properties").createNewFile();
             }
