@@ -5,6 +5,7 @@ import utilities.CostAnalyzer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class CalculateCostsListener implements ActionListener {
 
@@ -18,6 +19,8 @@ public class CalculateCostsListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //TODO: Implement
+        ArrayList<Double> costs = costAnalysis.getMaterialCosts();
+        Double totalCost = analyzer.calculateTotalCostFromSubtotals(costs);
+        costAnalysis.setTotalCost(totalCost);
     }
 }
