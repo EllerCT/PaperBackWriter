@@ -19,12 +19,10 @@ import java.io.File;
 import java.util.Map;
 
 //TODO: Make this a bit more readable?
-public class Initializer {
+public class Initializer implements Runnable {
     public void run() {
         Settings.load();
-        ///////////////////////////////////// TEMPORARY
-        new Updater().updateProductFile(); // TODO: Remove
-        ///////////////////////////////////// TEMPORARY
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {

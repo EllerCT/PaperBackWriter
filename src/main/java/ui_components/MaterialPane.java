@@ -86,6 +86,7 @@ public class MaterialPane extends JPanel {
     private void configureSpecificMaterialBox() {
         specificMaterial.setPreferredSize(new Dimension(150, PREFERRED_HEIGHT));
         specificMaterial.addItem(new Resource("None"));
+        specificMaterial.setSelectedIndex(0);
     }
 
     private void configureNumberOfMaterialField() {
@@ -136,8 +137,8 @@ public class MaterialPane extends JPanel {
             return null;
         } else {
             Material material = new Material(
-                    (String) typeOfMaterial.getSelectedItem(),
-                    (String) specificMaterial.getSelectedItem(),
+                    typeOfMaterial.getSelectedItem().toString(),
+                    specificMaterial.getSelectedItem().toString(),
                     (Integer) numberOfMaterial.getValue());
             material.setCost((Double) priceOfMaterial.getValue());
             return material;

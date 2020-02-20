@@ -43,7 +43,10 @@ public class CostAnalysisFrame extends JFrame {
         ArrayList<Material> materials = new ArrayList<>();
         for (Component component : materialsBox.getComponents()) {
             if (component instanceof MaterialPane) {
-                materials.add(((MaterialPane) component).getMaterial());
+                Material fromPane = ((MaterialPane) component).getMaterial();
+                if (fromPane != null) {
+                    materials.add(fromPane);
+                }
             }
         }
         return materials;

@@ -39,7 +39,6 @@ public class ReadOnlyMaterialPane extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setPreferredSize(new Dimension(500, PREFERRED_HEIGHT));
         this.setMaximumSize(new Dimension(Integer.MAX_VALUE, PREFERRED_HEIGHT));
-        addComponents();
     }
 
     private void addComponents() {

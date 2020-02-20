@@ -54,17 +54,30 @@ public class ModularProductIOPipe extends AbstractIOPipe {
         modularProduct.setDescription(record.get("Description"));
         modularProduct.setGrade(record.get("Grade"));
         modularProduct.setTotalCost(record.get("Total Cost"));
-        String materialsRecordString = record.get("Materials");
+        // The CSVParser only seperates records with a \n
+        String materialsRecordString = record.get("Materials").replace("|", "\n");
         List<CSVRecord> materialRecords = new ArrayList<>();
         try {
-            materialRecords = CSVParser.parse(materialsRecordString, MATERIAL_FORMAT).getRecords();
+            CSVParser parser = CSVParser.parse(materialsRecordString, MATERIAL_FORMAT.withSkipHeaderRecord());
+            materialRecords = parser.getRecords();
+            parser.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         List<Material> materials = new ArrayList<>();
         for (CSVRecord materialRecord : materialRecords) {
-            Material currentMaterial = new Material(materialRecord.get("Type"), materialRecord.get("Specific"), Integer.parseInt(materialRecord.get("Number")));
-            currentMaterial.setCost(Double.parseDouble(materialRecord.get("Cost")));
+            Integer number = 0;
+            try {
+                number = Integer.parseInt(materialRecord.get("Number"));
+            } catch (Exception ignored) {
+            }
+            Material currentMaterial = new Material(materialRecord.get("Type"), materialRecord.get("Specific"), number);
+            Double cost = 0.0;
+            try {
+                cost = Double.parseDouble(materialRecord.get("Cost"));
+            } catch (Exception ignored) {
+            }
+            currentMaterial.setCost(cost);
             materials.add(currentMaterial);
         }
         modularProduct.setMaterials(materials);

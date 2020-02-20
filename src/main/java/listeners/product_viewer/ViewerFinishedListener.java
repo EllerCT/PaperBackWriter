@@ -1,7 +1,7 @@
 package listeners.product_viewer;
 
-import data_structures.Product;
-import managers.ProductManager;
+import data_structures.ModularProduct;
+import managers.ModularProductManager;
 import swing_frames.ProductViewerFrame;
 
 import java.awt.event.ActionEvent;
@@ -11,10 +11,10 @@ public class ViewerFinishedListener implements ActionListener {
 
     private ProductViewerFrame viewer;
     private boolean grading;
-    private ProductManager productManager;
-    private Product selected;
+    private ModularProductManager productManager;
+    private ModularProduct selected;
 
-    public ViewerFinishedListener(ProductViewerFrame viewer, ProductManager productManager, boolean grading, Product selected) {
+    public ViewerFinishedListener(ProductViewerFrame viewer, ModularProductManager productManager, boolean grading, ModularProduct selected) {
         this.viewer = viewer;
         this.grading = grading;
         this.productManager = productManager;
@@ -27,8 +27,8 @@ public class ViewerFinishedListener implements ActionListener {
             viewer.dispose();
         } else {
             selected.setGrade(viewer.getGrade());
-            productManager.updateProduct(selected);
-            productManager.storeProducts();
+            productManager.add(selected);
+            productManager.store();
             viewer.dispose();
         }
     }
