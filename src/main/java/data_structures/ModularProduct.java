@@ -33,6 +33,10 @@ public class ModularProduct {
         currentID = current;
     }
 
+    public static String generateKeyFor(ModularProduct modularProduct) {
+        return modularProduct.getId();
+    }
+
     public List<Material> getMaterials() {
         return materials;
     }
