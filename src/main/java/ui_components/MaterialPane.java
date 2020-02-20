@@ -76,6 +76,7 @@ public class MaterialPane extends JPanel {
     }
 
     private void configureNumberOfMaterialField() {
+        numberOfMaterial.setMinimumSize(new Dimension(30, PREFERRED_HEIGHT));
         numberOfMaterial.setPreferredSize(new Dimension(60, PREFERRED_HEIGHT));
         numberOfMaterial.setMaximumSize(new Dimension(80, PREFERRED_HEIGHT));
         numberOfMaterial.setHorizontalAlignment(JTextField.CENTER);
@@ -85,7 +86,9 @@ public class MaterialPane extends JPanel {
     }
 
     private void configurePriceOfMaterial() {
+        priceOfMaterial.setMinimumSize(new Dimension(40, PREFERRED_HEIGHT));
         priceOfMaterial.setPreferredSize(new Dimension(100, PREFERRED_HEIGHT));
+        priceOfMaterial.setMaximumSize(new Dimension(200, PREFERRED_HEIGHT));
         priceOfMaterial.setHorizontalAlignment(JTextField.RIGHT);
         priceOfMaterial.setEditable(false);
     }
