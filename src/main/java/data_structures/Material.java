@@ -1,35 +1,27 @@
 package data_structures;
 
 public class Material {
-    private ResourceType type;
-    private Resource specific;
+    private String type;
+    private String specific;
     private Integer number;
     private Double cost;
 
-    public Material(ResourceType type, Resource specific, Integer number) {
+    public Material(String type, String specific, Integer number) {
         this.type = type;
         this.specific = specific;
         this.number = number;
         this.cost = 0.0;
     }
 
-    public Material(ResourceType type) {
-        this.type = type;
-        this.specific = new Resource("None");
-        this.specific.setType(type);
-        this.number = 0;
-        this.cost = 0.00;
-    }
-
-    public ResourceType getResourceType() {
+    public String getResourceType() {
         return type;
     }
 
-    public Resource getSpecific() {
+    public String getSpecific() {
         return specific;
     }
 
-    public void setSpecific(Resource resource) {
+    public void setSpecific(String resource) {
         this.specific = resource;
     }
 

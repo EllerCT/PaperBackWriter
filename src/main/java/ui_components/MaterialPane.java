@@ -129,8 +129,8 @@ public class MaterialPane extends JPanel {
             return null;
         } else {
             Material material = new Material(
-                    (ResourceType) typeOfMaterial.getSelectedItem(),
-                    (Resource) specificMaterial.getSelectedItem(),
+                    (String) typeOfMaterial.getSelectedItem(),
+                    (String) specificMaterial.getSelectedItem(),
                     (Integer) numberOfMaterial.getValue());
             material.setCost((Double) priceOfMaterial.getValue());
             return material;
