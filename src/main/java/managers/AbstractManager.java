@@ -33,9 +33,12 @@ public abstract class AbstractManager {
         this.map = map;
     }
 
-    public abstract void addNew(Object object);
+    public Object getFromKey(Object key) {
+        return map.get(key);
+    }
+
+    public abstract void add(Object object);
 
     public abstract void remove(Object object);
 
-    public abstract void update(Object object);
 }

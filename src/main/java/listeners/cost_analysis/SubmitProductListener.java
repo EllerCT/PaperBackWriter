@@ -1,24 +1,38 @@
 package listeners.cost_analysis;
 
-import managers.ProductManager;
+import data_structures.Material;
+import data_structures.ModularProduct;
+import managers.ModularProductManager;
 import swing_frames.CostAnalysisFrame;
 import utilities.CostAnalyzer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class SubmitProductListener implements ActionListener {
     private CostAnalysisFrame costAnalysis;
-    private ProductManager productManager;
+    private ModularProductManager modularProductManager;
 
-    public SubmitProductListener(CostAnalysisFrame costAnalysisFrame, ProductManager productManager) {
-        this.productManager = productManager;
+    public SubmitProductListener(CostAnalysisFrame costAnalysisFrame, ModularProductManager productManager) {
+        this.modularProductManager = productManager;
         this.costAnalysis = costAnalysisFrame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         new CalculateCostsListener(costAnalysis, new CostAnalyzer()).actionPerformed(null);
-        // TODO: Implement
+        ModularProduct product = new ModularProduct();
+        product.setId(costAnalysis.getIdNumber());
+        product.setName(costAnalysis.getName());
+        product.setDate(costAnalysis.getDate());
+        product.setDescription(costAnalysis.getProductDescription());
+        product.setType(costAnalysis.getProductType());
+        product.setTotalCost(costAnalysis.getTotalCost());
+        ArrayList<Material> materials = new ArrayList<>(costAnalysis.getMaterials());
+        product.setMaterials(materials);
+        modularProductManager.add(product);
+        modularProductManager.store();
+        costAnalysis.dispose();
     }
 }

@@ -2,7 +2,7 @@ package controllers;
 
 import managers.EmployeeManager;
 import managers.EventManager;
-import managers.ProductManager;
+import managers.ModularProductManager;
 import managers.ResourceManager;
 import swing_frames.MainMenuFrame;
 
@@ -24,10 +24,11 @@ public class UserInterfaceController {
     public void Launch(
             EventManager eventManager,
             EmployeeManager employeeManager,
-            ProductManager productManager,
+            ModularProductManager modularProductManager,
             ResourceManager resourceManager) {
+
         EmployeeMenuController employeeMenuController = new EmployeeMenuController(employeeManager, eventManager);
-        ProductMenuController productMenuController = new ProductMenuController(productManager, resourceManager);
+        ProductMenuController productMenuController = new ProductMenuController(modularProductManager, resourceManager);
 
         MainMenuFrame mainMenu = new MainMenuFrame();
         mainMenu.setEmployeeButtonAction(e -> employeeMenuController.mainEmployeeMenu());
