@@ -6,8 +6,11 @@ import data_structures.ResourceType;
 import listeners.cost_analysis.UpdatePriceListener;
 
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 public class MaterialPane extends JPanel {
     private final int PREFERRED_HEIGHT = 50;
@@ -57,12 +60,15 @@ public class MaterialPane extends JPanel {
 
     public void setMaterialTypeChangedAction(ActionListener listener) {
         typeOfMaterial.addActionListener(listener);
-        typeOfMaterial.setSelectedIndex(0);
+        // Fire once
+        listener.actionPerformed(null);
     }
 
     public void setUpdatePriceAction(UpdatePriceListener listener) {
         specificMaterial.addActionListener(listener);
         numberOfMaterial.addPropertyChangeListener("value", listener);
+        // Fire once
+        listener.actionPerformed(null);
     }
 
     private void configureTypeOfMaterialBox() {
@@ -91,6 +97,13 @@ public class MaterialPane extends JPanel {
         priceOfMaterial.setMaximumSize(new Dimension(200, PREFERRED_HEIGHT));
         priceOfMaterial.setHorizontalAlignment(JTextField.RIGHT);
         priceOfMaterial.setEditable(false);
+
+        NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
+        moneyFormat.setMaximumFractionDigits(2);
+        NumberFormatter formatter = new NumberFormatter(moneyFormat);
+        formatter.setAllowsInvalid(false);
+
+        priceOfMaterial.setFormatterFactory(new DefaultFormatterFactory(formatter));
     }
 
     private void configureRemoveMaterial() {
@@ -105,8 +118,9 @@ public class MaterialPane extends JPanel {
         });
     }
 
-    // TODO: Figure out how to generify this to a Controller
-
+    public Double getPrice() {
+        return (Double) priceOfMaterial.getValue();
+    }
 
     public Material getMaterial() {
         if (!specificMaterial.getSelectedItem().equals(new Resource("None"))) {
