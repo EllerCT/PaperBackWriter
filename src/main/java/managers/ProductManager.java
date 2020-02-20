@@ -6,6 +6,7 @@ import io_pipes.ProductIOPipe;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class ProductManager {
 
     private ProductIOPipe productIOPipe;
