@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModularProduct {
+    private static String currentID = "0";
     private List<Material> materials;
     private String id;
     private String name;
@@ -22,6 +23,14 @@ public class ModularProduct {
         this.grade = "";
         this.totalCost = "0.00";
         this.materials = new ArrayList<>();
+    }
+
+    public static String getCurrentID() {
+        return currentID;
+    }
+
+    public static void setCurrentID(String current) {
+        currentID = current;
     }
 
     public List<Material> getMaterials() {
