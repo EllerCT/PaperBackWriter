@@ -5,7 +5,7 @@ import ui_components.ReadOnlyMaterialPane;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class ProductViewerFrame extends JFrame {
+public class ProductViewerFrame extends JInternalFrame {
     private JPanel contentPane;
     private JTextField totalCost;
     private JTextField name;

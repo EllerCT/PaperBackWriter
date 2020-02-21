@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CostAnalysisFrame extends JFrame {
+public class CostAnalysisFrame extends JInternalFrame {
     private JPanel contentPane;
     private JTextField totalCost;
     private JTextField name;

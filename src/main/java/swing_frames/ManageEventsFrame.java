@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionListener;
 
-public class ManageEventsFrame extends JFrame {
+public class ManageEventsFrame extends JInternalFrame {
     private JPanel contentPane;
     private JButton confirmButton;
     private JButton cancelButton;

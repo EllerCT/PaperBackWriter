@@ -3,7 +3,7 @@ package swing_frames;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class TimeClockFrame extends JFrame {
+public class TimeClockFrame extends JInternalFrame {
     private JTextField pinField;
     private JButton clockInOutButton;
     private JLabel pinLabel;

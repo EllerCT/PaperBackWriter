@@ -9,12 +9,16 @@ import listeners.cost_analysis.AddMaterialListener;
 import listeners.cost_analysis.CalculateCostsListener;
 import listeners.cost_analysis.SubmitProductListener;
 import listeners.general.RemoveRowListener;
+import listeners.product_browser.OpenViewProductListener;
 import listeners.product_viewer.ViewerFinishedListener;
 import listeners.resource_browser.AddResourceRowListener;
 import listeners.resource_browser.SaveResourceTableListener;
 import managers.ModularProductManager;
 import managers.ResourceManager;
-import swing_frames.*;
+import swing_frames.CostAnalysisFrame;
+import swing_frames.ProductBrowserFrame;
+import swing_frames.ProductViewerFrame;
+import swing_frames.ResourcesFrame;
 import ui_components.ReadOnlyMaterialPane;
 import utilities.CostAnalyzer;
 import utilities.Security;
@@ -25,40 +29,19 @@ import javax.swing.table.TableModel;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class ProductMenuController {
+public class ProductController {
 
     private ModularProductManager modularProductManager;
     private ResourceManager resourceManager;
 
-    public ProductMenuController(ModularProductManager modularProductManager, ResourceManager resourceManager) {
+    public ProductController(ModularProductManager modularProductManager, ResourceManager resourceManager) {
         this.modularProductManager = modularProductManager;
-        this.resourceManager = resourceManager;
-    }
-
-    //TODO: DRY violation
-    private JFrame showNewWindow(JFrame frame, int closeBehavior) {
-        // This is ridiculous but necessary
-        frame.setContentPane(frame.getContentPane());
-
-        frame.setDefaultCloseOperation(closeBehavior);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        return frame;
-    }
-
-    public void mainProductsMenu() {
-        resourceManager.fetchResources();
         modularProductManager.fetch();
-        ProductsMenuFrame menu = new ProductsMenuFrame();
-        menu.setBrowseProductsButtonListener(e -> productBrowser());
-        menu.setCostAnalysisButtonListener(e -> costAnalysis());
-        menu.setResourcesButtonListener(e -> resources());
-        showNewWindow(menu, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW - Products");
+        this.resourceManager = resourceManager;
+        resourceManager.fetchResources();
     }
 
-    public void resources() {
+    public ResourcesFrame resources() {
         ResourcesFrame resources = new ResourcesFrame();
         JTable table = resources.getTable();
         table.setModel(makeResourceModel());
@@ -70,22 +53,19 @@ public class ProductMenuController {
         resources.setAddButtonListener(new AddResourceRowListener(table));
         resources.setRemoveButtonListener(new RemoveRowListener(table));
         resources.setCancelButtonListener(e -> resources.dispose());
-        showNewWindow(resources, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW Resources");
+        return resources;
     }
 
-    public void productBrowser() {
-        modularProductManager.fetch();
+    public ProductBrowserFrame productBrowser(DesktopController desktopController) {
         ProductBrowserFrame productBrowser = new ProductBrowserFrame();
         productBrowser.setCloseButtonListener(e -> productBrowser.dispose());
-        productBrowser.setViewButtonListener(e -> viewProduct(productBrowser));
+        productBrowser.setViewButtonListener(new OpenViewProductListener(desktopController, this, productBrowser));
         productBrowser.setEnableGradingButtonListener(e -> enableGrading(productBrowser));
 
         DefaultTableModel model = makeProductModel();
         productBrowser.setProductsTableModel(model);
 
-        showNewWindow(productBrowser, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW Product Browser");
+        return productBrowser;
     }
 
     private void enableGrading(ProductBrowserFrame browser) {
@@ -94,7 +74,7 @@ public class ProductMenuController {
         }
     }
 
-    public void viewProduct(ProductBrowserFrame productBrowser) {
+    public ProductViewerFrame viewProduct(ProductBrowserFrame productBrowser) {
         boolean grading = productBrowser.isGrading();
         int selectedRow = productBrowser.getProductsTable().getSelectedRow();
         String id = (String) productBrowser.getProductsTableModel().getValueAt(selectedRow, 0);
@@ -104,8 +84,7 @@ public class ProductMenuController {
         viewer.setOkButtonListener(new ViewerFinishedListener(viewer, modularProductManager, grading, selectedProduct));
         fillViewerFields(viewer, selectedProduct);
 
-        showNewWindow(viewer, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW - Product Viewer");
+        return viewer;
     }
 
 
@@ -141,7 +120,7 @@ public class ProductMenuController {
         return model;
     }
 
-    public void costAnalysis() {
+    public CostAnalysisFrame costAnalysis() {
         modularProductManager.fetch(); // Maybe unnecessary but better safe.
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
         CostAnalyzer analyser = new CostAnalyzer();
@@ -153,8 +132,7 @@ public class ProductMenuController {
         costAnalysis.setSubmitButtonAction(new SubmitProductListener(costAnalysis, modularProductManager));
         costAnalysis.setAddMaterialButtonAction(new AddMaterialListener(costAnalysis, resourceManager.getResourceMap(), new CostAnalyzer()));
 
-        showNewWindow(costAnalysis, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW - Cost Analysis");
+        return costAnalysis;
     }
 
 

@@ -1,6 +1,8 @@
 package utilities;
 
-import controllers.UserInterfaceController;
+import controllers.DesktopController;
+import controllers.EmployeeController;
+import controllers.ProductController;
 import data_structures.ModularProduct;
 import io_pipes.EmployeeIOPipe;
 import io_pipes.EventIOPipe;
@@ -61,9 +63,11 @@ public class Initializer implements Runnable {
         resourceManager.setResourceIOPipe(resourcePipe);
         productManager.setIOPipe(modularProductIOPipe);
 
-        UserInterfaceController uic = new UserInterfaceController();
-
-        uic.Launch(eventManager, employeeManager, productManager, resourceManager);
+        DesktopController desktopController = new DesktopController();
+        ProductController productController = new ProductController(productManager, resourceManager);
+        EmployeeController employeeController = new EmployeeController(employeeManager, eventManager);
+        desktopController.setSubControllers(employeeController, productController);
+        desktopController.open();
     }
 
     private void setFontSize(Integer fontSize) {

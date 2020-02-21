@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class AttendEventFrame extends JFrame {
+public class AttendEventFrame extends JInternalFrame {
     private JPanel contentPane;
     private JPanel entryPanel;
     private JPanel buttonAreaPanel;

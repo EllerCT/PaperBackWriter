@@ -12,95 +12,41 @@ import listeners.general.RemoveRowListener;
 import listeners.time_clock.ClockInOutListener;
 import managers.EmployeeManager;
 import managers.EventManager;
-import swing_frames.*;
+import swing_frames.AttendEventFrame;
+import swing_frames.ManageEmployeesFrame;
+import swing_frames.ManageEventsFrame;
+import swing_frames.TimeClockFrame;
 import utilities.Security;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class EmployeeMenuController {
+public class EmployeeController {
 
     private EmployeeManager employeeManager;
     private EventManager eventManager;
 
-    public EmployeeMenuController(EmployeeManager employeeManager, EventManager eventManager) {
+    public EmployeeController(EmployeeManager employeeManager, EventManager eventManager) {
         this.employeeManager = employeeManager;
-        this.eventManager = eventManager;
-    }
-
-    //TODO: DRY violation
-    private JFrame showNewWindow(JFrame frame, int closeBehavior) {
-        // This is ridiculous but necessary
-        frame.setContentPane(frame.getContentPane());
-
-        frame.setDefaultCloseOperation(closeBehavior);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        return frame;
-    }
-
-    public void mainEmployeeMenu() {
         employeeManager.fetchEmployees();
+        this.eventManager = eventManager;
         eventManager.fetchEvents();
-        EmployeeMenuFrame menu = new EmployeeMenuFrame();
-        menu.setAddNewEmployeeAction(e -> addEmployee());
-        menu.setAttendEventAction(e -> attendEvent());
-        menu.setManageEventsAction(e -> manageEvents());
-        menu.setTimeClockAction(e -> timeClock());
-        menu.setViewEmployeesAction(e -> viewEmployees());
-        showNewWindow(menu, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW - Employee");
     }
 
-    public void timeClock() {
+    public TimeClockFrame timeClock() {
         TimeClockFrame clockFrame = new TimeClockFrame();
         clockFrame.setClockInOutAction(new ClockInOutListener(clockFrame, employeeManager));
-        showNewWindow(clockFrame, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW - Clock");
+        return clockFrame;
     }
 
-
-    public void addEmployee() {
-        if (new Security().getAuthorization()) {
-            employeeManager.fetchEmployees();
-            AddEmployeeFrame addEmployeeFrame = new AddEmployeeFrame();
-
-            addEmployeeFrame.setConfirmAction(e -> onAddNewEmployee(addEmployeeFrame));
-            addEmployeeFrame.setCloseAction(e -> addEmployeeFrame.dispose());
-
-            showNewWindow(addEmployeeFrame, JFrame.DISPOSE_ON_CLOSE)
-                    .setTitle("PBW - Add Employee");
-        }
-    }
-
-    public void onAddNewEmployee(AddEmployeeFrame addEmployeeFrame) {
-        Employee employee = new Employee();
-        employee.setPin(new PinNumber(addEmployeeFrame.getNewEmployeePin()));
-        employee.setName(addEmployeeFrame.getNewEmployeeName());
-        employee.setPoints(Integer.parseInt(addEmployeeFrame.getNewEmployeePoints()));
-        employee.setLastClockInTime(LocalDateTime.now());
-        employee.setLastClockOutTime(LocalDateTime.now());
-        long hours = Long.parseLong(addEmployeeFrame.getNewEmployeeHours());
-        employee.setWeeklyHours(Duration.ofHours(hours));
-        employee.setTotalHours(Duration.ofHours(hours));
-
-        employeeManager.newEmployee(employee);
-        employeeManager.storeEmployees();
-        addEmployeeFrame.clearFields();
-    }
-
-    public void attendEvent() {
+    public AttendEventFrame attendEvent() {
         AttendEventFrame attendEventFrame = new AttendEventFrame();
         buildEventBox(attendEventFrame);
         attendEventFrame.setConfirmAction(new ConfirmAttendanceListener(attendEventFrame, employeeManager, eventManager));
-        showNewWindow(attendEventFrame, JFrame.DISPOSE_ON_CLOSE)
-                .setTitle("PBW - Event Attendance");
+        return attendEventFrame;
     }
 
     private void buildEventBox(AttendEventFrame attendEventFrame) {
@@ -110,7 +56,7 @@ public class EmployeeMenuController {
 
     }
 
-    public void viewEmployees() {
+    public ManageEmployeesFrame viewEmployees() {
         ManageEmployeesFrame manageEmployeesFrame = new ManageEmployeesFrame();
         JTable table = manageEmployeesFrame.getTable();
         if (new Security().getAuthorization()) {
@@ -119,9 +65,9 @@ public class EmployeeMenuController {
             manageEmployeesFrame.setRemoveRowAction(new RemoveRowListener(table));
             manageEmployeesFrame.setOKAction(new SaveEmployeeTableListener(manageEmployeesFrame, employeeManager));
             manageEmployeesFrame.setCancelAction(e -> manageEmployeesFrame.dispose());
-            showNewWindow(manageEmployeesFrame, JFrame.DISPOSE_ON_CLOSE)
-                    .setTitle("PBW - View Employee Infomration");
+            return manageEmployeesFrame;
         }
+        return null;
     }
 
     private TableModel makeEmployeeModel() {
@@ -149,7 +95,7 @@ public class EmployeeMenuController {
         return employeeTableModel;
     }
 
-    public void manageEvents() {
+    public ManageEventsFrame manageEvents() {
         ManageEventsFrame manageEventsFrame = new ManageEventsFrame();
         JTable table = manageEventsFrame.getTable();
         if (new Security().getAuthorization()) {
@@ -158,9 +104,9 @@ public class EmployeeMenuController {
             manageEventsFrame.setRemoveRowAction(new RemoveRowListener(table));
             manageEventsFrame.setCancelAction(e -> manageEventsFrame.dispose());
             manageEventsFrame.setConfirmAction(new SaveEventTableListener(manageEventsFrame, eventManager));
-            showNewWindow(manageEventsFrame, JFrame.DISPOSE_ON_CLOSE)
-                    .setTitle("PBW - Manage Event Information");
+            return manageEventsFrame;
         }
+        return null;
     }
 
     private TableModel makeEventModel() {
