@@ -49,6 +49,7 @@ public class ConfirmAttendanceListener implements ActionListener {
         int pointTotal = employee.getPoints() + selected.getPointWorth();
         employee.setPoints(pointTotal);
         employeeManager.updateEmployee(employee);
+        employeeManager.storeEmployees();
         JOptionPane.showMessageDialog(null, "Confirmed attendance of " + employee.getName() + " to event: " + selected.getEventName());
     }
 }
