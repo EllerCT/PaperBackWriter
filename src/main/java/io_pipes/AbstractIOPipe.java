@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO: Generify IOPipe load/saves.
 public abstract class AbstractIOPipe implements IOPipe {
 
     protected IOSystem ioSystem;
