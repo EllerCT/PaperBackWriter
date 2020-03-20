@@ -65,14 +65,4 @@ public abstract class AbstractIOPipe implements IOPipe {
     protected abstract Object translateFromRecord(CSVRecord record);
 
     protected abstract void translateToRecord(CSVPrinter printer, Object object) throws IOException;
-
-
-    // This may be unnecessary, keeping for now pending being able to safely remove.
-    protected void makeNewFile() throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        CSVPrinter printer = new CSVPrinter(new BufferedWriter(new OutputStreamWriter(outputStream)), getCsvFormat().withSkipHeaderRecord());
-        printer.printRecords();
-        printer.flush();
-        ioSystem.write(outputStream.toByteArray());
-    }
 }
