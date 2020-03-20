@@ -18,9 +18,7 @@ public class RemoveRowListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION) == 0) {
             int[] rows = table.getSelectedRows();
-            System.out.println(Arrays.toString(rows));
             Arrays.sort(rows); // So the index shrinks from last first.
-            System.out.println(Arrays.toString(rows));
             for (int i = rows.length - 1; i >= 0; i--) {
                 ((DefaultTableModel) table.getModel()).removeRow(rows[i]);
             }
