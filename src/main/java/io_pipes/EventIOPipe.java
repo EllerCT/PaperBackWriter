@@ -3,56 +3,31 @@ package io_pipes;
 import data_structures.Event;
 import io_systems.IOSystem;
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
-public class EventIOPipe implements IOPipe {
-    private final static CSVFormat csvFormat = CSVFormat.EXCEL.withHeader(
+public class EventIOPipe extends AbstractIOPipe {
+    public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader(
             "Code", "Worth", "Name", "Description", "Confirmation");
-    private IOSystem ioSystem;
 
     public EventIOPipe(IOSystem ioSystem) {
-        this.ioSystem = ioSystem;
+        super(ioSystem);
     }
 
-    public Map<String, Event> load() {
-        try {
-            InputStreamReader isr = new InputStreamReader(ioSystem.read());
-            CSVParser csvParser = new CSVParser(isr, csvFormat.withSkipHeaderRecord());
-            HashMap<String, Event> events = new HashMap<>();
-            List<CSVRecord> records = csvParser.getRecords();
-            if (records.size() > 0) {
-                for (CSVRecord record : records) {
-                    Event event = translateEventFromRecord(record);
-                    events.put(event.getEventCode(), event);
-                }
-            } else {
-                makeNewEventFile();
-            }
-            csvParser.close();
-            return events;
-        } catch (IOException e) {
-            System.err.println("Failed to load events.");
-            e.printStackTrace();
-            return new HashMap<>();
-        }
+    @Override
+    protected CSVFormat getCsvFormat() {
+        return CSV_FORMAT;
     }
 
-    private void makeNewEventFile() throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        CSVPrinter printer = new CSVPrinter(new BufferedWriter(new OutputStreamWriter(outputStream)), csvFormat.withSkipHeaderRecord());
-        printer.printRecords();
-        printer.flush();
-        ioSystem.write(outputStream.toByteArray());
+    @Override
+    protected Object keyMakerFor(Object object) {
+        return Event.generateKeyFor((Event) object);
     }
 
-    private Event translateEventFromRecord(CSVRecord record) {
+    @Override
+    protected Object translateFromRecord(CSVRecord record) {
         Event event = new Event(record.get("Code"), Integer.parseInt(record.get("Worth")));
         event.setEventName(record.get("Name"));
         event.setEventDescription(record.get("Description"));
@@ -60,28 +35,15 @@ public class EventIOPipe implements IOPipe {
         return event;
     }
 
-    public void save(Map map) {
-        Map<String, Event> events = (Map<String, Event>) map;
-        try {
-            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(byteStream));
-            CSVPrinter printer = new CSVPrinter(writer, csvFormat);
-            for (Map.Entry<String, Event> entry : events.entrySet()) {
-                Event event = entry.getValue();
-                printer.printRecord(
-                        event.getEventCode(),
-                        event.getPointWorth(),
-                        event.getEventName(),
-                        event.getEventDescription(),
-                        event.getEventConfirmationCode()
-                );
-            }
-            printer.flush();
-            byte[] outBytes = byteStream.toByteArray();
-            printer.close();
-            ioSystem.write(outBytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    protected void translateToRecord(CSVPrinter printer, Object object) throws IOException {
+        Event event = (Event) object;
+        printer.printRecord(
+                event.getEventCode(),
+                event.getPointWorth(),
+                event.getEventName(),
+                event.getEventDescription(),
+                event.getEventConfirmationCode()
+        );
     }
 }

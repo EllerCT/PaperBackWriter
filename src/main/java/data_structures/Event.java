@@ -17,6 +17,10 @@ public class Event {
         this.eventConfirmationCode = "";
     }
 
+    public static String generateKeyFor(Event event) {
+        return event.getEventCode();
+    }
+
     public String getEventCode() {
         return eventCode;
     }
