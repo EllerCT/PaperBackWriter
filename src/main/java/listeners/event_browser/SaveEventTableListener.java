@@ -38,8 +38,8 @@ public class SaveEventTableListener implements ActionListener {
             event.setEventConfirmationCode(confirmation);
             newEventMap.put(code, event);
         }
-        eventManager.setEventMap(newEventMap);
-        eventManager.storeEvents();
+        eventManager.setMap(newEventMap);
+        eventManager.store();
         manageEventsFrame.dispose();
     }
 }

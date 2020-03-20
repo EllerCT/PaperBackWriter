@@ -31,9 +31,9 @@ public class EmployeeController {
 
     public EmployeeController(EmployeeManager employeeManager, EventManager eventManager) {
         this.employeeManager = employeeManager;
-        employeeManager.fetchEmployees();
+        employeeManager.fetch();
         this.eventManager = eventManager;
-        eventManager.fetchEvents();
+        eventManager.fetch();
     }
 
     public TimeClockFrame timeClock() {
@@ -50,7 +50,8 @@ public class EmployeeController {
     }
 
     private void buildEventBox(AttendEventFrame attendEventFrame) {
-        for (Event event : eventManager.getEventMap().values()) {
+        for (Object entry : eventManager.getMap().values()) {
+            Event event = (Event) entry;
             attendEventFrame.addEventBoxItem(event.getEventCode());
         }
 
@@ -79,7 +80,7 @@ public class EmployeeController {
         employeeTableModel.addColumn("Points");
         employeeTableModel.addColumn("Last Clock In");
         employeeTableModel.addColumn("Last Clock Out");
-        HashMap<PinNumber, Employee> employeeMap = (HashMap<PinNumber, Employee>) employeeManager.getEmployeeMap();
+        HashMap<PinNumber, Employee> employeeMap = new HashMap(employeeManager.getMap());
         for (Employee employee : employeeMap.values()) {
             Vector<String> newRow = new Vector<>();
             newRow.add(employee.getPin().toString());
@@ -116,7 +117,7 @@ public class EmployeeController {
         model.addColumn("Worth");
         model.addColumn("Description");
         model.addColumn("Confirmation Code");
-        HashMap<String, Event> eventMap = (HashMap<String, Event>) eventManager.getEventMap();
+        HashMap<String, Event> eventMap = new HashMap(eventManager.getMap());
         for (Event event : eventMap.values()) {
             String code = event.getEventCode();
             int worth = event.getPointWorth();

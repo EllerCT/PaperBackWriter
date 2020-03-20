@@ -25,10 +25,10 @@ public class ConfirmAttendanceListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Event selected = eventManager.getEvent(attendEventFrame.getSelectedEvent());
+        Event selected = (Event) eventManager.getFromKey(attendEventFrame.getSelectedEvent());
         if (!attendEventFrame.getPin().isBlank()) {
             PinNumber pin = new PinNumber(attendEventFrame.getPin());
-            Employee employee = employeeManager.getEmployee(pin);
+            Employee employee = (Employee) employeeManager.getFromKey(pin);
             if (employee != null) {
                 if (selected.getEventConfirmationCode().isBlank()) {
                     System.out.println(selected.getEventConfirmationCode());
@@ -48,8 +48,8 @@ public class ConfirmAttendanceListener implements ActionListener {
     private void creditEvent(Event selected, Employee employee) {
         int pointTotal = employee.getPoints() + selected.getPointWorth();
         employee.setPoints(pointTotal);
-        employeeManager.updateEmployee(employee);
-        employeeManager.storeEmployees();
+        employeeManager.update(employee);
+        employeeManager.store();
         JOptionPane.showMessageDialog(null, "Confirmed attendance of " + employee.getName() + " to event: " + selected.getEventName());
     }
 }

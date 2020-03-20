@@ -38,7 +38,7 @@ public class ProductController {
         this.modularProductManager = modularProductManager;
         modularProductManager.fetch();
         this.resourceManager = resourceManager;
-        resourceManager.fetchResources();
+        resourceManager.fetch();
     }
 
     public ResourcesFrame resources() {
@@ -130,7 +130,7 @@ public class ProductController {
         costAnalysis.setCalculateButtonAction(new CalculateCostsListener(costAnalysis, analyser));
         costAnalysis.setCancelButtonAction(e -> costAnalysis.dispose());
         costAnalysis.setSubmitButtonAction(new SubmitProductListener(costAnalysis, modularProductManager));
-        costAnalysis.setAddMaterialButtonAction(new AddMaterialListener(costAnalysis, resourceManager.getResourceMap(), new CostAnalyzer()));
+        costAnalysis.setAddMaterialButtonAction(new AddMaterialListener(costAnalysis, resourceManager.getMap(), new CostAnalyzer()));
 
         return costAnalysis;
     }
@@ -138,7 +138,7 @@ public class ProductController {
 
     private TableModel makeResourceModel() {
         DefaultTableModel model = new DefaultTableModel();
-        HashMap<String, Resource> map = (HashMap<String, Resource>) resourceManager.getResourceMap();
+        HashMap<String, Resource> map = new HashMap(resourceManager.getMap());
 
         for (String header : ResourceIOPipe.CSV_FORMAT.getHeader()) {
             model.addColumn(header);

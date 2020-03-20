@@ -38,8 +38,8 @@ public class SaveResourceTableListener implements ActionListener {
             resource.setPricePerUnit(unitPrice);
             resourceMap.put(Resource.generateKeyFor(resource), resource);
         }
-        resourceManager.setResourceMap(resourceMap);
-        resourceManager.storeResources();
+        resourceManager.setMap(resourceMap);
+        resourceManager.store();
         resourcesFrame.dispose();
     }
 }

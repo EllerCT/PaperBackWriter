@@ -41,4 +41,9 @@ public abstract class AbstractManager {
 
     public abstract void remove(Object object);
 
+    public void update(Object object) {
+        remove(object);
+        add(object);
+    }
+
 }

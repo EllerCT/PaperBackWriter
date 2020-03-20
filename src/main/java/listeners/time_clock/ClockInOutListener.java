@@ -25,7 +25,7 @@ public class ClockInOutListener implements ActionListener {
         TimeClock clock = new TimeClock();
         if (!clockFrame.getPin().isBlank()) {
             PinNumber pin = new PinNumber(clockFrame.getPin());
-            Employee matchingEmployee = employeeManager.getEmployee(pin);
+            Employee matchingEmployee = (Employee) employeeManager.getFromKey(pin);
             if (matchingEmployee != null) {
                 if (checkIfShouldContinueWith(matchingEmployee)) {
                     boolean clockedIn = clock.checkIfClockedIn(matchingEmployee);
@@ -36,8 +36,8 @@ public class ClockInOutListener implements ActionListener {
                         clock.clockIn(matchingEmployee);
                         JOptionPane.showMessageDialog(null, pin + ": " + matchingEmployee.getName() + " clocked in.");
                     }
-                    employeeManager.updateEmployee(matchingEmployee);
-                    employeeManager.storeEmployees();
+                    employeeManager.update(matchingEmployee);
+                    employeeManager.store();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Unknown Pin");

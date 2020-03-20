@@ -20,10 +20,8 @@ import java.awt.*;
 import java.io.File;
 import java.util.Map;
 
-//TODO: Make this a bit more readable?
 public class Initializer implements Runnable {
 
-    // These don't need to be convertable, but are here for convenience
     private final String RESOURCE_FILEPATH = "Resources.csv";
     private final String EVENT_FILEPATH = "EventCSV.csv";
     private final String PRODUCT_FILEPATH = "Products.csv";
@@ -57,9 +55,9 @@ public class Initializer implements Runnable {
         ResourceIOPipe resourcePipe = new ResourceIOPipe(resourceIOS);
         ModularProductIOPipe modularProductIOPipe = new ModularProductIOPipe(productIOS);
 
-        employeeManager.setEmployeeIOPipe(employeePipe);
-        eventManager.setEventIOPipe(eventPipe);
-        resourceManager.setResourceIOPipe(resourcePipe);
+        employeeManager.setIOPipe(employeePipe);
+        eventManager.setIOPipe(eventPipe);
+        resourceManager.setIOPipe(resourcePipe);
         productManager.setIOPipe(modularProductIOPipe);
 
         DesktopController desktopController = new DesktopController();

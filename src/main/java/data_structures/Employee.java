@@ -13,8 +13,8 @@ public class Employee {
     private LocalDateTime lastClockInTime;
     private LocalDateTime lastClockOutTime;
 
-    public static String generateKeyFor(Employee employee) {
-        return employee.getPin().toString();
+    public static PinNumber generateKeyFor(Employee employee) {
+        return employee.getPin();
     }
 
     public String getName() {

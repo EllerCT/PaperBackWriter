@@ -48,8 +48,8 @@ public class SaveEmployeeTableListener implements ActionListener {
             newEmployee.setLastClockOutTime(LocalDateTime.parse(row.get(6)));
             newMap.put(pin, newEmployee);
         }
-        employeeManager.setEmployeeMap(newMap);
-        employeeManager.storeEmployees();
+        employeeManager.setMap(newMap);
+        employeeManager.store();
         manageEmployeesFrame.dispose();
     }
 }
