@@ -25,6 +25,8 @@ public class ConfirmAttendanceListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // If we haven't selected anything, do nothing.
+        if (attendEventFrame.getSelectedEvent() == null) return;
         Event selected = (Event) eventManager.getFromKey(attendEventFrame.getSelectedEvent());
         if (!attendEventFrame.getPin().isBlank()) {
             PinNumber pin = new PinNumber(attendEventFrame.getPin());
