@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class ResourceIOPipe extends AbstractIOPipe {
 
-    public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader("Type", "Name", "Unit Size", "Price Per Unit");
+    private final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader("Type", "Name", "Unit Size", "Price Per Unit");
 
     public ResourceIOPipe(IOSystem ioSystem) {
         super(ioSystem);

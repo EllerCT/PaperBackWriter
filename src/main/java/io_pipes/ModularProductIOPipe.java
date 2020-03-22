@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModularProductIOPipe extends AbstractIOPipe {
-    public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader(
+    private final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader(
             "ID",
             "Name",
             "Type",

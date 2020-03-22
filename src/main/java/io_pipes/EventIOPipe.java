@@ -9,7 +9,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 
 public class EventIOPipe extends AbstractIOPipe {
-    public final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader(
+    private final static CSVFormat CSV_FORMAT = CSVFormat.EXCEL.withHeader(
             "Code", "Worth", "Name", "Description", "Confirmation");
 
     public EventIOPipe(IOSystem ioSystem) {
