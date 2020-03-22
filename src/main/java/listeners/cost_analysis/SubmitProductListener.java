@@ -29,7 +29,7 @@ public class SubmitProductListener implements ActionListener {
         product.setDate(costAnalysis.getDate());
         product.setDescription(costAnalysis.getProductDescription());
         product.setType(costAnalysis.getProductType());
-        product.setTotalCost(costAnalysis.getTotalCost());
+        product.setTotalCost("$" + costAnalysis.getTotalCost());
         ArrayList<Material> materials = new ArrayList<>(costAnalysis.getMaterials());
         product.setMaterials(materials);
         modularProductManager.add(product);
