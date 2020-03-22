@@ -54,7 +54,9 @@
         <children>
           <component id="c3469" class="javax.swing.JTable" binding="resourceTable">
             <constraints/>
-            <properties/>
+            <properties>
+              <autoCreateRowSorter value="true"/>
+            </properties>
             <clientProperties>
               <terminateEditOnFocusLost class="java.lang.Boolean" value="true"/>
             </clientProperties>

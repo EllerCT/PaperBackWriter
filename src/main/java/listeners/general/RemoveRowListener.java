@@ -20,7 +20,8 @@ public class RemoveRowListener implements ActionListener {
             int[] rows = table.getSelectedRows();
             Arrays.sort(rows); // So the index shrinks from last first.
             for (int i = rows.length - 1; i >= 0; i--) {
-                ((DefaultTableModel) table.getModel()).removeRow(rows[i]);
+                int rowToRemove = table.convertRowIndexToModel(rows[i]);
+                ((DefaultTableModel) table.getModel()).removeRow(rowToRemove);
             }
         }
     }
