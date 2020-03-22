@@ -2,9 +2,7 @@ package controllers;
 
 import data_structures.Material;
 import data_structures.ModularProduct;
-import data_structures.Resource;
 import data_structures.ResourceType;
-import io_pipes.ResourceIOPipe;
 import listeners.cost_analysis.AddMaterialListener;
 import listeners.cost_analysis.CalculateCostsListener;
 import listeners.cost_analysis.SubmitProductListener;
@@ -20,14 +18,13 @@ import swing_frames.ProductBrowserFrame;
 import swing_frames.ProductViewerFrame;
 import swing_frames.ResourcesFrame;
 import ui_components.ReadOnlyMaterialPane;
+import ui_components.table_models.ProductTableModel;
+import ui_components.table_models.ResourceTableModel;
 import utilities.CostAnalyzer;
 import utilities.Security;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.util.HashMap;
-import java.util.Vector;
 
 public class ProductController {
 
@@ -44,7 +41,7 @@ public class ProductController {
     public ResourcesFrame resources() {
         ResourcesFrame resources = new ResourcesFrame();
         JTable table = resources.getTable();
-        table.setModel(makeResourceModel());
+        table.setModel(new ResourceTableModel(resourceManager.getMap()));
         // Make a combo box and populate it with the types of resources.
         JComboBox<ResourceType> resourceTypeDropdown = new JComboBox<>(ResourceType.values());
         // Use that combo box to edit cells in the 'Type' column.
@@ -62,7 +59,7 @@ public class ProductController {
         productBrowser.setViewButtonListener(new OpenViewProductListener(desktopController, this, productBrowser));
         productBrowser.setEnableGradingButtonListener(e -> enableGrading(productBrowser));
 
-        DefaultTableModel model = makeProductModel();
+        DefaultTableModel model = new ProductTableModel(modularProductManager.getMap());
         productBrowser.setProductsTableModel(model);
 
         return productBrowser;
@@ -102,24 +99,6 @@ public class ProductController {
         }
     }
 
-    private DefaultTableModel makeProductModel() {
-        // An uneditable table.
-        DefaultTableModel model = new DefaultTableModel() {
-            public boolean isCellEditable(int x, int y) {
-                return false;
-            }
-        };
-        model.addColumn("ID");
-        model.addColumn("Name");
-        model.addColumn("Grade");
-        model.addColumn("Total Cost");
-        for (Object value : modularProductManager.getMap().values()) {
-            ModularProduct product = (ModularProduct) value;
-            model.addRow(new String[]{product.getId(), product.getName(), product.getGrade(), product.getTotalCost()});
-        }
-        return model;
-    }
-
     public CostAnalysisFrame costAnalysis() {
         modularProductManager.fetch(); // Maybe unnecessary but better safe.
         CostAnalysisFrame costAnalysis = new CostAnalysisFrame();
@@ -133,25 +112,5 @@ public class ProductController {
         costAnalysis.setAddMaterialButtonAction(new AddMaterialListener(costAnalysis, resourceManager.getMap(), new CostAnalyzer()));
 
         return costAnalysis;
-    }
-
-
-    private TableModel makeResourceModel() {
-        DefaultTableModel model = new DefaultTableModel();
-        HashMap<String, Resource> map = new HashMap(resourceManager.getMap());
-
-        for (String header : ResourceIOPipe.CSV_FORMAT.getHeader()) {
-            model.addColumn(header);
-        }
-        for (Resource resource : map.values()) {
-            Vector<Object> newRow = new Vector<>();
-            newRow.add(resource.getType());
-            newRow.add(resource.getName());
-            newRow.add(resource.getUnitSize());
-            newRow.add(String.format("%.2f", resource.getPricePerUnit()));
-            model.addRow(newRow);
-        }
-
-        return model;
     }
 }

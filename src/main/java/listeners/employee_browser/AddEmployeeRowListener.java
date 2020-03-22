@@ -1,5 +1,8 @@
 package listeners.employee_browser;
 
+import data_structures.PinNumber;
+import ui_components.table_models.EmployeeTableModel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -16,8 +19,8 @@ public class AddEmployeeRowListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+        DefaultTableModel tableModel = (EmployeeTableModel) table.getModel();
         String now = LocalDateTime.now().toString();
-        tableModel.addRow(new String[]{"", "", "0:0", "0:0", "0", now, now});
+        tableModel.addRow(new Object[]{new PinNumber("0000"), "", "0:0", "0:0", 0, now, now});
     }
 }

@@ -28,24 +28,24 @@ public class SaveEmployeeTableListener implements ActionListener {
         DefaultTableModel tableModel = (DefaultTableModel) manageEmployeesFrame.getModel();
         Vector<Vector> rows = tableModel.getDataVector();
         HashMap<PinNumber, Employee> newMap = new HashMap<>();
-        for (Vector<String> row : rows) {
+        for (Vector row : rows) {
             Employee newEmployee = new Employee();
-            PinNumber pin = new PinNumber(row.get(0));
+            PinNumber pin = (PinNumber) row.get(0);
             newEmployee.setPin(pin);
-            String name = row.get(1);
+            String name = (String) row.get(1);
             newEmployee.setName(name);
-            String hoursPart = row.get(2).split(":")[0];
-            String minutesPart = row.get(2).split(":")[1];
+            String hoursPart = ((String) row.get(2)).split(":")[0];
+            String minutesPart = ((String) row.get(2)).split(":")[1];
             Duration weeklyHours = Duration.ofHours(Integer.parseInt(hoursPart)).plusMinutes(Integer.parseInt(minutesPart));
             newEmployee.setWeeklyHours(weeklyHours);
-            hoursPart = row.get(3).split(":")[0];
-            minutesPart = row.get(3).split(":")[1];
+            hoursPart = ((String) row.get(3)).split(":")[0];
+            minutesPart = ((String) row.get(3)).split(":")[1];
             Duration totalHours = Duration.ofHours(Integer.parseInt(hoursPart)).plusMinutes(Integer.parseInt(minutesPart));
             newEmployee.setTotalHours(totalHours);
-            int points = Integer.parseInt(row.get(4));
+            int points = (Integer) row.get(4);
             newEmployee.setPoints(points);
-            newEmployee.setLastClockInTime(LocalDateTime.parse(row.get(5)));
-            newEmployee.setLastClockOutTime(LocalDateTime.parse(row.get(6)));
+            newEmployee.setLastClockInTime(LocalDateTime.parse((String) row.get(5)));
+            newEmployee.setLastClockOutTime(LocalDateTime.parse((String) row.get(6)));
             newMap.put(pin, newEmployee);
         }
         employeeManager.setMap(newMap);
