@@ -13,7 +13,7 @@ public class TimeClock {
     public static boolean isNewWeekFor(Employee employee){
         ZonedDateTime lastClockOut = employee.getLastClockOutTime()
                 .atZone(ZoneId.systemDefault());
-        int currentWeekOfYear = new GregorianCalendar()
+        int currentWeekOfYear = GregorianCalendar.from(ZonedDateTime.now())
                 .get(GregorianCalendar.WEEK_OF_YEAR);
         int lastClockOutWeekOfYear = GregorianCalendar.from(lastClockOut)
                 .get(GregorianCalendar.WEEK_OF_YEAR);
