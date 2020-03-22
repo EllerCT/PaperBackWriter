@@ -1,7 +1,6 @@
 package ui_components.table_models;
 
 import data_structures.Resource;
-import io_pipes.ResourceIOPipe;
 
 import java.util.Map;
 import java.util.Vector;
@@ -9,9 +8,11 @@ import java.util.Vector;
 public class ResourceTableModel extends ClassAwareTableModel {
 
     public ResourceTableModel(Map data) {
-        for (String header : ResourceIOPipe.CSV_FORMAT.getHeader()) {
-            addColumn(header);
-        }
+        addColumn("Type");
+        addColumn("Name");
+        addColumn("Unit Size");
+        addColumn("Price Per Unit");
+
         for (Object value : data.values()) {
             Resource resource = (Resource) value;
             Vector<Object> newRow = new Vector<>();
