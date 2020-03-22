@@ -40,10 +40,12 @@ public class DesktopController {
     }
 
     public void show(JInternalFrame window, String title) {
+        if (window == null) return;
         JInternalFrame internalFrame = window;
         window.setMaximizable(true);
         window.setResizable(true);
         window.setClosable(true);
+        if (title == null) title = "";
         window.setTitle(title);
         internalFrame.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         internalFrame.setContentPane(window.getContentPane());
