@@ -17,6 +17,7 @@ import swing_frames.CostAnalysisFrame;
 import swing_frames.ProductBrowserFrame;
 import swing_frames.ProductViewerFrame;
 import swing_frames.ResourcesFrame;
+import ui_components.MoneyTableCellRenderer;
 import ui_components.ReadOnlyMaterialPane;
 import ui_components.table_models.ProductTableModel;
 import ui_components.table_models.ResourceTableModel;
@@ -46,6 +47,9 @@ public class ProductController {
         JComboBox<ResourceType> resourceTypeDropdown = new JComboBox<>(ResourceType.values());
         // Use that combo box to edit cells in the 'Type' column.
         table.getColumn("Type").setCellEditor(new DefaultCellEditor(resourceTypeDropdown));
+        // Set the 'Price Per Unit' column to show monetary values
+        table.getColumn("Price Per Unit").setCellRenderer(new MoneyTableCellRenderer());
+
         resources.setSaveButtonListener(new SaveResourceTableListener(resources, resourceManager));
         resources.setAddButtonListener(new AddResourceRowListener(table));
         resources.setRemoveButtonListener(new RemoveRowListener(table));
