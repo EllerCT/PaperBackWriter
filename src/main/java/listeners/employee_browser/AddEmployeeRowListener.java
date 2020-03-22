@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class AddEmployeeRowListener implements ActionListener {
 
@@ -20,7 +21,7 @@ public class AddEmployeeRowListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         DefaultTableModel tableModel = (EmployeeTableModel) table.getModel();
-        String now = LocalDateTime.now().toString();
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a"));
         tableModel.addRow(new Object[]{new PinNumber("0000"), "", "0:0", "0:0", 0, now, now});
     }
 }

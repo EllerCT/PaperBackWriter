@@ -2,6 +2,7 @@ package ui_components.table_models;
 
 import data_structures.Employee;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Vector;
 
@@ -23,8 +24,8 @@ public class EmployeeTableModel extends ClassAwareTableModel {
             newRow.add(employee.getWeeklyHours().toHoursPart() + ":" + employee.getWeeklyHours().toMinutesPart());
             newRow.add(employee.getTotalHours().toHoursPart() + ":" + employee.getTotalHours().toMinutesPart());
             newRow.add(employee.getPoints());
-            newRow.add(employee.getLastClockInTime().toString());
-            newRow.add(employee.getLastClockOutTime().toString());
+            newRow.add(employee.getLastClockInTime().format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a")));
+            newRow.add(employee.getLastClockOutTime().format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a")));
             addRow(newRow);
         }
     }

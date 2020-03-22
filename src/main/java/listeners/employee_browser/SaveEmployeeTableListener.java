@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -44,8 +45,10 @@ public class SaveEmployeeTableListener implements ActionListener {
             newEmployee.setTotalHours(totalHours);
             int points = (Integer) row.get(4);
             newEmployee.setPoints(points);
-            newEmployee.setLastClockInTime(LocalDateTime.parse((String) row.get(5)));
-            newEmployee.setLastClockOutTime(LocalDateTime.parse((String) row.get(6)));
+            newEmployee.setLastClockInTime(LocalDateTime.parse((String) row.get(5),
+                    DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a")));
+            newEmployee.setLastClockOutTime(LocalDateTime.parse((String) row.get(6),
+                    DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a")));
             newMap.put(pin, newEmployee);
         }
         employeeManager.setMap(newMap);
