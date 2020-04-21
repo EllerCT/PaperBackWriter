@@ -178,6 +178,8 @@
         </constraints>
         <properties>
           <editable value="false"/>
+          <lineWrap value="true"/>
+          <wrapStyleWord value="true"/>
         </properties>
       </component>
       <component id="8b90a" class="javax.swing.JSeparator">
